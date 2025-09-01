@@ -246,6 +246,17 @@ VALUES
 (null,'Una experiencia única para amantes de la cerveza. Probar diferentes estilos y aprender sobre su elaboración en un ambiente relajado fue increíble. El guía fue muy amable y el tour incluyó momentos perfectos para compartir con amigos. ¡Altamente recomendado!', 5, '2024-11-22', 4, 13);
 SELECT * FROM Experiencia;
 
+-- Pago 
+SELECT * FROM Pago;
+INSERT INTO Pago (monto, fechaPago, metodoPago) 
+VALUES
+(350, '2025-08-01 14:30:00', 'Tarjeta Credito'),
+(225, '2025-08-05 10:15:00', 'Tarjeta Credito'),
+(2000, '2025-08-10 16:45:00', 'Comisionista'),
+(650, '2025-08-15 09:00:00', 'Tarjeta Credito'),
+(1800, '2025-08-20 18:20:00', 'Transferencia');
+SELECT * FROM Pago;
+
 SELECT * FROM Reserva;
 -- Reserva
 INSERT INTO Reserva 
@@ -267,14 +278,5 @@ VALUES
 (null,1,5,4);
 SELECT * FROM Reserva_has_Tours;
 
--- Pago 
-SELECT * FROM Pago;
-INSERT INTO Pago (monto, fechaPago, metodoPago) 
-VALUES
-(350, '2025-08-01 14:30:00', 'Tarjeta Credito'),
-(225, '2025-08-05 10:15:00', 'Tarjeta Credito'),
-(2000, '2025-08-10 16:45:00', 'Comisionista'),
-(650, '2025-08-15 09:00:00', 'Tarjeta Credito'),
-(1800, '2025-08-20 18:20:00', 'Transferencia');
-SELECT * FROM Pago;
+
 
