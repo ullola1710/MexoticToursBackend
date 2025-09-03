@@ -17,7 +17,7 @@ import com.mexotic.mexotic.usuario.model.Usuario;
 import com.mexotic.mexotic.usuario.service.UsuarioService;
 
 @RestController
-@RequestMapping (path = "api/usuarios/") //http:localhost:8080/api/usuarios/
+@RequestMapping (path = "/mexotic/usuarios/") //http:localhost:8080/api/usuarios/
 public class UsuarioController {
 	private final UsuarioService service;
 	
