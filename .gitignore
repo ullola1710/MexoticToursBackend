@@ -1,1 +1,4 @@
 /.metadata/
+# Archivos del IDE de Eclipse
+.project
+.settings/
