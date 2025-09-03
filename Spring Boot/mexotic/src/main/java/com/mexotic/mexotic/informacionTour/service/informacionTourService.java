@@ -34,10 +34,10 @@ public class informacionTourService {
 	}//getListaInfoTours
 	
 	
-	public informacionTour getInfoTour(int id) {
+	public informacionTour getInfoTour(Long idInformacionTour) {
 		informacionTour tmp = null;
 		for(informacionTour infoTour:listaInfoTours) {
-			if(infoTour.getIdInformacionTour()==id) {
+			if(infoTour.getIdInformacionTour()== idInformacionTour) {
 				tmp=infoTour;
 				break;
 			}//if
@@ -50,7 +50,7 @@ public class informacionTourService {
 		return infoTour;
 	}//Agrega nuevos informacionTour
 	
-	public informacionTour updateInfoTour(String salida,String regresoAprox, String frecuencia, String grupos,int idInformacionTour) {
+	public informacionTour updateInfoTour(String salida,String regresoAprox, String frecuencia, String grupos,Long idInformacionTour) {
 		informacionTour tmp = null;
 		for(informacionTour infoTour:listaInfoTours) {
 			if(infoTour.getIdInformacionTour()==idInformacionTour) {
@@ -65,7 +65,7 @@ public class informacionTourService {
 		return tmp;
 	}//UpdateInformacionTours
 	
-	public informacionTour deleteInfoTour(int idInformacionTour) {
+	public informacionTour deleteInfoTour(Long idInformacionTour) {
 		informacionTour tmp = null;
 		for(informacionTour infoTour:listaInfoTours) {
 			if(infoTour.getIdInformacionTour()==idInformacionTour) {

@@ -1,4 +1,4 @@
-package com.mexotic.mexotic.model;
+package com.mexotic.mexotic.pago.model;
 import java.util.Date;
 
 
