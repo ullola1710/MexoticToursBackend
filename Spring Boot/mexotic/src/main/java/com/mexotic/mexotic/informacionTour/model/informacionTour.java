@@ -6,9 +6,9 @@ public class informacionTour {
 	private String regresoAprox;
 	private String frecuencia;
 	private String grupos;
-	private int idInformacionTour;
+	private Long idInformacionTour;
 	
-	private static int cantInfoTour = 0;
+	private static long cantInfoTour = 0;
 	
 	//constructor
 	public informacionTour(String salida, String regresoAprox, 
@@ -63,12 +63,12 @@ public class informacionTour {
 		this.grupos = grupos;
 	}
 
-	public static int getCantInfoTour() {
-		return cantInfoTour;
-	}
+//	public static int getCantInfoTour() {
+//		return cantInfoTour;
+//	}
 	
 
-	public int getIdInformacionTour() {
+	public Long getIdInformacionTour() {
 		return idInformacionTour;
 	}
 
