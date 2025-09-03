@@ -1,4 +1,4 @@
-package com.mexotic.mexotic.controller;
+package com.mexotic.mexotic.pago.controller;
 
 import java.util.Date;
 import java.util.List;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mexotic.mexotic.model.Pago;
-import com.mexotic.mexotic.service.PagoService;
+import com.mexotic.mexotic.pago.model.Pago;
+import com.mexotic.mexotic.pago.service.PagoService;
 
 @RestController
-@RequestMapping (path="/api/pago/") //http://localhost:8080/api/pago/
+@RequestMapping (path="/mexotic/pago/") //http://localhost:8080/mexotic/pago/
 public class PagoController {
 	private final PagoService service; 
 	@Autowired
@@ -31,13 +31,13 @@ public class PagoController {
 		return service.getPagos();
 	}//Listgetpago
 	
-	@GetMapping  (path ="{prodId}")  //http://localhost:8080/api/pago/1
-	public Pago getPagos(@PathVariable ("prodId") Long idPago) {
+	@GetMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
+	public Pago getPagos(@PathVariable ("pagoId") Long idPago) {
 		return service.getPago(idPago);
 	}//GetPagos
 	
-	@DeleteMapping  (path ="{prodId}")  //http://localhost:8080/api/pago/1
-	public Pago deletePago(@PathVariable ("prodId") Long idPago) {
+	@DeleteMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
+	public Pago deletePago(@PathVariable ("pagoId") Long idPago) {
 		return service.deletePago(idPago);
 	}//GetPagos
 	
@@ -46,8 +46,8 @@ public class PagoController {
 		return service.addPago(pago);
 	}//addPago
 	
-	@PutMapping  (path ="{prodId}")  //http://localhost:8080/api/pago/1
-	public Pago updatePagos(@PathVariable ("prodId") Long idPago, 
+	@PutMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
+	public Pago updatePagos(@PathVariable ("pagoId") Long idPago, 
 			@RequestParam(required=false) Double monto,
 			@RequestParam(required=false) Date fechaPago,
 			@RequestParam(required=false) String metodoPago) {

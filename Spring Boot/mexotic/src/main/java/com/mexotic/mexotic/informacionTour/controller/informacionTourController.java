@@ -17,7 +17,7 @@ import com.mexotic.mexotic.informacionTour.service.informacionTourService;
 
 
 @RestController
-@RequestMapping(path="/Tours/DetalleDeTour/")
+@RequestMapping(path="/tours/DetalleDeTour/")
 public class informacionTourController {
 	
 	@Autowired
@@ -33,12 +33,12 @@ public class informacionTourController {
 	}
 	
 	@RequestMapping (path="{idInformacionTour}")
-	public informacionTour getInformacionTour(@PathVariable("idInformacionTour")int idInformacionTour) {
+	public informacionTour getInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
 		return service.getInfoTour(idInformacionTour);
 	}//busqueda por id
 	
 	@DeleteMapping (path="{idInformacionTour}")
-	public informacionTour deleteInformacionTour(@PathVariable("idInformacionTour")int idInformacionTour) {
+	public informacionTour deleteInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
 		return service.deleteInfoTour(idInformacionTour);
 	}//eliminar 
 	
@@ -48,7 +48,7 @@ public class informacionTourController {
 	}//publicar
 	
 	@PutMapping (path="{idInformacionTour}")
-	public informacionTour updateInformacionTour(@PathVariable("idInformacionTour")int idInformacionTour, 
+	public informacionTour updateInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour, 
 			@RequestParam(required=false) String salida,
 			@RequestParam(required=false) String regresoAprox,
 			@RequestParam(required=false) String frecuencia,
