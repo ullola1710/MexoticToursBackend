@@ -20,7 +20,7 @@ import com.mexotic.mexotic.experiencia.service.ExperienciaService;
 
 
 @RestController
-@RequestMapping(path= "/api/experiencias/") // http://localhost:8080/api/experiencias/
+@RequestMapping(path= "/mexotic/experiencias/") // http://localhost:8080/api/experiencias/
 public class ExperienciaController {
 	private final ExperienciaService service;
 	@Autowired
