@@ -1,161 +1,59 @@
 package com.mexotic.mexotic.reserva.controller;
 
 import com.mexotic.mexotic.reserva.model.Reserva;
-import com.mexotic.mexotic.reserva.service.ReservaService;
-<<<<<<< HEAD
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-=======
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 0519afdb655d94a53f55c42cb65a16d4ebcb21ec
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/api/reservas")
 public class ReservaController {
 
-    private final ReservaService reservaService;
+    private final List<Reserva> reservas = new ArrayList<>(); // Simula base de datos
 
-    public ReservaController(ReservaService reservaService) {
-        this.reservaService = reservaService;
-    }
-
+    // GET:Obtener todas las reservas
     @GetMapping
-    public List<Reserva> getAllReservas() {
-        return reservaService.getAllReservas();
+    public ResponseEntity<List<Reserva>> getAllReservas() {
+        return ResponseEntity.ok(reservas);
     }
 
+    // GET:Obtener reserva por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Reserva> getReservaById(@PathVariable Integer id) {
-        return reservaService.getReservaById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Reserva> getReservaById(@PathVariable Long id) {
+        Optional<Reserva> reserva = reservas.stream().filter(r -> r.getId().equals(id)).findFirst();
+        return reserva.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // POST:Crear reserva
     @PostMapping
-    public Reserva createReserva(@RequestBody Reserva reserva) {
-        return reservaService.createReserva(reserva);
+    public ResponseEntity<Reserva> createReserva(@RequestBody Reserva reserva) {
+        reserva.setId((long) (reservas.size() + 1)); // ID simulado
+        reservas.add(reserva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
     }
 
+    // PUT:Actualizar reserva
     @PutMapping("/{id}")
-    public ResponseEntity<Reserva> updateReserva(@PathVariable Integer id, @RequestBody Reserva reservaDetails) {
-        try {
-            return ResponseEntity.ok(reservaService.updateReserva(id, reservaDetails));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Reserva> updateReserva(@PathVariable Long id, @RequestBody Reserva updatedReserva) {
+        Optional<Reserva> reservaOpt = reservas.stream().filter(r -> r.getId().equals(id)).findFirst();
+        if (reservaOpt.isPresent()) {
+            Reserva reserva = reservaOpt.get();
+            reserva.setFechaReserva(updatedReserva.getFechaReserva());
+            reserva.setEstado(updatedReserva.getEstado());
+            reserva.setUsuarioId(updatedReserva.getUsuarioId());
+            return ResponseEntity.ok(reserva);
         }
+        return ResponseEntity.notFound().build();
     }
 
+    // DELETE: Eliminar reserva
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReserva(@PathVariable Integer id) {
-        reservaService.deleteReserva(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
+        boolean removed = reservas.removeIf(r -> r.getId().equals(id));
+        return removed ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
-=======
-@RequestMapping(path = "/mexotic/reservas/") // http:localhost:8080/mexotic/reservas/
-public class ReservaController {
-
-    private final ReservaService service;
-
-    @Autowired
-    public ReservaController(ReservaService service) {
-        this.service = service;
-    }
-
-    // GET - Obtener todas las reservas
-    @GetMapping
-    public List<Reserva> getReservas() {
-        return service.getReservas();
-    }
-
-    // GET - Obtener una reserva por ID
-    @GetMapping(path = "{reservaId}") // http:localhost:8080/mexotic/reservas/1
-    public Reserva getReserva(@PathVariable("reservaId") Long idReserva) {
-        return service.getReserva(idReserva);
-    }
-
-    // DELETE - Eliminar una reserva por ID
-    @DeleteMapping(path = "{reservaId}") // http:localhost:8080/mexotic/reservas/1
-    public Reserva deleteReserva(@PathVariable("reservaId") Long idReserva) {
-        return service.deleteReserva(idReserva);
-    }
-
-    // POST - Crear una nueva reserva
-    @PostMapping
-    public Reserva addReserva(@RequestBody Reserva reserva) {
-        return service.addReserva(reserva);
-    }
-
-    // PUT - Actualizar una reserva existente
-    @PutMapping(path = "{reservaId}") // http:localhost:8080/mexotic/reservas/1
-    public Reserva updateReserva(@PathVariable("reservaId") Long idReserva,
-                                 @RequestParam(required = false) Integer cantidad,
-                                 @RequestParam(required = false) Long usuarioId) {
-        // Para simplificar, aquí asumimos que pasas el ID del usuario
-        // En una implementación real, podrías necesitar obtener el objeto Usuario completo
-        // usando un servicio de usuario
-        return service.updateReserva(idReserva, cantidad, null); // usuario se manejaría de forma diferente
-    }
-
-    // GET adicional - Obtener reservas por ID de usuario
-    @GetMapping(path = "usuario/{usuarioId}") // http:localhost:8080/mexotic/reservas/usuario/1
-    public List<Reserva> getReservasByUsuario(@PathVariable("usuarioId") Long idUsuario) {
-        return service.getReservasByUsuario(idUsuario);
-    }
-}
-
-//package com.mexotic.mexotic.reserva.controller;
-//
-//import com.mexotic.mexotic.reserva.model.Reserva;
-//import com.mexotic.mexotic.reserva.service.ReservaService;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/mexotic/reservas")
-//public class ReservaController {
-//
-//    private final ReservaService reservaService;
-//
-//    public ReservaController(ReservaService reservaService) {
-//        this.reservaService = reservaService;
-//    }
-//
-//    @GetMapping
-//    public List<Reserva> getAllReservas() {
-//        return reservaService.getAllReservas();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Reserva> getReservaById(@PathVariable Integer id) {
-//        return reservaService.getReservaById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @PostMapping
-//    public Reserva createReserva(@RequestBody Reserva reserva) {
-//        return reservaService.createReserva(reserva);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Reserva> updateReserva(@PathVariable Integer id, @RequestBody Reserva reservaDetails) {
-//        try {
-//            return ResponseEntity.ok(reservaService.updateReserva(id, reservaDetails));
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteReserva(@PathVariable Integer id) {
-//        reservaService.deleteReserva(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//}
->>>>>>> 0519afdb655d94a53f55c42cb65a16d4ebcb21ec
