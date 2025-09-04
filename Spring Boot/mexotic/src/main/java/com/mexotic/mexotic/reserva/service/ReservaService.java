@@ -1,53 +1,48 @@
 package com.mexotic.mexotic.reserva.service;
 
 import com.mexotic.mexotic.reserva.model.Reserva;
-import com.mexotic.mexotic.reserva.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ReservaService {
+    private List<Reserva> reservas = new ArrayList<>();
 
-    @Autowired
-    private ReservaRepository reservaRepository;
-
-    // Obtener todas las reservas
     public List<Reserva> getAllReservas() {
-        return reservaRepository.findAll();
+        return new ArrayList<>(reservas); // Retorna una copia para evitar modificaciones externas
     }
 
-    // Obtener reserva por ID
     public Optional<Reserva> getReservaById(Long id) {
-        return reservaRepository.findById(id);
+        return reservas.stream()
+                .filter(reserva -> reserva.getId().equals(id))
+                .findFirst();
     }
 
-    // Crear una nueva reserva
     public Reserva createReserva(Reserva reserva) {
-        return reservaRepository.save(reserva);
+        if (reserva.getId() == null) {
+            Long newId = reservas.stream().mapToLong(Reserva::getId).max().orElse(0L) + 1;
+            reserva.setId(newId);
+        }
+        reservas.add(reserva);
+        return reserva;
     }
 
-    // Actualizar una reserva existente
     public Optional<Reserva> updateReserva(Long id, Reserva updatedReserva) {
-        Optional<Reserva> reservaOpt = reservaRepository.findById(id);
+        Optional<Reserva> reservaOpt = getReservaById(id);
         if (reservaOpt.isPresent()) {
             Reserva reserva = reservaOpt.get();
             reserva.setFechaReserva(updatedReserva.getFechaReserva());
             reserva.setEstado(updatedReserva.getEstado());
             reserva.setUsuarioId(updatedReserva.getUsuarioId());
-            return Optional.of(reservaRepository.save(reserva));
+            return Optional.of(reserva);
         }
         return Optional.empty();
     }
 
-    // Eliminar una reserva
     public boolean deleteReserva(Long id) {
-        if (reservaRepository.existsById(id)) {
-            reservaRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        return reservas.removeIf(reserva -> reserva.getId().equals(id));
     }
 }

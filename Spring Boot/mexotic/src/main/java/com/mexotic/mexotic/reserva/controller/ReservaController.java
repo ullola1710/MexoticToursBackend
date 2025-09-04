@@ -1,59 +1,47 @@
 package com.mexotic.mexotic.reserva.controller;
 
 import com.mexotic.mexotic.reserva.model.Reserva;
+import com.mexotic.mexotic.reserva.service.ReservaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservas")
 public class ReservaController {
+    @Autowired
+    private ReservaService reservaService;
 
-    private final List<Reserva> reservas = new ArrayList<>(); // Simula base de datos
-
-    // GET:Obtener todas las reservas
     @GetMapping
     public ResponseEntity<List<Reserva>> getAllReservas() {
-        return ResponseEntity.ok(reservas);
+        return ResponseEntity.ok(reservaService.getAllReservas());
     }
 
-    // GET:Obtener reserva por ID
     @GetMapping("/{id}")
     public ResponseEntity<Reserva> getReservaById(@PathVariable Long id) {
-        Optional<Reserva> reserva = reservas.stream().filter(r -> r.getId().equals(id)).findFirst();
+        Optional<Reserva> reserva = reservaService.getReservaById(id);
         return reserva.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // POST:Crear reserva
     @PostMapping
     public ResponseEntity<Reserva> createReserva(@RequestBody Reserva reserva) {
-        reserva.setId((long) (reservas.size() + 1)); // ID simulado
-        reservas.add(reserva);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
+        Reserva created = reservaService.createReserva(reserva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // PUT:Actualizar reserva
     @PutMapping("/{id}")
     public ResponseEntity<Reserva> updateReserva(@PathVariable Long id, @RequestBody Reserva updatedReserva) {
-        Optional<Reserva> reservaOpt = reservas.stream().filter(r -> r.getId().equals(id)).findFirst();
-        if (reservaOpt.isPresent()) {
-            Reserva reserva = reservaOpt.get();
-            reserva.setFechaReserva(updatedReserva.getFechaReserva());
-            reserva.setEstado(updatedReserva.getEstado());
-            reserva.setUsuarioId(updatedReserva.getUsuarioId());
-            return ResponseEntity.ok(reserva);
-        }
-        return ResponseEntity.notFound().build();
+        Optional<Reserva> updated = reservaService.updateReserva(id, updatedReserva);
+        return updated.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // DELETE: Eliminar reserva
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
-        boolean removed = reservas.removeIf(r -> r.getId().equals(id));
-        return removed ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        boolean deleted = reservaService.deleteReserva(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
