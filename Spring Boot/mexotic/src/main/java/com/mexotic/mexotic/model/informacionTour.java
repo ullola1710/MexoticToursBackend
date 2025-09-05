@@ -1,14 +1,28 @@
 package com.mexotic.mexotic.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Información Tour")
 public class informacionTour {
-	
+	@Column(name="Salida", nullable=false)
 	private String salida;
+	@Column(name=" Regreso Aproximado", nullable=false)
 	private String regresoAprox;
+	@Column(name="Frecuencia", nullable=false)
 	private String frecuencia;
+	@Column(name="Grupos", nullable=false)
 	private String grupos;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="ID Información Tour", unique=true, nullable=false)
 	private Long idInformacionTour;
 	
-	private static long cantInfoTour = 0;
 	
 	//constructor
 	public informacionTour(String salida, String regresoAprox, 
@@ -18,16 +32,12 @@ public class informacionTour {
 		this.regresoAprox = regresoAprox;
 		this.frecuencia = frecuencia;
 		this.grupos = grupos;
-		
-		//idInformacionTour
-		informacionTour.cantInfoTour++;
-		this.idInformacionTour = informacionTour.cantInfoTour;
+
 		}//Contructor InformacionTour
 	
 	//Contructor vacio para nuevo informacionTour
 	public informacionTour() {
-		informacionTour.cantInfoTour++;
-		this.idInformacionTour=informacionTour.cantInfoTour;
+		
 	}//Contructor InformacionTour
 
 	//getters and setters
