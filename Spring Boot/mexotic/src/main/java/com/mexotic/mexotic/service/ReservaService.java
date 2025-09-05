@@ -1,48 +1,50 @@
 package com.mexotic.mexotic.service;
 
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import com.mexotic.mexotic.model.Reserva;
+import com.mexotic.mexotic.repository.ReservaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class ReservaService {
-    private List<Reserva> reservas = new ArrayList<>();
 
-    public List<Reserva> getAllReservas() {
-        return new ArrayList<>(reservas); // Retorna una copia para evitar modificaciones externas
+    private final ReservaRepository reservaRepository;
+
+    public ReservaService(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
     }
 
-    public Optional<Reserva> getReservaById(Long id) {
-        return reservas.stream()
-                .filter(reserva -> reserva.getId().equals(id))
-                .findFirst();
+    public List<Reserva> findAll() {
+        return reservaRepository.findAll();
     }
 
-    public Reserva createReserva(Reserva reserva) {
-        if (reserva.getId() == null) {
-            Long newId = reservas.stream().mapToLong(Reserva::getId).max().orElse(0L) + 1;
-            reserva.setId(newId);
+    public Reserva findByIdOrThrow(Long id) {
+        return reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
+    }
+
+    public List<Reserva> findByUsuario(Long fkIdUsuario) {
+        return reservaRepository.findByFkIdUsuario(fkIdUsuario);
+    }
+
+    public Reserva create(Reserva reserva) {
+        return reservaRepository.save(reserva);
+    }
+
+    public Reserva update(Long id, Reserva input) {
+        Reserva r = findByIdOrThrow(id);
+        if (input.getCantidad() != null) r.setCantidad(input.getCantidad());
+        if (input.getFkIdUsuario() != null) r.setFkIdUsuario(input.getFkIdUsuario());
+        return reservaRepository.save(r);
+    }
+
+    public void delete(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada");
         }
-        reservas.add(reserva);
-        return reserva;
-    }
-
-    public Optional<Reserva> updateReserva(Long id, Reserva updatedReserva) {
-        Optional<Reserva> reservaOpt = getReservaById(id);
-        if (reservaOpt.isPresent()) {
-            Reserva reserva = reservaOpt.get();
-            reserva.setFechaReserva(updatedReserva.getFechaReserva());
-            reserva.setEstado(updatedReserva.getEstado());
-            reserva.setUsuarioId(updatedReserva.getUsuarioId());
-            return Optional.of(reserva);
-        }
-        return Optional.empty();
-    }
-
-    public boolean deleteReserva(Long id) {
-        return reservas.removeIf(reserva -> reserva.getId().equals(id));
+        reservaRepository.deleteById(id);
     }
 }

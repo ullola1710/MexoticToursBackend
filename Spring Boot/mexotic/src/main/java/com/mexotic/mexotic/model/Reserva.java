@@ -1,28 +1,52 @@
 package com.mexotic.mexotic.model;
 
-public class Reserva {
-    private Long id;
-    private String fechaReserva;
-    private String estado;
-    private Long usuarioId;
+import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-    //Constructores
+@Entity
+@Table(name = "Reserva") // ajusta a "reserva" si tu tabla está en minúsculas
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+public class Reserva {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idReserva", updatable = false, nullable = false)
+    private Long idReserva;
+
+    @Column(nullable = false)
+    private Integer cantidad;
+
+
+    @Column(name = "fk_idUsuario", nullable = false)
+    private Long fkIdUsuario;
+
     public Reserva() {}
 
-    public Reserva(Long id, String fechaReserva, String estado, Long usuarioId) {
-        this.id = id;
-        this.fechaReserva = fechaReserva;
-        this.estado = estado;
-        this.usuarioId = usuarioId;
-    }
+    public Reserva(Integer cantidad, Long fkIdUsuario) {
+        this.cantidad = cantidad;
+        this.fkIdUsuario = fkIdUsuario;
+    }//Contructor
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getFechaReserva() { return fechaReserva; }
-    public void setFechaReserva(String fechaReserva) { this.fechaReserva = fechaReserva; }
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
-    public Long getUsuarioId() { return usuarioId; }
-    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
+    public Long getIdReserva() {
+        return idReserva;
+    }//getIdReserva
+    public Integer getCantidad() {
+        return cantidad;
+    }//getCantidad
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }//setCantidad
+    public Long getFkIdUsuario() {
+        return fkIdUsuario;
+    }//getFKidUsuario
+    public void setFkIdUsuario(Long fkIdUsuario) {
+        this.fkIdUsuario = fkIdUsuario;
+    }//setfkidUsuario
+    
+    @Override
+    public String toString() {
+        return "Reserva{idReserva=" + idReserva +
+               ", cantidad=" + cantidad +
+               ", fkIdUsuario=" + fkIdUsuario + "}";
+    }
 }
