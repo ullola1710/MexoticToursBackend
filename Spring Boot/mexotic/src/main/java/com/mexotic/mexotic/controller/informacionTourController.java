@@ -56,4 +56,4 @@ public class informacionTourController {
 		return service.updateInfoTour(salida, regresoAprox, frecuencia, grupos, idInformacionTour);
 			}//update
 	
-}
+}//Class InformacionTourController
