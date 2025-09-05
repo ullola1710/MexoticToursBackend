@@ -7,5 +7,5 @@ import com.mexotic.mexotic.model.Experiencia;
 
 @Repository
 public interface ExperienciasRepository extends JpaRepository<Experiencia, Long>{
-	Optional<Experiencia> findById (Long Id);
+	Optional<Experiencia> findByComentario (String comentario);
 }//interface ExperienciasRepository

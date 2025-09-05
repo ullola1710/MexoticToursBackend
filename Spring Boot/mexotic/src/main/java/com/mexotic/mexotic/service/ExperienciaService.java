@@ -21,26 +21,26 @@ public class ExperienciaService {
 		return repository.findAll();
 	}//getExperiences
 	
-	public Experiencia getExperience(Long id) {
-		return repository.findById(id).orElseThrow(
-				()->new IllegalArgumentException("La experiencia con el id [" + id
+	public Experiencia getExperience(Long idExperiencia) {
+		return repository.findById(idExperiencia).orElseThrow(
+				()->new IllegalArgumentException("La experiencia con el id [" + idExperiencia
 						+ "] no existe")
 				);
 	}//getExperience
 	
 
-	public Experiencia deleteExperience(Long id) {
+	public Experiencia deleteExperience(Long idExperiencia) {
 		Experiencia exp = null;
-		if (repository.existsById(id)) {
-			exp = repository.findById(id).get();
-				repository.deleteById(id);
+		if (repository.existsById(idExperiencia)) {
+			exp = repository.findById(idExperiencia).get();
+				repository.deleteById(idExperiencia);
 			}//if
 		return exp;
 	}//deleteExperience
 
 	public Experiencia addExperience(Experiencia experiencia) {
 		Optional<Experiencia> exp =
-				repository.findById(experiencia.getId());
+				repository.findByComentario(experiencia.getComentario());
 		if (exp.isEmpty()) {
 			repository.save(experiencia);
 		} else {
@@ -49,11 +49,11 @@ public class ExperienciaService {
 		return experiencia;
 	}//addExperience
 	
-	public Experiencia updateExperience(Long id, String comentario,
+	public Experiencia updateExperience(Long idExperiencia, String comentario,
 			Integer calificacion) {
 		Experiencia exp = null;
-			if (repository.existsById(id)) {
-				exp = repository.findById(id).get();
+			if (repository.existsById(idExperiencia)) {
+				exp = repository.findById(idExperiencia).get();
 				if(comentario!=null) exp.setComentario(comentario);
 				if(calificacion!=null)exp.setCalificacion(calificacion);
 					return repository.save(exp);

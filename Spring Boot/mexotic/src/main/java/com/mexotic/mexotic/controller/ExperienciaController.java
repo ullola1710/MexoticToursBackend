@@ -17,7 +17,7 @@ import com.mexotic.mexotic.service.ExperienciaService;
 
 
 @RestController
-@RequestMapping(path= "/mexotic/experiencias/") // http://localhost:8080/api/experiencias/
+@RequestMapping(path= "/mexotictours/experiencia/") // http://localhost:8080/mexotictours/experiencia/
 public class ExperienciaController {
 	private final ExperienciaService service;
 	@Autowired
@@ -31,16 +31,16 @@ public class ExperienciaController {
 		return service.getExperiences();
 	}//getExperiencias
 	
-	@GetMapping(path="{expId}") // http://localhost:8080/api/experiencias/1
-	public Experiencia getExperiencia(@PathVariable("expId") Long id) {
-		return service.getExperience(id);
+	@GetMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
+	public Experiencia getExperiencia(@PathVariable("expId") Long idExperiencia) {
+		return service.getExperience(idExperiencia);
 	}//getExperiencia
 	
 	
 	//DELETE
-	@DeleteMapping(path="{expId}") // http://localhost:8080/api/experiencias/1
-	public Experiencia deleteExperiencia(@PathVariable("expId") Long id) {
-		return service.deleteExperience(id);
+	@DeleteMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
+	public Experiencia deleteExperiencia(@PathVariable("expId") Long idExperiencia) {
+		return service.deleteExperience(idExperiencia);
 	}//deleteExperiencias
 	
 	//POST
@@ -51,11 +51,11 @@ public class ExperienciaController {
 
 	
 	//PUT
-	@PutMapping(path="{expId}") // http://localhost:8080/api/experiencias/1
-	public Experiencia updateExperiencia(@PathVariable ("expId") Long id,
+	@PutMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
+	public Experiencia updateExperiencia(@PathVariable ("expId") Long idExperiencia,
 			@RequestParam(required=false) String comentario,
 			@RequestParam(required=false) Integer calificacion){
-		return service.updateExperience(id, comentario, calificacion);
+		return service.updateExperience(idExperiencia, comentario, calificacion);
 	}//updateExperiencia
 	
 }//class ExperienciaController
