@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Usuario_has_Tour")
 public class UsuarioHasTour {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -143,3 +144,5 @@ public class UsuarioHasTour {
 ////    
 ////    
 ////}
+
+

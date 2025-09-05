@@ -1,19 +1,38 @@
 package com.mexotic.mexotic.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+//POJO -Plain Old Java Object
 
+@Entity
+@Table(name = "Usuario")
 public class Usuario {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idUsuario", unique=true, nullable=false)
 	private Long idUsuario;
+	@Column(nullable=false)
 	private String nombre;
+	@Column(nullable=false)
 	private String apellido;
+	@Column(nullable=false)
 	private String email;
+	@Column(nullable=false)
 	private String telefono;
+	@Column(nullable=false)
 	private String contrasena;
+	@Column(name = "admin",nullable=false)
 	private boolean admin;
+	@Column(nullable=false)
 	private String imgUsuario;
 	
 
-	private static long idTotal = 0;
+
 	public Usuario(String nombre, String apellido, String email, String telefono, String contrasena, boolean admin,
 			String imgUsuario) {
 		super();
@@ -24,15 +43,10 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.admin = admin;
 		this.imgUsuario = imgUsuario;
-		Usuario.idTotal++;
-		this.idUsuario = Usuario.idTotal;
 	}///constructor
 	
 	
-	public Usuario () {
-		Usuario.idTotal++;
-		this.idUsuario = Usuario.idTotal;
-	} //constructor 
+	public Usuario () {	} //constructor vacio
 	
 	//getters and setters
 	public String getNombre() {

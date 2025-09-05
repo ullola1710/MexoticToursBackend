@@ -1,24 +1,23 @@
 package com.mexotic.mexotic.service;
 
-import com.mexotic.mexotic.model.Usuario;
-import com.mexotic.mexotic.model.Tour;
-import com.mexotic.mexotic.model.UsuarioHasTour;
-import com.mexotic.mexotic.repository.UsuarioHasTourRepository;
-
-import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+import com.mexotic.mexotic.model.UsuarioHasTour;
+import com.mexotic.mexotic.repository.UsuarioHasTourRepository;
+
 @Service
 public class UsuarioHasTourService {
-
     private final UsuarioHasTourRepository usuarioshastourRepository;
 
     public UsuarioHasTourService(UsuarioHasTourRepository usuarioshastourRepository) {
         this.usuarioshastourRepository = usuarioshastourRepository;
     }
 
+    // Obtener todos los registros
     public List<UsuarioHasTour> getAll() {
         return usuarioshastourRepository.findAll();
     }
@@ -32,11 +31,9 @@ public class UsuarioHasTourService {
     }
 
     public void deleteUsuarioHasTour(Long id) {
-        usuarioshastourRepository.deleteById(id);
+    	usuarioshastourRepository.deleteById(id);
     }
-
 }
-
 
 //package com.mexotic.mexotic.service;
 //
@@ -96,3 +93,4 @@ public class UsuarioHasTourService {
 ////    }
 //    
 //}
+
