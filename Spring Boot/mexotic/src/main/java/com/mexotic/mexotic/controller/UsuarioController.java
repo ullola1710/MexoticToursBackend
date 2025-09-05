@@ -10,57 +10,51 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mexotic.mexotic.dto.ChangedataUser;
 import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.service.UsuarioService;
 
 @RestController
-@RequestMapping (path = "/mexotic/usuarios/") //http:localhost:8080/api/usuarios/
+@RequestMapping(path = "/mexotic/usuarios/") //http:localhost:8080/mexotic/usuarios
 public class UsuarioController {
-	private final UsuarioService service;
+	private final UsuarioService usuarioService;
 	
 	@Autowired
-	public UsuarioController(UsuarioService service) {
-		this.service = service;
+	public UsuarioController(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
 	}
 	
 	//Get 
 	@GetMapping 
 	public List<Usuario> getUsuarios(){
-		return service.getUsuario();
+		return usuarioService.getUsuarios();
 	}
 	
-	@GetMapping (path = "{usuarioId}") //http:localhost:8080/api/usuarios/1
-	public Usuario getUsuario (@PathVariable("usuarioId")Long idUsuario) {
-		return service.getUsuario(idUsuario);
+	@GetMapping (path = "{userId}") //http:localhost:8080/api/usuarios/1
+	public Usuario getUsuario (@PathVariable("userId")Long idUsuario) {
+		return usuarioService.getUsuario(idUsuario);
 	}
 	
 	//DELETE
-	@DeleteMapping (path = "{usuarioId}") //http:localhost:8080/api/usuarios/1
-	public Usuario deleteUsuario (@PathVariable("usuarioId")Long idUsuario) {
-		return service.deleteUsuario(idUsuario);
+	@DeleteMapping (path = "{userId}") //http:localhost:8080/api/usuarios/1
+	public Usuario deleteUsuario (@PathVariable("userId")Long idUsuario) {
+		return usuarioService.deleteUsuario(idUsuario);
 	}
 	
 	//POST
 	@PostMapping
 	public Usuario addUsuario(@RequestBody Usuario usuario) {
-		return service.addUsuario(usuario);
+		return usuarioService.addUsuario(usuario);
 	}//addUsuario
 	
 	//PUT 
-	@PutMapping(path = "{usuarioId}") //http:localhost:8080/api/usuarios/1
-	public Usuario updateUsuario(@PathVariable ("usuarioId") Long idUsuario,
-			@RequestParam (required = false)String nombre,
-			@RequestParam (required = false)String apellido,
-			@RequestParam(required = false) String email,
-			@RequestParam (required = false)String telefono,
-			@RequestParam (required = false)String contrasena,
-			@RequestParam(required = false) Boolean admin,
-			@RequestParam (required = false) String imgUsuario) {
-		return service.updateUsuario(idUsuario,nombre, apellido, email, telefono, contrasena, admin, imgUsuario);	
+	@PutMapping(path = "{userId}") //http:localhost:8080/api/usuarios/1
+	public Usuario updateUsuario(@PathVariable("userId") Long idUsuario,
+			@RequestBody ChangedataUser ChangedataUser) {
+		return usuarioService.updateUser(idUsuario,ChangedataUser);	
 	}
 	
 
-}
+}//Usuarioontroller

@@ -1,87 +1,91 @@
 package com.mexotic.mexotic.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mexotic.mexotic.dto.ChangedataUser;
 import com.mexotic.mexotic.model.Usuario;
+import com.mexotic.mexotic.repository.UsuariosRepository;
 
 
 
 @Service
 public class UsuarioService {
+	private final UsuariosRepository usuarioRepository;
 	
-	private final ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
 	@Autowired
-	public UsuarioService() {
-		
-		listaUsuarios.add (new Usuario("Brandy", "Medina", "medina@gmail.com","3358796542","Password_1", true, "brandy.jpg"));
-		listaUsuarios.add (new Usuario("Jade", "Ullola", "ullola@gmail.com","3325469875","Password_2", true, "jade.jpg"));
-		listaUsuarios.add (new Usuario("Abigail", "Ramírez", "ramirez@gmail.com","3387564123","Password_3", true, "abigail.jpg"));
-		listaUsuarios.add (new Usuario("Isabel", "Romero", "romero@gmail.com","3398325469","Password_4", true, "isabel.jpg"));
-		listaUsuarios.add (new Usuario("Marian", "Tejeda", "tejeda@gmail.com","3354870213","Password_5", true, "marian.jpg"));
-		listaUsuarios.add (new Usuario("Mariana", "González", "gonzalez@gmail.com","3325146987","Password_6", true, "mariana.jpg"));
-		listaUsuarios.add (new Usuario("Maritere", "Montiel", "montiel@gmail.com","3325469872","Password_7", true, "maritere.jpg"));
-		listaUsuarios.add (new Usuario("Miriam", "Vega", "vega@gmail.com","3303259710","Password_8", true, "miriam.jpg"));
-		listaUsuarios.add (new Usuario("Miguel", "R.", "miguelr@gmail.com","5512345678","Password_9", false, "miguel.jpg"));
-		listaUsuarios.add (new Usuario("Ana", "L.", "anal@gmail.com","5523456789","Password_10", false, "ana.jpg"));
-		listaUsuarios.add (new Usuario("Roberto", "G.", "robertog@gmail.com","5534567890","Password_11", false, "roberto.jpg"));
-		listaUsuarios.add (new Usuario("Sofía", "M. ", "sofiam@gmail.com","5545678901","Password_12", false, "sofia.jpg"));
-		listaUsuarios.add (new Usuario("Carlos", "P.", "carlosp@gmail.com","5556789012","Password_13", false, "carlos.jpg"));
-		}//usuarioService
+	public UsuarioService(UsuariosRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
 	
-		public List<Usuario> getUsuario(){
-			return listaUsuarios;
-			
-		}//getUsuario
+	public List<Usuario> getUsuarios(){
+		return usuarioRepository.findAll();
+	}//getUsuarios
 
-		public Usuario getUsuario(Long idUsuario) {
-			Usuario tmpUser = null;
-			for(Usuario user : listaUsuarios) {
-				if(user.getIdUsuario() == idUsuario) {
-					tmpUser = user;
-					break;
-				}//if
-			}//foreach
-			return tmpUser;
-		}//getUsuario
+	public Usuario getUsuario(Long idUsuario) {
+		return usuarioRepository.findById(idUsuario).orElseThrow(()-> new IllegalArgumentException("El usuario con el id [" + idUsuario+ "] no existe"));
+	}//getUsuario
 		
 		
-		public Usuario deleteUsuario(Long idUsuario) {
-			Usuario tmpUser = null;
-			for(Usuario user : listaUsuarios) {
-				if(user.getIdUsuario().equals(idUsuario)) {
-					tmpUser = user;
-					listaUsuarios.remove(user);
-					break;
-				}//if
-			}//foreach
-			return tmpUser;
+	public Usuario deleteUsuario(Long idUsuario) {
+		Usuario user = null;
+		if(usuarioRepository.existsById(idUsuario)) {
+			user = usuarioRepository.findById(idUsuario).get();
+			usuarioRepository.deleteById(idUsuario);
+			}//if
+			return user;
 		}//deleteUsuario
 
-		public Usuario addUsuario(Usuario usuario) {
-			listaUsuarios.add(usuario);
+	public Usuario addUsuario(Usuario usuario) {
+		Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
+		if (user.isEmpty()) {
+			usuarioRepository.save(usuario);
+			}else {
+				usuario = null;
+			}//else
 			return usuario;
 		}//addUsuario
 
-		public Usuario updateUsuario(Long idUsuario, String nombre, String apellido, String email, String telefono,
-				String contrasena, Boolean admin, String imgUsuario) {
-			Usuario tmpUser = null;
-			for(Usuario user : listaUsuarios) {
-				if(user.getIdUsuario().equals(idUsuario)) {
-					tmpUser = user;
-					if(nombre!=null)user.setNombre(nombre);
-					if(apellido!=null)user.setApellido(apellido);
-					if(email!=null) user.setEmail(email);
-					if(telefono!=null) user.setTelefono(telefono);
-					if(contrasena!=null) user.setContrasena(contrasena);
-					if(admin!=null) user.setAdmin(admin);
-					if(imgUsuario!=null) user.setImgUsuario(imgUsuario);
+	public Usuario updateUsuario(Long idUsuario, String telefono,String imgUsuario) {
+			Usuario user = null;
+			if(usuarioRepository.existsById(idUsuario)) {
+				user = usuarioRepository.findById(idUsuario).get();
+				if(telefono!=null) user.setTelefono(telefono);
+				if(imgUsuario!=null) user.setImgUsuario(imgUsuario);
+				usuarioRepository.save(user);
 				}//if
-			}//foreach
-			return tmpUser;
+			return user;
 		}//updateUsuario
+
+	public Usuario updateUser(Long idUsuario, ChangedataUser changedataUser) {
+		if(!usuarioRepository.existsById(idUsuario)) {
+			return null;
+		}
+		Usuario user = usuarioRepository.findById(idUsuario).get();
+		
+		if(changedataUser.getNcontrasena() != null && !changedataUser.getNcontrasena().isEmpty()) {
+			if(changedataUser.getContrasena() == null || changedataUser.getContrasena().isEmpty()) {
+				throw new RuntimeException("Debe proporcionar la contraseña actual para cambiarla");
+			}//if contraseña actual
+			if(!user.getContrasena().equals(changedataUser.getContrasena())) {
+				throw new RuntimeException("La contraseña acual es incorrecta");
+			}//no coinciden las contraseñas
+			user.setContrasena(changedataUser.getNcontrasena());
+		}//actualiza la contraseña
+		
+		
+		if(changedataUser.getTelefono() != null && !changedataUser.getTelefono().isEmpty()) {
+			user.setTelefono(changedataUser.getTelefono());
+		}//actualizacion de telefono
+		
+		if(changedataUser.getImgUsuario() != null && !changedataUser.getImgUsuario().isEmpty()) {
+			user.setImgUsuario(changedataUser.getImgUsuario());
+		}//actualizacion de imgUsuario
+		
+		return usuarioRepository.save(user);
+	}
 }//class UsuarioService
 
