@@ -11,7 +11,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tour")
+@Table(name="Tour")
 public class Tour {
     
 	@Id
@@ -19,41 +19,41 @@ public class Tour {
 	@Column(name="idTour", unique=true, nullable=false)
     private Long idTour;
 	
-	@Column(nullable=false)
+	@Column(name="nombre", nullable=false)
     private String nombre;
 	
-	@Column(nullable=false)
+	@Column(name="estado", nullable=false)
 	@Enumerated(EnumType.STRING)
     private Estado estado;
 	
-	@Column(nullable=false)
+	@Column(name="ciudad", nullable=false)
     private String ciudad;
 	
-	@Column(nullable=false)
+	@Column(name="imgPortada", nullable=false)
     private String imgPortada;
 	
-	@Column(nullable=false)
+	@Column(name="img", nullable=false)
     private String img;
 	
-	@Column(nullable=false)
+	@Column(name="descripcion", nullable=false)
     private String descripcion;
 	
-	@Column(nullable=false)
+	@Column(name="duracion", nullable=false)
     private String duracion;
 	
-	@Column(nullable=false)
+	@Column(name="precio", nullable=false)
     private Double precio;
 	
-	@Column(nullable=false)
+	@Column(name="precioExclusivo", nullable=false)
     private Double precioExclusivo;
 	
 	// Texto largo
 	@Lob
-	@Column(nullable=false)
+	@Column(name="incluye", nullable=false)
 	private String incluye;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable=false)
+	@Column(name="categoria", nullable=false)
     private Categoria categoria;
 
     // Para id Auto increment

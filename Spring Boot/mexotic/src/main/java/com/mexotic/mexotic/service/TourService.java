@@ -12,6 +12,7 @@ import com.mexotic.mexotic.repository.TourRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TourService {
@@ -23,10 +24,12 @@ public class TourService {
         this.repository = repository;
     } // Constructor
 
+    @Transactional(readOnly = true)
 	public List<Tour> getTours() {
 		return repository.findAll();
 	} // getTours
 
+    @Transactional(readOnly = true)
 	public Tour getTour(Long idTour) {
 		return repository.findById(idTour).orElseThrow(
 				() -> new IllegalArgumentException("El tour con el id[" + idTour
@@ -34,6 +37,7 @@ public class TourService {
 				);
 	} // getTour
 
+    @Transactional
 	public Tour deleteTour(Long idTour) {
 		Tour tmpTour = null;
 		if(repository.existsById(idTour)) {
@@ -43,6 +47,7 @@ public class TourService {
 		return tmpTour;
 	} // deleteTour
 
+    @Transactional
 	public Tour addTour(Tour tour) {
 		Optional<Tour> t = repository.findByNombre(tour.getNombre());
 		if(t.isEmpty()) {
@@ -53,6 +58,7 @@ public class TourService {
 		return tour;
 	} // addTour
 
+    @Transactional
 	public Tour updateTour(Long idTour, String nombre, Estado estado, String ciudad, String imgPortada, String img,
 			String descripcion, String duracion, Double precio, Double precioExclusivo, String incluye,
 			Categoria categoria) {
