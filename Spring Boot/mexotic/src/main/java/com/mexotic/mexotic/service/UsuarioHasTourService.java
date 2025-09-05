@@ -75,4 +75,8 @@ public class UsuarioHasTourService {
 //        registros.removeIf(r -> r.getId().getUsuarioId().equals(id.getUsuarioId()) &&
 //                                r.getId().getTourId().equals(id.getTourId()));
 //    }
+
 //}
+
+//}
+

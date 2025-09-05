@@ -94,4 +94,8 @@ public class UsuarioHasTourController {
 //    public void deleteUsuarioHasTour(@PathVariable Long id) {
 //        service.deleteUsuarioHasTour(id);
 //    }
+
 //}
+
+//}
+
