@@ -1,14 +1,10 @@
-<<<<<<< HEAD:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/reserva/model/Reserva.java
-package com.mexotic.mexotic.reserva.model;
+package com.mexotic.mexotic.model;
 
 public class Reserva {
     private Long id;
     private String fechaReserva;
     private String estado;
     private Long usuarioId;
-=======
-package com.mexotic.mexotic.model;
->>>>>>> ad0d5f17abd0049a99810c351bce4bea8f0a0519:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/model/Reserva.java
 
     //Constructores
     public Reserva() {}

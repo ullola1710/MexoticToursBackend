@@ -12,12 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-<<<<<<< HEAD:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/reserva/controller/ReservaController.java
-@RequestMapping("/api/reservas")
-=======
-@RequestMapping(path = "/mexotic/reservas/") // http:localhost:8080/mexotic/reservas/
+@RequestMapping (path="/mexotic/reserva/") //http://localhost:8080/mexotic/reserva/
 
->>>>>>> ad0d5f17abd0049a99810c351bce4bea8f0a0519:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/controller/ReservaController.java
 public class ReservaController {
     @Autowired
     private ReservaService reservaService;

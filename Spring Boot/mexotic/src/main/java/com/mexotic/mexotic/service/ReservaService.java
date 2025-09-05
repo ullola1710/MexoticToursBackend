@@ -1,19 +1,11 @@
 package com.mexotic.mexotic.service;
 
-import com.mexotic.mexotic.reserva.model.Reserva;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/reserva/service/ReservaService.java
 import java.util.Optional;
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.mexotic.mexotic.model.Reserva;
-import com.mexotic.mexotic.model.Usuario;
->>>>>>> ad0d5f17abd0049a99810c351bce4bea8f0a0519:Spring Boot/mexotic/src/main/java/com/mexotic/mexotic/service/ReservaService.java
 
 @Service
 public class ReservaService {
