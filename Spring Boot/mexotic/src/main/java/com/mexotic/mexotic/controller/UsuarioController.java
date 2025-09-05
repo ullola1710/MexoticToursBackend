@@ -19,34 +19,34 @@ import com.mexotic.mexotic.service.UsuarioService;
 @RestController
 @RequestMapping (path = "/mexotic/usuarios/") //http:localhost:8080/api/usuarios/
 public class UsuarioController {
-	private final UsuarioService service;
+	private final UsuarioService usuariosService;
 	
 	@Autowired
-	public UsuarioController(UsuarioService service) {
-		this.service = service;
+	public UsuarioController(UsuarioService usuariosService) {
+		this.usuariosService = usuariosService;
 	}
 	
 	//Get 
 	@GetMapping 
 	public List<Usuario> getUsuarios(){
-		return service.getUsuario();
+		return usuariosService.getUsuario();
 	}
 	
 	@GetMapping (path = "{usuarioId}") //http:localhost:8080/api/usuarios/1
 	public Usuario getUsuario (@PathVariable("usuarioId")Long idUsuario) {
-		return service.getUsuario(idUsuario);
+		return usuariosService.getUsuario(idUsuario);
 	}
 	
 	//DELETE
 	@DeleteMapping (path = "{usuarioId}") //http:localhost:8080/api/usuarios/1
 	public Usuario deleteUsuario (@PathVariable("usuarioId")Long idUsuario) {
-		return service.deleteUsuario(idUsuario);
+		return usuariosService.deleteUsuario(idUsuario);
 	}
 	
 	//POST
 	@PostMapping
 	public Usuario addUsuario(@RequestBody Usuario usuario) {
-		return service.addUsuario(usuario);
+		return usuariosService.addUsuario(usuario);
 	}//addUsuario
 	
 	//PUT 
@@ -59,7 +59,7 @@ public class UsuarioController {
 			@RequestParam (required = false)String contrasena,
 			@RequestParam(required = false) Boolean admin,
 			@RequestParam (required = false) String imgUsuario) {
-		return service.updateUsuario(idUsuario,nombre, apellido, email, telefono, contrasena, admin, imgUsuario);	
+		return usuariosService.updateUsuario(idUsuario,nombre, apellido, email, telefono, contrasena, admin, imgUsuario);	
 	}
 	
 
