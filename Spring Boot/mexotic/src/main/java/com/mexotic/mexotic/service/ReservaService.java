@@ -11,17 +11,16 @@ import com.mexotic.mexotic.model.Usuario;
 @Service
 public class ReservaService {
     private final ArrayList<Reserva> lista = new ArrayList<Reserva>();
+    private final UsuarioService usuarioService;
     
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    public ReservaService() {
+    public ReservaService(UsuarioService usuarioService) {
+    	this.usuarioService = usuarioService;
         // Obtener algunos usuarios de ejemplo para las reservas
         List<Usuario> usuarios = usuarioService.getUsuario();
         
         // Añadir reservas de ejemplo con objetos Usuario reales
-        if (usuarios.size() >= 5) {
+        if (usuarios.size() >= 13) {
             lista.add(new Reserva(2, usuarios.get(8)));  // Usuario Miguel
             lista.add(new Reserva(4, usuarios.get(9)));  // Usuario Ana
             lista.add(new Reserva(1, usuarios.get(10))); // Usuario Roberto
