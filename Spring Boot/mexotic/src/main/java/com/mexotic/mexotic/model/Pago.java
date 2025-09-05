@@ -1,12 +1,27 @@
 package com.mexotic.mexotic.model;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+
+@Entity
+@Table(name="pago")
 public class Pago {
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id", unique=true, nullable=false)
 		private Long idPago;
+	@Column(nullable=false)
 		private Double monto; 
+	@Column(nullable=false)
 		private Date fechaPago; 
+	@Column(nullable=false)
 		private String metodoPago;
 		
 		private static long total=0;
@@ -16,14 +31,13 @@ public class Pago {
 			this.monto = monto;
 			this.fechaPago = fechaPago;
 			this.metodoPago = metodoPago;
-			Pago.total++;
-			this.idPago=Pago.total; 	
+			//Pago.total++;
+			//this.idPago=Pago.total; 	
 		}//Constructor 
 		
 		
 		public Pago() {
-			Pago.total++; 
-			this.idPago=Pago.total;
+			
 		}//constructor vacio para crear nuevos pagos desde un post 
 
 
