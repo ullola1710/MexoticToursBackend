@@ -2,49 +2,41 @@ package com.mexotic.mexotic.service;
 
 import com.mexotic.mexotic.model.Reserva;
 import com.mexotic.mexotic.repository.ReservaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservaService {
 
-    private final ReservaRepository reservaRepository;
+    @Autowired
+    private ReservaRepository reservaRepository;
 
-    public ReservaService(ReservaRepository reservaRepository) {
-        this.reservaRepository = reservaRepository;
-    }
-
-    public List<Reserva> findAll() {
+    public List<Reserva> getAllReservas() {
         return reservaRepository.findAll();
     }
 
-    public Reserva findByIdOrThrow(Long id) {
-        return reservaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
+    public Optional<Reserva> getReservaById(Long id) {
+        return reservaRepository.findById(id);
     }
 
-    public List<Reserva> findByUsuario(Long fkIdUsuario) {
-        return reservaRepository.findByFkIdUsuario(fkIdUsuario);
-    }
-
-    public Reserva create(Reserva reserva) {
+    public Reserva createReserva(Reserva reserva) {
         return reservaRepository.save(reserva);
     }
 
-    public Reserva update(Long id, Reserva input) {
-        Reserva r = findByIdOrThrow(id);
-        if (input.getCantidad() != null) r.setCantidad(input.getCantidad());
-        if (input.getFkIdUsuario() != null) r.setFkIdUsuario(input.getFkIdUsuario());
-        return reservaRepository.save(r);
+    public Reserva updateReserva(Long id, Reserva reservaDetails) {
+        return reservaRepository.findById(id).map(reserva -> {
+            reserva.setNombreCliente(reservaDetails.getNombreCliente());
+            reserva.setEmail(reservaDetails.getEmail());
+            reserva.setTelefono(reservaDetails.getTelefono());
+            reserva.setFechaReserva(reservaDetails.getFechaReserva());
+            return reservaRepository.save(reserva);
+        }).orElseThrow(() -> new RuntimeException("Reserva no encontrada con id " + id));
     }
 
-    public void delete(Long id) {
-        if (!reservaRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada");
-        }
+    public void deleteReserva(Long id) {
         reservaRepository.deleteById(id);
     }
 }

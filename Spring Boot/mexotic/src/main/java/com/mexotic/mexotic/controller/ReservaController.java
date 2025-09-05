@@ -2,60 +2,42 @@ package com.mexotic.mexotic.controller;
 
 import com.mexotic.mexotic.model.Reserva;
 import com.mexotic.mexotic.service.ReservaService;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.net.URI;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reservas/") //http://localhost:8080/api/reservas
-@CrossOrigin(origins = "*")
+@RequestMapping("/mexotic/reservas") // http://localhost:8080/mexotic/reservas/
+@CrossOrigin(origins = "http://localhost:8080")
 public class ReservaController {
 
-    private final ReservaService service;
+    @Autowired
+    private ReservaService reservaService;
 
-    public ReservaController(ReservaService service) {
-        this.service = service;
-    }
-
-    // Obtener todas
     @GetMapping
-    public List<Reserva> getAll() {
-        return service.findAll();
+    public List<Reserva> getAllReservas() {
+        return reservaService.getAllReservas();
     }
 
-    // Obtener por id
     @GetMapping("/{id}")
-    public Reserva getById(@PathVariable Long id) {
-        return service.findByIdOrThrow(id);
+    public Reserva getReservaById(@PathVariable Long id) {
+        return reservaService.getReservaById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada con id " + id));
     }
 
-    // Crear nueva
     @PostMapping
-    public ResponseEntity<Reserva> create(@RequestBody Reserva reserva) {
-        Reserva created = service.create(reserva);
-        return ResponseEntity
-                .created(URI.create("/api/reservas/" + created.getIdReserva()))
-                .body(created);
+    public Reserva createReserva(@RequestBody Reserva reserva) {
+        return reservaService.createReserva(reserva);
     }
 
-    // Actualizar completa/parcial (PUT)
     @PutMapping("/{id}")
-    public Reserva update(@PathVariable Long id, @RequestBody Reserva reserva) {
-        return service.update(id, reserva);
+    public Reserva updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
+        return reservaService.updateReserva(id, reserva);
     }
 
-    // Borrar
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // Extra: listar reservas por usuario
-    @GetMapping("/usuario/{fkIdUsuario}")
-    public List<Reserva> getByUsuario(@PathVariable Long fkIdUsuario) {
-        return service.findByUsuario(fkIdUsuario);
+    public void deleteReserva(@PathVariable Long id) {
+        reservaService.deleteReserva(id);
     }
 }
