@@ -1,32 +1,58 @@
 package com.mexotic.mexotic.model;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
+
+
+@Entity
+@Table(name="experiencia")
 public class Experiencia {
-	private Long id;
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name="idExperiencia", unique=true, nullable=false)
+	private Long idExperiencia;
+	@Column(nullable=false)
 	private String comentario;
-	private Integer calificacion;
+	@Column(nullable=false)
+	private Integer calificacion; 
+	@Column(nullable=false)
 	private Date fecha;
-	//private Tours tour;
-	//private Usuario usuario;
+//	@ManyToOne
+//	@JoinColumn(name = "tour", referencedColumnName = "idTour")
+//	private Long fk_idTour;
+//	@ManyToOne
+//    @JoinColumn(name = "usuario", referencedColumnName = "idUsuario")
+//	private Long fk_idUsuario;
+//	
 	
-	private static long total=0;
+	 @PrePersist
+	    protected void onCreate() {
+	        if (fecha == null) {
+	            fecha = new Date();
+	        }
+	    }
+	
 
-	//public Experiencia(String comentario, Integer calificacion, Date fecha, Tours tour, Usuario usuario) {
-		public Experiencia(String comentario, Integer calificacion, Date fecha) {	
+	//public Experiencia(String comentario, Integer calificacion, Date fecha, Tour tour, Usuario usuario) {	
+		public Experiencia(String comentario, Integer calificacion, Date fecha) {
 		super();
 		this.comentario = comentario;
 		this.calificacion = calificacion;
 		this.fecha = fecha;
-		//this.tour = tour;
-		//this.usuario = usuario;
-		Experiencia.total++;
-		this.id = Experiencia.total;
+//		this.tour = tour;
+//		this.usuario = usuario;
 	}//constructor
 
 		public Experiencia() {	
-			Experiencia.total++;
-			this.id = Experiencia.total;
 		}//constructor
 	
 
@@ -54,13 +80,13 @@ public class Experiencia {
 
 
 
-//	public Tours getTour() {
+//	public Tour getTour() {
 //		return tour;
 //	}//getTour
-
-
-
-//	public void setTour(Tours tour) {
+//
+//
+//
+//	public void setTour(Tour tour) {
 //		this.tour = tour;
 //	}//setTour
 
@@ -69,33 +95,34 @@ public class Experiencia {
 //	public Usuario getUsuario() {
 //		return usuario;
 //	}//getUsuario
-
-
-
+//
+//
+//
 //	public void setUsuario(Usuario usuario) {
 //		this.usuario = usuario;
 //	}//setUsuario
 
 
 
-	public Long getId() {
-		return id;
+	public Long getIdExperiencia() {
+		return idExperiencia;
 	}//getId
 
+
+
+	public void setIdExperiencia(Long idExperiencia) {
+		this.idExperiencia = idExperiencia;
+	}
 
 
 	public Date getFecha() {
 		return fecha;
 	}//getFecha
-	
-	public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }//setFecha
 
 
 	@Override
 	public String toString() {
-		return "Experiencia [id=" + id + ", comentario=" + comentario + ", calificacion=" + calificacion + ", fecha="
+		return "Experiencia [id=" + idExperiencia + ", comentario=" + comentario + ", calificacion=" + calificacion + ", fecha="
 				+ fecha + "]";
 	}//toString
 	
