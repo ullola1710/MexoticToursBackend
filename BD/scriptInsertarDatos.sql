@@ -29,7 +29,7 @@ VALUES (
         'CDMX',
 		'Ciudad de México', 
         'https://revistaaventurero.com.mx/wp-content/uploads/2020/06/PALACIO-DE-CORREOS-2-1280x720.jpg',
-        './assetsTour/PalacioPostal.jpeg', 
+        './assets/PalacioPostal.jpeg', 
         'Es ícono emblemático del Centro Histórico dadas sus características y cualidades artísticas, además de continuar con su propósito original de ser la Administración #1 del servicio de Correos en nuestro país', 
         '2-3 horas', 
         350.0, 
