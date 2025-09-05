@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 import com.mexotic.mexotic.model.UsuarioHasTour;
 import com.mexotic.mexotic.repository.UsuarioHasTourRepository;
 
