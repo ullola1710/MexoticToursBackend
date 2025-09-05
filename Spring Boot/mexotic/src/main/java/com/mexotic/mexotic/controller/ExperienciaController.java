@@ -1,8 +1,6 @@
 package com.mexotic.mexotic.controller;
 
-import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +34,7 @@ public class ExperienciaController {
 	@GetMapping(path="{expId}") // http://localhost:8080/api/experiencias/1
 	public Experiencia getExperiencia(@PathVariable("expId") Long id) {
 		return service.getExperience(id);
-	}//getexperiencia
+	}//getExperiencia
 	
 	
 	//DELETE
@@ -56,12 +54,8 @@ public class ExperienciaController {
 	@PutMapping(path="{expId}") // http://localhost:8080/api/experiencias/1
 	public Experiencia updateExperiencia(@PathVariable ("expId") Long id,
 			@RequestParam(required=false) String comentario,
-			@RequestParam(required=false) Integer calificacion,
-			@RequestParam(required=false) Date fecha 
-			//@RequestParam(required=false) Tours tour,
-			//@RequestParam(required=false) Usuarios usuario
-			){
-		return service.updateExperience(id, comentario, calificacion, fecha);
+			@RequestParam(required=false) Integer calificacion){
+		return service.updateExperience(id, comentario, calificacion);
 	}//updateExperiencia
 	
 }//class ExperienciaController

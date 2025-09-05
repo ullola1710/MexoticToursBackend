@@ -1,32 +1,45 @@
 package com.mexotic.mexotic.model;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+
+@Entity
+@Table(name="experiencias")
 public class Experiencia {
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name="id", unique=true, nullable=false)
 	private Long id;
+	@Column(nullable=false)
 	private String comentario;
+	@Column(nullable=false)
 	private Integer calificacion;
+	@Column(nullable=false)
 	private Date fecha;
-	//private Tours tour;
-	//private Usuario usuario;
+	@Column(nullable=false)
+	private Tour tour;
+	@Column(nullable=false)
+	private Usuario usuario;
 	
-	private static long total=0;
+	
 
-	//public Experiencia(String comentario, Integer calificacion, Date fecha, Tours tour, Usuario usuario) {
-		public Experiencia(String comentario, Integer calificacion, Date fecha) {	
+	public Experiencia(String comentario, Integer calificacion, Date fecha, Tour tour, Usuario usuario) {	
 		super();
 		this.comentario = comentario;
 		this.calificacion = calificacion;
 		this.fecha = fecha;
-		//this.tour = tour;
-		//this.usuario = usuario;
-		Experiencia.total++;
-		this.id = Experiencia.total;
+		this.tour = tour;
+		this.usuario = usuario;
 	}//constructor
 
 		public Experiencia() {	
-			Experiencia.total++;
-			this.id = Experiencia.total;
 		}//constructor
 	
 
@@ -54,27 +67,27 @@ public class Experiencia {
 
 
 
-//	public Tours getTour() {
-//		return tour;
-//	}//getTour
+	public Tour getTour() {
+		return tour;
+	}//getTour
 
 
 
-//	public void setTour(Tours tour) {
-//		this.tour = tour;
-//	}//setTour
+	public void setTour(Tour tour) {
+		this.tour = tour;
+	}//setTour
 
 
 
-//	public Usuario getUsuario() {
-//		return usuario;
-//	}//getUsuario
+	public Usuario getUsuario() {
+		return usuario;
+	}//getUsuario
 
 
 
-//	public void setUsuario(Usuario usuario) {
-//		this.usuario = usuario;
-//	}//setUsuario
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}//setUsuario
 
 
 
@@ -87,10 +100,6 @@ public class Experiencia {
 	public Date getFecha() {
 		return fecha;
 	}//getFecha
-	
-	public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }//setFecha
 
 
 	@Override
