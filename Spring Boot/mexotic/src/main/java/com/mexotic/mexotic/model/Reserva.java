@@ -1,63 +1,62 @@
 package com.mexotic.mexotic.model;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "reservas")
+@Table(name = "Reserva")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "idReserva", updatable = false, nullable = false)
+    private Long idReserva;
 
-    private String nombreCliente;
+    @Column(nullable = false)
+    private Integer cantidad;
 
-    private String email;
+    // FK temporal como Long (después lo cambias a @ManyToOne con Usuario)
+    @Column(name = "fk_idUsuario", nullable = false)
+    private Long fkIdUsuario;
 
-    private String telefono;
+    public Reserva() {} // Constructor vacío para JPA
 
-    private LocalDate fechaReserva;
-
-    // --- Getters y Setters ---
-    public Long getId() {
-        return id;
+    public Reserva(Integer cantidad, Long fkIdUsuario) {
+        this.cantidad = cantidad;
+        this.fkIdUsuario = fkIdUsuario;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters y Setters
+    public Long getIdReserva() {
+        return idReserva;
     }
 
-    public String getNombreCliente() {
-        return nombreCliente;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getFkIdUsuario() {
+        return fkIdUsuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFkIdUsuario(Long fkIdUsuario) {
+        this.fkIdUsuario = fkIdUsuario;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public LocalDate getFechaReserva() {
-        return fechaReserva;
-    }
-
-    public void setFechaReserva(LocalDate fechaReserva) {
-        this.fechaReserva = fechaReserva;
+    @Override
+    public String toString() {
+        return "Reserva{idReserva=" + idReserva + ", cantidad=" + cantidad + ", fkIdUsuario=" + fkIdUsuario + "}";
     }
 }
-

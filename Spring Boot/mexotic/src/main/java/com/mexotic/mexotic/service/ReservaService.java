@@ -3,60 +3,50 @@ package com.mexotic.mexotic.service;
 import com.mexotic.mexotic.model.Reserva;
 import com.mexotic.mexotic.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReservaService {
-<<<<<<< HEAD
+
+    private final ReservaRepository reservaRepository;
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    public ReservaService(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
+    }
 
-    public List<Reserva> getAllReservas() {
+    public List<Reserva> findAll() {
         return reservaRepository.findAll();
-=======
-    private final ArrayList<Reserva> lista = new ArrayList<Reserva>();
-    private final UsuarioService usuarioService;
-    
-    @Autowired
-    public ReservaService(UsuarioService usuarioService) {
-    	this.usuarioService = usuarioService;
-        // Obtener algunos usuarios de ejemplo para las reservas
-        List<Usuario> usuarios = usuarioService.getUsuario();
-        
-        // Añadir reservas de ejemplo con objetos Usuario reales
-        if (usuarios.size() >= 13) {
-            lista.add(new Reserva(2, usuarios.get(8)));  // Usuario Miguel
-            lista.add(new Reserva(4, usuarios.get(9)));  // Usuario Ana
-            lista.add(new Reserva(1, usuarios.get(10))); // Usuario Roberto
-            lista.add(new Reserva(3, usuarios.get(11))); // Usuario Sofía
-            lista.add(new Reserva(5, usuarios.get(12))); // Usuario Carlos
-        }
->>>>>>> 768aecf2e503da3177df726e72b2e7225c82144f
     }
 
-    public Optional<Reserva> getReservaById(Long id) {
-        return reservaRepository.findById(id);
+    public Reserva findByIdOrThrow(Long id) {
+        return reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
     }
 
-    public Reserva createReserva(Reserva reserva) {
+    public List<Reserva> findByUsuario(Long fkIdUsuario) {
+        return reservaRepository.findByFkIdUsuario(fkIdUsuario);
+    }
+
+    public Reserva create(Reserva reserva) {
         return reservaRepository.save(reserva);
     }
 
-    public Reserva updateReserva(Long id, Reserva reservaDetails) {
-        return reservaRepository.findById(id).map(reserva -> {
-            reserva.setNombreCliente(reservaDetails.getNombreCliente());
-            reserva.setEmail(reservaDetails.getEmail());
-            reserva.setTelefono(reservaDetails.getTelefono());
-            reserva.setFechaReserva(reservaDetails.getFechaReserva());
-            return reservaRepository.save(reserva);
-        }).orElseThrow(() -> new RuntimeException("Reserva no encontrada con id " + id));
+    public Reserva update(Long id, Reserva input) {
+        Reserva reserva = findByIdOrThrow(id);
+        if (input.getCantidad() != null) reserva.setCantidad(input.getCantidad());
+        if (input.getFkIdUsuario() != null) reserva.setFkIdUsuario(input.getFkIdUsuario());
+        return reservaRepository.save(reserva);
     }
 
-    public void deleteReserva(Long id) {
+    public void delete(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada");
+        }
         reservaRepository.deleteById(id);
     }
 }
