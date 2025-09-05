@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mexoticTours
+-- Schema mexotictours
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mexoticTours
+-- Schema mexotictours
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mexoticTours` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `mexoticTours` ;
+CREATE SCHEMA IF NOT EXISTS `mexotictours` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mexotictours` ;
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Usuario`
+-- Table `mexotictours`.`Usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Usuario` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Usuario` (
   `idUsuario` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
@@ -32,9 +32,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Tour`
+-- Table `mexotictours`.`Tour`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Tour` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Tour` (
   `idTour` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `estado` ENUM('CDMX', 'EDOMEX', 'Jalisco', 'Queretaro') NOT NULL,
@@ -52,9 +52,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`InformacionTour`
+-- Table `mexotictours`.`InformacionTour`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`InformacionTour` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`InformacionTour` (
   `idInformacionTour` INT NOT NULL AUTO_INCREMENT,
   `salida` VARCHAR(45) NOT NULL,
   `regresoAprox` VARCHAR(45) NOT NULL,
@@ -65,16 +65,16 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`InformacionTour` (
   INDEX `fk_InformacionTour_Tours1_idx` (`fk_idTour` ASC) VISIBLE,
   CONSTRAINT `fk_InformacionTour_Tour1`
     FOREIGN KEY (`fk_idTour`)
-    REFERENCES `mexoticTours`.`Tour` (`idTour`)
+    REFERENCES `mexotictours`.`Tour` (`idTour`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Reserva`
+-- Table `mexotictours`.`Reserva`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Reserva` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Reserva` (
   `idReserva` INT NOT NULL AUTO_INCREMENT,
   `cantidad` INT NOT NULL,
   `fk_idUsuario` INT NOT NULL,
@@ -82,16 +82,16 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`Reserva` (
   INDEX `fk_Reserva_Usuario1_idx` (`fk_idUsuario` ASC) VISIBLE,
   CONSTRAINT `fk_Reserva_Usuario1`
     FOREIGN KEY (`fk_idUsuario`)
-    REFERENCES `mexoticTours`.`Usuario` (`idUsuario`)
+    REFERENCES `mexotictours`.`Usuario` (`idUsuario`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Pago`
+-- Table `mexotictours`.`Pago`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Pago` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Pago` (
   `idPago` INT NOT NULL AUTO_INCREMENT,
   `monto` DOUBLE NOT NULL,
   `fechaPago` DATETIME NOT NULL,
@@ -101,16 +101,16 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`Pago` (
   INDEX `fk_Pago_Reserva1_idx` (`fk_idReserva` ASC) VISIBLE,
   CONSTRAINT `fk_Pago_Reserva1`
     FOREIGN KEY (`fk_idReserva`)
-    REFERENCES `mexoticTours`.`Reserva` (`idReserva`)
+    REFERENCES `mexotictours`.`Reserva` (`idReserva`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Experiencia`
+-- Table `mexotictours`.`Experiencia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Experiencia` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Experiencia` (
   `idExperiencia` INT NOT NULL AUTO_INCREMENT,
   `comentario` VARCHAR(500) NOT NULL,
   `calificacion` INT NOT NULL,
@@ -122,21 +122,21 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`Experiencia` (
   INDEX `fk_Experiencia_Usuario1_idx` (`fk_idUsuario` ASC) VISIBLE,
   CONSTRAINT `fk_Experiencia_Tour1`
     FOREIGN KEY (`fk_idTour`)
-    REFERENCES `mexoticTours`.`Tour` (`idTour`)
+    REFERENCES `mexotictours`.`Tour` (`idTour`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Experiencia_Usuario1`
     FOREIGN KEY (`fk_idUsuario`)
-    REFERENCES `mexoticTours`.`Usuario` (`idUsuario`)
+    REFERENCES `mexotictours`.`Usuario` (`idUsuario`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Usuario_has_Tour`
+-- Table `mexotictours`.`Usuario_has_Tour`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Usuario_has_Tour` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Usuario_has_Tour` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fk_idUsuario` INT NOT NULL,
   `fk_idTour` INT NOT NULL,
@@ -145,21 +145,21 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`Usuario_has_Tour` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_has_Tour_Usuario1`
     FOREIGN KEY (`fk_idUsuario`)
-    REFERENCES `mexoticTours`.`Usuario` (`idUsuario`)
+    REFERENCES `mexotictours`.`Usuario` (`idUsuario`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Usuario_has_Tour_Tour1`
     FOREIGN KEY (`fk_idTour`)
-    REFERENCES `mexoticTours`.`Tour` (`idTour`)
+    REFERENCES `mexotictours`.`Tour` (`idTour`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mexoticTours`.`Reserva_has_Tour`
+-- Table `mexotictours`.`Reserva_has_Tour`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mexoticTours`.`Reserva_has_Tour` (
+CREATE TABLE IF NOT EXISTS `mexotictours`.`Reserva_has_Tour` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cantidad` INT NOT NULL,
   `fk_idReserva` INT NOT NULL,
@@ -169,12 +169,12 @@ CREATE TABLE IF NOT EXISTS `mexoticTours`.`Reserva_has_Tour` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Reserva_has_Tour_Reserva1`
     FOREIGN KEY (`fk_idReserva`)
-    REFERENCES `mexoticTours`.`Reserva` (`idReserva`)
+    REFERENCES `mexotictours`.`Reserva` (`idReserva`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Reserva_has_Tour_Tour1`
     FOREIGN KEY (`fk_idTour`)
-    REFERENCES `mexoticTours`.`Tour` (`idTour`)
+    REFERENCES `mexotictours`.`Tour` (`idTour`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

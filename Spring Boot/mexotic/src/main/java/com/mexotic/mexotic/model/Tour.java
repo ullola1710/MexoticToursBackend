@@ -1,19 +1,59 @@
 package com.mexotic.mexotic.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Tour")
 public class Tour {
     
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idTour", unique=true, nullable=false)
     private Long idTour;
+	
+	@Column(name="nombre", nullable=false)
     private String nombre;
+	
+	@Column(name="estado", nullable=false)
+	@Enumerated(EnumType.STRING)
     private Estado estado;
+	
+	@Column(name="ciudad", nullable=false)
     private String ciudad;
+	
+	@Column(name="imgPortada", nullable=false)
     private String imgPortada;
+	
+	@Column(name="img", nullable=false)
     private String img;
+	
+	@Column(name="descripcion", nullable=false)
     private String descripcion;
+	
+	@Column(name="duracion", nullable=false)
     private String duracion;
+	
+	@Column(name="precio", nullable=false)
     private Double precio;
+	
+	@Column(name="precioExclusivo", nullable=false)
     private Double precioExclusivo;
+	
 	// Texto largo
-    private String incluye;
+	@Lob
+	@Column(name="incluye", nullable=false)
+	private String incluye;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="categoria", nullable=false)
     private Categoria categoria;
 
     // Para id Auto increment
@@ -33,13 +73,13 @@ public class Tour {
         this.precioExclusivo = precioExclusivo;
         this.incluye = incluye;
         this.categoria = categoria;
-        Tour.total++;
-        this.idTour = Tour.total;
+//        Tour.total++;
+//        this.idTour = Tour.total;
     } // Constructor
     
     public Tour() {
-        Tour.total++;
-        this.idTour = Tour.total;
+//        Tour.total++;
+//        this.idTour = Tour.total;
     } // Constructor vacío
 
 
