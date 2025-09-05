@@ -1,42 +1,34 @@
 package com.mexotic.mexotic.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mexotic.mexotic.model.Pago;
+import com.mexotic.mexotic.repository.PagoRepository;
 
 @Service
 public class PagoService {
-		private final ArrayList<Pago> lista = new ArrayList<Pago>();
+		private final PagoRepository repository;
 		@Autowired
-		public PagoService() {
+		public PagoService(PagoRepository repository) {
 			//Double monto, Date fechaPago, String metodoPago
-			lista.add(new Pago(350.5, new Date(), "Tarjeta de Crédito"));
-			lista.add(new Pago(255.50, new Date(), "Transferencia"));
-			lista.add(new Pago(2000.5, new Date(), "Comisionista"));
-			lista.add(new Pago(650.5, new Date(), "Tarjeta de Crédito"));
-			lista.add(new Pago(1800.5, new Date(), "Comisionista"));
-			lista.add(new Pago(395.50, new Date(), "Transferencia"));
-			lista.add(new Pago(950.75, new Date(), "Tarjeta de Crédito"));
-		}//Constructor 
+			this.repository=repository; 
+			}//Constructor 
 		
 		public List<Pago> getPagos(){
-			return lista; 
+			return repository.findAll(); 
 		}//GetPagos
 
 		public Pago getPago(Long idPago) {
-			Pago tmpPago = null;
-			for (Pago pag : lista) {
-				if(pag.getIdPago()==idPago) {
-					tmpPago=pag;
-					break;
-				}//if
-			}//foreach
-			return tmpPago;
+			return repository.findById(idPago).orElseThrow(
+					()-> new IllegalArgumentException("El producto con el id["+ idPago +"] no existe")
+					
+					);
+					
+				
 		}//getPago
 
 		
@@ -44,36 +36,25 @@ public class PagoService {
 		
 		public Pago deletePago(Long idPago) {
 			Pago tmpPago = null;
-			for (Pago pag : lista) {
-				if(pag.getIdPago()==idPago) {
-					tmpPago=pag;
-					lista.remove(pag);
-					break;
-				}//if
-			}//foreach
+			if(repository.existsById(idPago)) {
+				tmpPago=repository.findById(idPago).get();
+				repository.deleteById(idPago);
+			}	
 			return tmpPago;
 		}//Delete pago
 		
 	
 		public Pago addPago(Pago pago) {
-			lista.add(pago);
+			Optional<Pago> pag= repository.findByMonto(pago.getMonto());
+			if(pag.isEmpty()) {
+				repository.save(pago);
+			} else {
+				pago = null; 
+			}//if
 			return pago; 
 			}//addPagos
 
-		public Pago updatePago(Long idPago, Double monto, Date fechaPago, String metodoPago) { {
-				Pago tmpPago = null;
-				for (Pago pag : lista) {
-					if(pag.getIdPago()==idPago) {
-						if(monto!=null) pag.setMonto(monto);
-						if(fechaPago!=null) pag.setFechaPago(fechaPago);
-						if(metodoPago!=null) pag.setMetodoPago(metodoPago);
-						tmpPago=pag;
-						break;
-					}//if
-				}//foreach
-				return tmpPago;
-			}//PutPago
-		} //updatePago
+	
 
 		
 		
