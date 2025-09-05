@@ -2,53 +2,51 @@ package com.mexotic.mexotic.model;
 
 public class UsuarioHasTour {
 	private Long id;
-	private Long idUsuario;
-	private Long idTour;
+	private Long fk_idUsuario;
+	private Long fk_idTour;
 	
 	private static long total=0;
-    public UsuarioHasTour(Long idUsuario, Long idTour) {
-        this.idUsuario = idUsuario;
-        this.idTour = idTour;
+	
+    public UsuarioHasTour(Long fk_idUsuario, Long fk_idTour) {
+        this.fk_idUsuario = fk_idUsuario;
+        this.fk_idTour = fk_idTour;
         
         UsuarioHasTour.total++;
         this.id = UsuarioHasTour.total;
-    }
+    }//constructor
     
     public UsuarioHasTour() {
     	UsuarioHasTour.total++;
         this.id = UsuarioHasTour.total;
-    }
-    
-    
-    
+    }//constructor vacío     
+
 	public Long getId() {
 		return id;
-	}
+	}//getId
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+	}//setId
 
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
+	public Long getFk_idUsuario() {
+		return fk_idUsuario;
+	}//get Fk_idUsuario
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+	public void setFk_idUsuario(Long fk_idUsuario) {
+		this.fk_idUsuario = fk_idUsuario;
+	}//set_Fk_idUsuario
 
-	public Long getIdTour() {
-		return idTour;
-	}
+	public Long getFk_idTour() {
+		return fk_idTour;
+	}//getFk_idTour
 
-	public void setIdTour(Long idTour) {
-		this.idTour = idTour;
-	}
+	public void setFk_idTour(Long fk_idTour) {
+		this.fk_idTour = fk_idTour;
+	}//setFk_idTour
 
 	@Override
 	public String toString() {
-		return "UsuarioHasTour [idUsuario=" + idUsuario + ", idTour=" + idTour + "]";
-	}
+		return "UsuarioHasTour [id=" + id + ", fk_idUsuario=" + fk_idUsuario + ", fk_idTour=" + fk_idTour + "]";
+	}//to String    
     
-    
-}
+}//class Usuario
