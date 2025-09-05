@@ -6,37 +6,31 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.mexotic.mexotic.model.ReservaHasTours;
+import com.mexotic.mexotic.model.ReservaHasTour;
+import com.mexotic.mexotic.repository.ReservaHasTourRepository;
 
 @Service
-public class ReservaHasToursService {
-    private final ArrayList<ReservaHasTours> lista = new ArrayList<ReservaHasTours>();
-    private Long nextId = 1L;
-    
-    public List<ReservaHasTours> getAll() {
-        return lista;
-    }
-    
-    public Optional<ReservaHasTours> getById(Long id) {
-        return lista.stream()
-                .filter(r -> r.getId().equals(id))
-                .findFirst();
+public class ReservaHasTourService {
+	private final ReservaHasTourRepository reservahastourRepository;
+
+    public ReservaHasTourService(ReservaHasTourRepository reservahastourRepository) {
+        this.reservahastourRepository = reservahastourRepository;
     }
 
-    public ReservaHasTours saveReservaHasTour(ReservaHasTours reservaHasTours) {
-        // Asignar ID automáticamente si no tiene uno
-        if (reservaHasTours.getId() == null) {
-            reservaHasTours.setId(nextId++);
-        } else {
-            // Si ya tiene ID, eliminar el existente y agregar el nuevo (actualizar)
-            deleteReservaHasTour(reservaHasTours.getId());
-        }
-        lista.add(reservaHasTours);
-        return reservaHasTours;
+    public List<ReservaHasTour> getAll() {
+        return reservahastourRepository.findAll();
+    }
+
+    public Optional<ReservaHasTour> getById(Long id) {
+        return reservahastourRepository.findById(id);
+    }
+
+    public ReservaHasTour saveReservaHasTour(ReservaHasTour reservaHasTour) {
+        return reservahastourRepository.save(reservaHasTour);
     }
 
     public void deleteReservaHasTour(Long id) {
-        lista.removeIf(r -> r.getId().equals(id));
+    	reservahastourRepository.deleteById(id);
     }
 }
 
