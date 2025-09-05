@@ -1,5 +1,6 @@
 package com.mexotic.mexotic.controller;
 
+
 import java.util.List;
 
 import com.mexotic.mexotic.model.UsuarioHasTour;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,7 +34,7 @@ public class UsuarioHasTourController {
     public List<UsuarioHasTour> getAll() {
         return service.getAll();
     }
-
+    
     // Obtener un registro por ID
     @GetMapping(path = "/{id}")
     public UsuarioHasTour getById(@PathVariable Long id) {
@@ -42,17 +44,41 @@ public class UsuarioHasTourController {
 
     // Crear o actualizar un registro
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioHasTour createUsuarioHasTour(@RequestBody UsuarioHasTour usuarioHasTour) {
+    public UsuarioHasTour create(@RequestBody UsuarioHasTour usuarioHasTour) {
         return service.saveUsuarioHasTour(usuarioHasTour);
     }
 
-    // Eliminar un registro por ID
-    @DeleteMapping(path = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping(path="/{id}")
+    public UsuarioHasTour update(@PathVariable Long id, @RequestBody UsuarioHasTour usuarioHasTour) {
+        UsuarioHasTour existente = service.getById(id)
+                .orElseThrow(() -> new RuntimeException("Relación no encontrada"));
+
+        existente.setUsuario(usuarioHasTour.getUsuario());
+        existente.setTour(usuarioHasTour.getTour());
+
+        return service.saveUsuarioHasTour(existente);
+    }
+
+    @DeleteMapping(path="/{id}")
     public void deleteUsuarioHasTour(@PathVariable Long id) {
         service.deleteUsuarioHasTour(id);
     }
+
+//    @GetMapping(path ="/{usuarioId}/{tourId}")
+//    public UsuarioHasTour getById(@PathVariable Long usuarioId, @PathVariable Long tourId) {
+//        return service.getById(new UsuarioHasTourId(usuarioId, tourId))
+//                .orElseThrow(() -> new RuntimeException("Registro no encontrado"));
+//    }
+//
+//    @PostMapping
+//    public UsuarioHasTour create(@RequestBody UsuarioHasTour usuarioHasTour) {
+//        return service.save(usuarioHasTour.getUsuario(), usuarioHasTour.getTour());
+//    }
+//
+//    @DeleteMapping("/{usuarioId}/{tourId}")
+//    public void delete(@PathVariable Long usuarioId, @PathVariable Long tourId) {
+//        service.delete(new UsuarioHasTourId(usuarioId, tourId));
+//    }
 }
 
 
