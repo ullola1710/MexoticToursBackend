@@ -279,5 +279,3 @@ VALUES
 (650.0, '2025-08-15 09:00:00', 'Tarjeta Credito',4),
 (1800.0, '2025-08-20 18:20:00', 'Transferencia',5);
 SELECT * FROM Pago;
-
-
