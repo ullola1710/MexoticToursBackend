@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mexotic.mexotic.dto.ChangedataUser;
+import com.mexotic.mexotic.model.Tour;
 import com.mexotic.mexotic.model.Usuario;
+import com.mexotic.mexotic.repository.TourRepository;
 import com.mexotic.mexotic.repository.UsuariosRepository;
 
 
@@ -15,21 +18,25 @@ import com.mexotic.mexotic.repository.UsuariosRepository;
 @Service
 public class UsuarioService {
 	private final UsuariosRepository usuarioRepository;
+	private final TourRepository tourRepository;
 	
 	@Autowired
-	public UsuarioService(UsuariosRepository usuarioRepository) {
+	public UsuarioService(UsuariosRepository usuarioRepository, TourRepository tourRepository) {
 		this.usuarioRepository = usuarioRepository;
+		this.tourRepository = tourRepository;
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Usuario> getUsuarios(){
 		return usuarioRepository.findAll();
 	}//getUsuarios
 
+	@Transactional(readOnly = true)
 	public Usuario getUsuario(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElseThrow(()-> new IllegalArgumentException("El usuario con el id [" + idUsuario+ "] no existe"));
 	}//getUsuario
 		
-		
+	@Transactional
 	public Usuario deleteUsuario(Long idUsuario) {
 		Usuario user = null;
 		if(usuarioRepository.existsById(idUsuario)) {
@@ -38,17 +45,20 @@ public class UsuarioService {
 			}//if
 			return user;
 		}//deleteUsuario
-
+	
+	
+	@Transactional
 	public Usuario addUsuario(Usuario usuario) {
 		Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
 		if (user.isEmpty()) {
-			usuarioRepository.save(usuario);
+			 return usuarioRepository.save(usuario);
 			}else {
-				usuario = null;
+				System.out.println("El usuario ["+ usuario.getEmail()+ "] ya se encuentra registrado");
+				return null;
 			}//else
-			return usuario;
 		}//addUsuario
 
+	@Transactional
 	public Usuario updateUsuario(Long idUsuario, String telefono,String imgUsuario) {
 			Usuario user = null;
 			if(usuarioRepository.existsById(idUsuario)) {
@@ -86,6 +96,16 @@ public class UsuarioService {
 		}//actualizacion de imgUsuario
 		
 		return usuarioRepository.save(user);
-	}
+	} //updateUser
+	
+	
+	public Usuario asignarTour(Long idUsuario, Long idTour){
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Tour tour = tourRepository.findById(idTour).orElseThrow(() -> new RuntimeException("Tour no encontrado"));
+
+        usuario.getTours().add(tour);
+        return usuarioRepository.save(usuario);
+    }//asigna Tour al usuario
 }//class UsuarioService
 

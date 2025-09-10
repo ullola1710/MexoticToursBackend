@@ -1,6 +1,7 @@
 package com.mexotic.mexotic.model;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,12 +23,15 @@ public class ReservaHasTour {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable=false)
+	private int cantidad;
+	
 	@ManyToOne
-	@JoinColumn(name = "reserva_id", nullable = false)
+	@JoinColumn(name = "fk_idReserva", nullable = false)
     private Reserva reserva;
 	
 	@ManyToOne
-    @JoinColumn(name = "tour_id", nullable = false)
+    @JoinColumn(name = "fk_idTour", nullable = false)
     private Tour tour;
 
 	
@@ -36,6 +40,12 @@ public class ReservaHasTour {
         this.tour = tour;
 	}
 	
+	public ReservaHasTour(int cantidad) {
+		super();
+		this.cantidad = cantidad;
+	}
+	
+	public ReservaHasTour() {}
 
 	public Long getId() {
 		return id;
@@ -44,6 +54,16 @@ public class ReservaHasTour {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
 
 	public Reserva getReserva() {
 		return reserva;
@@ -65,7 +85,8 @@ public class ReservaHasTour {
 	public String toString() {
 		return "ReservaHasTours [id=" + id + ", reserva=" + reserva + ", tour=" + tour + "]";
 	}
-	
+
+
 }
 
 //private Long id;

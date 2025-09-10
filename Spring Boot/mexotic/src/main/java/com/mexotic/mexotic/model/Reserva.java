@@ -3,11 +3,15 @@ package com.mexotic.mexotic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,13 +27,17 @@ public class Reserva {
     @Column(nullable = false)
     private Integer cantidad;
 
-    // FK temporal como Long (después lo cambias a @ManyToOne con Usuario)
-    @Column(name = "fk_idUsuario", nullable = false)
-    private Long fkIdUsuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
+    private Usuario fkIdUsuario;
+   
+    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
+    private Pago pago;
 
     public Reserva() {} // Constructor vacío para JPA
 
-    public Reserva(Integer cantidad, Long fkIdUsuario) {
+    public Reserva(Integer cantidad, Usuario fkIdUsuario) {
         this.cantidad = cantidad;
         this.fkIdUsuario = fkIdUsuario;
     }
@@ -47,12 +55,19 @@ public class Reserva {
         this.cantidad = cantidad;
     }
 
-    public Long getFkIdUsuario() {
+    public Usuario getFkIdUsuario() {
         return fkIdUsuario;
     }
 
-    public void setFkIdUsuario(Long fkIdUsuario) {
+    public void setFkIdUsuario(Usuario fkIdUsuario) {
         this.fkIdUsuario = fkIdUsuario;
+    }
+    public Pago getPago() {
+        return pago;
+    }
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
     }
 
     @Override

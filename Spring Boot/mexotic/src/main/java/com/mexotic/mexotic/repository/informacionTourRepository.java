@@ -5,9 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mexotic.mexotic.model.informacionTour;
+import com.mexotic.mexotic.model.Tour;
+import com.mexotic.mexotic.model.InformacionTour;
 
 @Repository
-public interface informacionTourRepository extends JpaRepository<informacionTour, Long>{
-	Optional<informacionTour>findById(Long idInformacionTour);
+public interface informacionTourRepository extends JpaRepository<InformacionTour, Long>{
+	Optional<InformacionTour>findByTour(Tour idTour);
 }//Interface Informacion Tour Repository

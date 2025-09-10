@@ -2,12 +2,15 @@ package com.mexotic.mexotic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.mexotic.mexotic.model.informacionTour;
+import com.mexotic.mexotic.model.InformacionTour;
 import com.mexotic.mexotic.repository.informacionTourRepository;
 
 import java.util.List;
 import java.util.Optional;
+
+
 
 
 @Service
@@ -20,31 +23,35 @@ public class informacionTourService {
 	}//Constructor
 	
 	//Getall
-	public List<informacionTour>getInformacionTours(){
+	@Transactional(readOnly = true)
+	public List<InformacionTour>getInformacionTours(){
 		return infoTourRepository.findAll();
 	}//InformacionTourFindsAll
 	
 	//Get
-	public informacionTour getInfoTour(Long idInformacionTour) {
+	@Transactional(readOnly = true)
+	public InformacionTour getInfoTour(Long idInformacionTour) {
 		return infoTourRepository.findById(idInformacionTour).orElseThrow(
 				()-> new IllegalArgumentException("El Id ["+idInformacionTour+"] no existe en Información Tours"));
 			}//metodo findsById para obtener una infoTour por id
 	
-	public informacionTour addInformacionTour(informacionTour infoTour) {
-		Optional<informacionTour> iTour = 
+	@Transactional
+	public InformacionTour addInformacionTour(InformacionTour infoTour) {
+		Optional<InformacionTour> iTour = 
 				infoTourRepository.findById(infoTour.getIdInformacionTour());
 		if(iTour.isEmpty()) {
-			infoTourRepository.save(infoTour);
+			return infoTourRepository.save(infoTour);
 		}else {
-			infoTour=null;
-		}return infoTour;
+			return null;
+		}//if-else
 	}//Agrega nuevos informacionTour
 	
 	//Put
-	public informacionTour updateInfoTour(String salida,String regresoAprox, String frecuencia, String grupos,Long idInformacionTour) {
-		informacionTour tmp = null;
+	@Transactional
+	public InformacionTour updateInfoTour(String salida,String regresoAprox, String frecuencia, String grupos,Long idInformacionTour) {
+		InformacionTour tmp = null;
 		if(infoTourRepository.existsById(idInformacionTour)) {
-			informacionTour iTour = infoTourRepository.findById(idInformacionTour).get();
+			InformacionTour iTour = infoTourRepository.findById(idInformacionTour).get();
 			if(salida!=null) iTour.setSalida(salida);
 			if(regresoAprox!=null)iTour.setRegresoAprox(regresoAprox);
 			if(frecuencia!=null)iTour.setFrecuencia(frecuencia);
@@ -55,8 +62,9 @@ public class informacionTourService {
 		return tmp;
 	}//UpdateInformacionTours
 	
-	public informacionTour deleteInfoTour(Long idInformacionTour) {
-		informacionTour tmp = null;
+	@Transactional
+	public InformacionTour deleteInfoTour(Long idInformacionTour) {
+		InformacionTour tmp = null;
 		if(infoTourRepository.existsById(idInformacionTour)) {
 			tmp=infoTourRepository.findById(idInformacionTour).get();
 			infoTourRepository.deleteById(idInformacionTour);

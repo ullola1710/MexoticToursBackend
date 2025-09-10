@@ -6,41 +6,42 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 
 @Entity
-@Table(name="pago")
+@Table(name="Pago")
 public class Pago {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
-		private Long idPago;
+	@Column(name="idPago", unique=true, nullable=false)
+	private Long idPago;
 	@Column(nullable=false)
-		private Double monto; 
+	private Double monto; 
 	@Column(nullable=false)
-		private Date fechaPago; 
+	private Date fechaPago; 
 	@Column(nullable=false)
-		private String metodoPago;
-		
-		private static long total=0;
+	private String metodoPago;
+	
+	@OneToOne
+    @JoinColumn(name = "fk_idReserva", referencedColumnName = "idReserva")
+    private Reserva reserva;
+	 
+	
 		//Constructor
-		public Pago(Double monto, Date fechaPago, String metodoPago) {
+		public Pago(Double monto, Date fechaPago, String metodoPago , Reserva reserva) {
 			super();
 			this.monto = monto;
 			this.fechaPago = fechaPago;
 			this.metodoPago = metodoPago;
-			//Pago.total++;
-			//this.idPago=Pago.total; 	
+			this.reserva = reserva;
+
 		}//Constructor 
 		
-		
-		public Pago() {
-			
-		}//constructor vacio para crear nuevos pagos desde un post 
-
-
+		public Pago() { }//constructor vacio para crear nuevos pagos desde un post 
 
 
 		//Getters And Setters 
@@ -65,6 +66,16 @@ public class Pago {
 		public void setMetodoPago(String metodoPago) {
 			this.metodoPago = metodoPago;
 		}//GettersAndSetters
+		
+		
+		public Reserva getReserva() {
+			return reserva;
+		}
+
+
+		public void setReserva(Reserva reserva) {
+			this.reserva = reserva;
+		}
 		
 		
 		//toString
