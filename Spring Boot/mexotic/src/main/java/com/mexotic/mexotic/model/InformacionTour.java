@@ -1,44 +1,57 @@
 package com.mexotic.mexotic.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Información Tour")
-public class informacionTour {
-	@Column(name="Salida", nullable=false)
+@Table(name="InformacionTour")
+public class InformacionTour {
+//	@Column(name="Salida", nullable=false)
+	@Column(unique=true, nullable=false)
 	private String salida;
-	@Column(name=" Regreso Aproximado", nullable=false)
+//	@Column(name=" RegresoAproximado", nullable=false)
+	@Column(unique=true, nullable=false)
 	private String regresoAprox;
-	@Column(name="Frecuencia", nullable=false)
+//	@Column(name="Frecuencia", nullable=false)
+	@Column(unique=true, nullable=false)
 	private String frecuencia;
-	@Column(name="Grupos", nullable=false)
+//	@Column(name="Grupos", nullable=false)
+	@Column(unique=true, nullable=false)
 	private String grupos;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID Información Tour", unique=true, nullable=false)
+//	@Column(name="IDInformaciónTour", unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private Long idInformacionTour;
 	
+	 @OneToOne
+	 @JoinColumn(name = "fk_idTour", referencedColumnName = "idTour", nullable = false, unique = true)
+	 private Tour tour;
+
 	
 	//constructor
-	public informacionTour(String salida, String regresoAprox, 
-			String frecuencia, String grupos) {
-		super();
+	public InformacionTour(String salida, String regresoAprox, 
+			String frecuencia, String grupos, Tour tour) {
 		this.salida = salida;
 		this.regresoAprox = regresoAprox;
 		this.frecuencia = frecuencia;
 		this.grupos = grupos;
+		this.tour = tour;
 
 		}//Contructor InformacionTour
 	
 	//Contructor vacio para nuevo informacionTour
-	public informacionTour() {
-		
-	}//Contructor InformacionTour
+	public InformacionTour() { }//Contructor InformacionTour
 
 	//getters and setters
 	public String getSalida() {
@@ -82,9 +95,19 @@ public class informacionTour {
 		return idInformacionTour;
 	}
 
-	
-//to String
+	public void setIdInformacionTour(Long idInformacionTour) {
+		this.idInformacionTour = idInformacionTour;
+	}
 
+	public Tour getTour() {
+		return tour;
+	}
+	
+	public void setTour(Tour tour) {
+		this.tour = tour;
+	}
+
+	//to String
 	@Override
 	public String toString() {
 		return "informacionTour [salida=" + salida + ", regresoAprox=" + regresoAprox + ", frecuencia=" + frecuencia

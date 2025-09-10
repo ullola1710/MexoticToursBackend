@@ -20,32 +20,32 @@ import com.mexotic.mexotic.service.PagoService;
 
 @RequestMapping (path="/mexotic/pago/") //http://localhost:8080/mexotic/pago/
 public class PagoController {
-	private final PagoService service; 
+	private final PagoService pagoService; 
 	@Autowired
-	public PagoController(PagoService service) {
-		this.service=service; 
+	public PagoController(PagoService pagoService) {
+		this.pagoService = pagoService; 
 	}//Constructor
 
 	@GetMapping
 	public List<Pago> getPago() {
-		return service.getPagos();
+		return pagoService.getPagos();
 	}//Listgetpago
 	
 
 	@GetMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
 	public Pago getPagos(@PathVariable ("pagoId") Long idPago) {
-		return service.getPago(idPago);
+		return pagoService.getPago(idPago);
 	}//GetPagos
 	
 	@DeleteMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
 	public Pago deletePago(@PathVariable ("pagoId") Long idPago) {
 
-		return service.deletePago(idPago);
+		return pagoService.deletePago(idPago);
 	}//GetPagos
 	
 	@PostMapping
 	public Pago addPago(@RequestBody Pago pago) {
-		return service.addPago(pago);
+		return pagoService.addPago(pago);
 	}//addPago
 	
 

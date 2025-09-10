@@ -1,6 +1,6 @@
--- DROP DATABASE IF EXISTS `mexotictours`;
+-- DROP DATABASE IF EXISTS `mexoticTours`;
 
-USE mexotictours;
+USE mexoticTours;
 SHOW TABLES ;
 
 SELECT * FROM Usuario;
@@ -23,8 +23,8 @@ VALUES
 SELECT * FROM Usuario;
 -- tours
 SELECT * FROM Tour;
-INSERT INTO Tour (`nombre`, `estado`, `ciudad`, `imgPortada`, `img`, `descripcion`, `duracion`, `precio`, `precioExclusivo`, `incluye`, `categoria`)
-VALUES (
+INSERT INTO Tour 
+VALUES (null,
 		'Palacio Postal (La Quinta Casa de correo)', 
         'CDMX',
 		'Ciudad de México', 
@@ -37,7 +37,7 @@ VALUES (
         '["Recorrerás los pasillos del edificion con un guía que explica su historia, arquitectura y crecretos", "Exposiciones permanentes y temporales: Relacionada con el correo de México", "Acceso a la biblioteca: Un rincón poco conocido dentro del palacio", "Historia del edificio: Construido en 1907 por el ingeniero Gonzalo Garita y el arquitecto Adamo Boari", "Museo Postal: Desde 1920, el edificio alberga un museo con piezas historicas del servicio postal mexicano", "Kit de bienvenida (agua embotellada y un aperitivo)"]',
         'Cultura'),
         --
-        (
+        (null, 
         'Tour de Leyendas',
         'Queretaro',
         'Queretaro', 
@@ -50,7 +50,7 @@ VALUES (
         '["Las más aterradoras historias que han sucedido en Querétaro te serán relatadas.","El tour comenzara aproximadamente a las 8:45.","Kit de bienvenida.","Tansporte de ida y regreso del punto medio."]',
         'Cultura'),
         --
-        (
+        (null,
         'Tour Tequila',
         'Jalisco',
         'Tequila/Guadalajara',
@@ -63,7 +63,7 @@ VALUES (
         '["Viaje redondo","Box Lunch","Seguro de Viajero a bordo de la unidad","Coordinador de viaje","Conociendo la elaboración y proceso de esta gran bebida. cava y capilla subterránea, campos de agave","Degustación de Tequilas","Visita Pueblo Mágico de Tequila","Visita a Cantaritos de Amatitlan","Comida tradicional jalisciense","Fotógrafo durante el viaje"]',
         'Cultura'),
         --
-        (
+        (null,
         'Tour Cervecero',
         'CDMX',
         'Ciudad de México',
@@ -76,7 +76,7 @@ VALUES (
         '["Transportación en Turibus","Guía turístico","Visita 3 cervecerías en la CDMX","Seguro viajero","Punto de partida Reforma 222"]',
         'Cultura'),
         --
-        (
+        (null,
         'Ruta del Vino',
         'Queretaro',
         'Queretaro',
@@ -89,7 +89,7 @@ VALUES (
         '["Transporte redondo desde nuestro punto de partida que sera el Museo Regional de Querétaro","Tour guiado en Finca Sala Vivé","En tu visita estará guiada por el viñedo a bordo de un tranvía","Recorrido por la cava que se encuentra a 25 metros de profundidad con la explicación de la elaboracion de los vinos espumosos y tranquilos","Al finalizar se realizará una cata de tres vinos en un salón con puerta cerrada acompañados de tapas","Después visitaremos el Viñedo Azteca","Incluirá recorrido por la bodega","Explicación de como se elaboran los vinos artesanales","Copa grabada","Tres degustaciones con cata guiada de nuestros vinos tintos premiados en Baja Califonrnia y Bruselas","Maridaje con quesos, carnes frías, y frutas","Seguro de viajero"]',
         'Gastronomia'),
         --
-        (
+        (null,
         'Mercado San Juan de Dios',
         'Jalisco',
         'Guadalajara',
@@ -102,7 +102,7 @@ VALUES (
         '["Transporte redondo desde punto de encuentro (Reforma/Centro Histórico)","Guía gastronómico certificado","Degustación en 5 paradas (antojitos, comida corrida, postres, bebidas típicas)","Entrada y explicación cultural en mercado tradicional","Agua embotellada y kit de bienvenida","Seguro de viajero"]',
         'Gastronomia'),
         --
-        (
+        (null,
         'Café y Música en Vivo',
         'CDMX',
         'Ciudad de México',
@@ -115,7 +115,7 @@ VALUES (
         '["Entrada a exposición inmersiva","Degustación guiada en cafetería Musak de especialidad","Cena ligera en restaurante con música en vivo","Transporte todo el día","Guía cultural","Seguro de viajero"]',
         'Gastronomia'),
         --
-        (
+        (null,
         'Viaje a Peña de Bernal',
         'Queretaro',
         'Bernal / Tequisquiapan',
@@ -128,7 +128,7 @@ VALUES (
         '["Transporte redondo desde nuestro punto de encuentro","Tour guiado en el viñedo","Degustación de una copa de vino","Una copa de cristal de recuerdo","Entrada al viñedo","Guía cultural","Seguro de viajero"]',
         'Cultura'),
         --
-        (
+        (null,
         'Noche de Antros: Zona Rosa & Polanco',
         'CDMX',
         'Ciudad de México',
@@ -141,7 +141,7 @@ VALUES (
         '["Transporte seguro redondo","Cover en 3 bares/antros","1 bebida de cortesía por lugar (cóctel o cerveza doméstica)","Host/anfitrión durante todo el recorrido","Fotografías digitales del evento"]',
         'Fiesta'),
         --
-        (
+        (null,
         'Visita al Museo Nacional de Arte (MUNAL)',
         'CDMX',
         'Ciudad de México',

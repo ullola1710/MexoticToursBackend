@@ -1,12 +1,12 @@
-package com.mexotic.mexotic.repository;
-
-import com.mexotic.mexotic.model.UsuarioHasTour;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface UsuarioHasTourRepository extends JpaRepository<UsuarioHasTour, Long> {
-}
+//package com.mexotic.mexotic.repository;
+//
+//import com.mexotic.mexotic.model.UsuarioHasTour;
+//import org.springframework.data.jpa.repository.JpaRepository;
+//import org.springframework.stereotype.Repository;
+//
+//@Repository
+//public interface UsuarioHasTourRepository extends JpaRepository<UsuarioHasTour, Long> {
+//}
 //package com.mexotic.mexotic.repository;
 //
 ////import java.util.Optional;

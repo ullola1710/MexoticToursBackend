@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mexotic.mexotic.model.informacionTour;
+import com.mexotic.mexotic.model.InformacionTour;
 import com.mexotic.mexotic.service.informacionTourService;
 
 
 
 @RestController
-@RequestMapping(path="/tours/DetalleDeTour/")
+@RequestMapping(path="/mexotic/tours/{tourId}/DetalleDeTour/")
 public class informacionTourController {
 	
 	@Autowired
@@ -28,27 +28,27 @@ public class informacionTourController {
 	}//contructor
 	
 	@RequestMapping
-	public List<informacionTour>getInformacionTour(){
+	public List<InformacionTour>getInformacionTour(){
 		return service.getInformacionTours();
 	}
 	
 	@RequestMapping (path="{idInformacionTour}")
-	public informacionTour getInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
+	public InformacionTour getInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
 		return service.getInfoTour(idInformacionTour);
 	}//busqueda por id
 	
 	@DeleteMapping (path="{idInformacionTour}")
-	public informacionTour deleteInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
+	public InformacionTour deleteInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
 		return service.deleteInfoTour(idInformacionTour);
 	}//eliminar 
 	
 	@PostMapping
-	public informacionTour addInformacionTour(@RequestBody informacionTour infoTour) {
+	public InformacionTour addInformacionTour(@RequestBody InformacionTour infoTour) {
 		return service.addInformacionTour(infoTour);
 	}//publicar
 	
 	@PutMapping (path="{idInformacionTour}")
-	public informacionTour updateInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour, 
+	public InformacionTour updateInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour, 
 			@RequestParam(required=false) String salida,
 			@RequestParam(required=false) String regresoAprox,
 			@RequestParam(required=false) String frecuencia,

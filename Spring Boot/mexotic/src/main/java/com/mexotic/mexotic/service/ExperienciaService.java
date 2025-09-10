@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.mexotic.mexotic.model.Experiencia;
+import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.repository.ExperienciasRepository;
 
 @Service
@@ -16,11 +19,12 @@ public class ExperienciaService {
 		this.repository = repository;
 	}//constructor
 	
-	
+	@Transactional(readOnly = true)
 	public List<Experiencia> getExperiences() {
 		return repository.findAll();
 	}//getExperiences
 	
+	@Transactional(readOnly = true)
 	public Experiencia getExperience(Long idExperiencia) {
 		return repository.findById(idExperiencia).orElseThrow(
 				()->new IllegalArgumentException("La experiencia con el id [" + idExperiencia
@@ -28,7 +32,7 @@ public class ExperienciaService {
 				);
 	}//getExperience
 	
-
+	@Transactional
 	public Experiencia deleteExperience(Long idExperiencia) {
 		Experiencia exp = null;
 		if (repository.existsById(idExperiencia)) {
@@ -38,6 +42,7 @@ public class ExperienciaService {
 		return exp;
 	}//deleteExperience
 
+	@Transactional
 	public Experiencia addExperience(Experiencia experiencia) {
 		Optional<Experiencia> exp =
 				repository.findByComentario(experiencia.getComentario());
@@ -49,17 +54,17 @@ public class ExperienciaService {
 		return experiencia;
 	}//addExperience
 	
+	@Transactional
 	public Experiencia updateExperience(Long idExperiencia, String comentario,
-			Integer calificacion) {
+			Integer calificacion, Usuario userid) {
 		Experiencia exp = null;
 			if (repository.existsById(idExperiencia)) {
 				exp = repository.findById(idExperiencia).get();
 				if(comentario!=null) exp.setComentario(comentario);
 				if(calificacion!=null)exp.setCalificacion(calificacion);
-					return repository.save(exp);
-				} else {
-					exp=null;
-				}
+				if(userid!=null)exp.setUsuario(userid);
+				repository.save(exp);
+				}//if
 			return exp;
 	}//updateExperience
 
