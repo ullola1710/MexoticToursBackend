@@ -1,19 +1,71 @@
 package com.mexotic.mexotic.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+//POJO -Plain Old Java Object
+
+@Entity
+@Table(name = "Usuario")
 public class Usuario {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idUsuario", unique=true, nullable=false)
 	private Long idUsuario;
+	@Column(nullable=false)
 	private String nombre;
+	@Column(nullable=false)
 	private String apellido;
+	@Column(nullable=false)
 	private String email;
+	@Column(nullable=false)
 	private String telefono;
+	@Column(nullable=false)
 	private String contrasena;
+	@Column(name = "admin",nullable=false)
 	private boolean admin;
+	@Column(nullable=false)
 	private String imgUsuario;
 	
+//	@OneToMany(cascade=CascadeType.ALL)
+//	@JoinColumn(name="idReserva", referencedColumnName = "idUsuario") 
+//	List<Reserva> reservas = new ArrayList<Reserva>();
+	
+	@OneToMany(mappedBy = "fkIdUsuario", cascade = CascadeType.ALL)
+	private List<Reserva> reservas = new ArrayList<>();
 
-	private static long idTotal = 0;
+	
+//	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//	@JoinColumn(name="idExperiencia", referencedColumnName = "idUsuario") 
+//	List<Experiencia> experiencias = new ArrayList<Experiencia>();
+	
+	@OneToMany(mappedBy = "usuario", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Experiencia> experiencias = new ArrayList<>();
+
+	
+//	@OneToMany(cascade=CascadeType.ALL)
+//	@JoinColumn(name="fk_idUsuario", referencedColumnName = "idUsuario") 
+//	List<UsuarioHasTour> usuarioHasTour  = new ArrayList<UsuarioHasTour>();
+
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "Usuario_has_Tour",joinColumns = 
+	@JoinColumn(name = "fk_idUsuario"),inverseJoinColumns = @JoinColumn(name = "fk_idTour"))
+	private Set<Tour> tours = new HashSet<Tour>();
+
 	public Usuario(String nombre, String apellido, String email, String telefono, String contrasena, boolean admin,
 			String imgUsuario) {
 		super();
@@ -24,15 +76,15 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.admin = admin;
 		this.imgUsuario = imgUsuario;
-		Usuario.idTotal++;
-		this.idUsuario = Usuario.idTotal;
+		this.experiencias= new ArrayList<>();
 	}///constructor
 	
+	public void addExperiencia(Experiencia experiencia) {
+		this.experiencias.add(experiencia);
+		experiencia.setUsuario(this);
+	}
 	
-	public Usuario () {
-		Usuario.idTotal++;
-		this.idUsuario = Usuario.idTotal;
-	} //constructor 
+	public Usuario () {	} //constructor vacio
 	
 	//getters and setters
 	public String getNombre() {
@@ -94,6 +146,23 @@ public class Usuario {
 	public Long getIdUsuario() {
 		return idUsuario;
 	}//getIdUsuario
+	
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public List<Experiencia> getExperiencias() {
+		return experiencias;
+	}
+
+
+	public Set<Tour> getTours() {
+		return tours;
+	}
 
 
 	@Override
@@ -102,6 +171,8 @@ public class Usuario {
 				+ ", telefono=" + telefono + ", contrasena=" + contrasena + ", admin=" + admin + ", imgUsuario="
 				+ imgUsuario + "]";
 	}//toString
+
+	
 	
 }// class Usuario
 

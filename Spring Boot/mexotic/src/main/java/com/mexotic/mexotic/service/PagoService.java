@@ -1,81 +1,60 @@
 package com.mexotic.mexotic.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mexotic.mexotic.model.Pago;
+import com.mexotic.mexotic.repository.PagoRepository;
 
 @Service
 public class PagoService {
-		private final ArrayList<Pago> lista = new ArrayList<Pago>();
-		@Autowired
-		public PagoService() {
-			//Double monto, Date fechaPago, String metodoPago
-			lista.add(new Pago(350.5, new Date(), "Tarjeta de Crédito"));
-			lista.add(new Pago(255.50, new Date(), "Transferencia"));
-			lista.add(new Pago(2000.5, new Date(), "Comisionista"));
-			lista.add(new Pago(650.5, new Date(), "Tarjeta de Crédito"));
-			lista.add(new Pago(1800.5, new Date(), "Comisionista"));
-			lista.add(new Pago(395.50, new Date(), "Transferencia"));
-			lista.add(new Pago(950.75, new Date(), "Tarjeta de Crédito"));
-		}//Constructor 
-		
-		public List<Pago> getPagos(){
-			return lista; 
-		}//GetPagos
+    private final PagoRepository pagoRepository;
 
-		public Pago getPago(Long idPago) {
-			Pago tmpPago = null;
-			for (Pago pag : lista) {
-				if(pag.getIdPago()==idPago) {
-					tmpPago=pag;
-					break;
-				}//if
-			}//foreach
-			return tmpPago;
-		}//getPago
+    @Autowired
+    public PagoService(PagoRepository pagoRepository) {
+        this.pagoRepository = pagoRepository;
+    }
 
-		
-		
-		
-		public Pago deletePago(Long idPago) {
-			Pago tmpPago = null;
-			for (Pago pag : lista) {
-				if(pag.getIdPago()==idPago) {
-					tmpPago=pag;
-					lista.remove(pag);
-					break;
-				}//if
-			}//foreach
-			return tmpPago;
-		}//Delete pago
-		
-	
-		public Pago addPago(Pago pago) {
-			lista.add(pago);
-			return pago; 
-			}//addPagos
+    // Obtener todos los pagos
+    @Transactional(readOnly = true)
+    public List<Pago> getPagos() {
+        return pagoRepository.findAll();
+    }
 
-		public Pago updatePago(Long idPago, Double monto, Date fechaPago, String metodoPago) { {
-				Pago tmpPago = null;
-				for (Pago pag : lista) {
-					if(pag.getIdPago()==idPago) {
-						if(monto!=null) pag.setMonto(monto);
-						if(fechaPago!=null) pag.setFechaPago(fechaPago);
-						if(metodoPago!=null) pag.setMetodoPago(metodoPago);
-						tmpPago=pag;
-						break;
-					}//if
-				}//foreach
-				return tmpPago;
-			}//PutPago
-		} //updatePago
+    // Obtener un pago por ID
+    @Transactional(readOnly = true)
+    public Pago getPago(Long idPago) {
+        return pagoRepository.findById(idPago)
+                .orElseThrow(() -> new IllegalArgumentException("El pago con el id[" + idPago + "] no existe"));
+    }
 
-		
-		
-		
-}//class PagoService 
+    // Eliminar un pago por ID
+    @Transactional
+    public Pago deletePago(Long idPago) {
+        Pago tmpPago = null;
+        if (pagoRepository.existsById(idPago)) {
+            tmpPago = pagoRepository.findById(idPago).get();
+            pagoRepository.deleteById(idPago);
+        }
+        return tmpPago;
+    }
+
+    // Agregar un pago
+    @Transactional
+    public Pago addPago(Pago pago) {
+        if (pago.getReserva() == null || pago.getReserva().getIdReserva() == null) {
+            throw new IllegalArgumentException("El pago debe estar asociado a una reserva válida.");
+        }
+
+        Optional<Pago> existingPago = pagoRepository.findByReserva(pago.getReserva());
+        if (existingPago.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un pago para esta reserva.");
+        }
+
+        return pagoRepository.save(pago);
+    }
+}

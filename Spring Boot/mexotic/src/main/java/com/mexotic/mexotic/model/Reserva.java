@@ -1,80 +1,77 @@
 package com.mexotic.mexotic.model;
 
-public class Reserva {    
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Reserva")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Reserva {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idReserva", updatable = false, nullable = false)
     private Long idReserva;
+
+    @Column(nullable = false)
     private Integer cantidad;
-    private Usuario usuario;
+
     
-    private static long total = 0;
-    
-    public Reserva(Integer cantidad, Usuario usuario) {
+    @ManyToOne
+    @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
+    private Usuario fkIdUsuario;
+   
+    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
+    private Pago pago;
+
+    public Reserva() {} // Constructor vacío para JPA
+
+    public Reserva(Integer cantidad, Usuario fkIdUsuario) {
         this.cantidad = cantidad;
-        this.usuario = usuario;
-        Reserva.total++;
-        this.idReserva = Reserva.total;
+        this.fkIdUsuario = fkIdUsuario;
     }
-    
-    public Reserva() {
-        Reserva.total++;
-        this.idReserva = Reserva.total;
+
+    // Getters y Setters
+    public Long getIdReserva() {
+        return idReserva;
     }
-    
-    // Getters & Setters
-    public Long getIdReserva() { 
-        return idReserva; 
+
+    public Integer getCantidad() {
+        return cantidad;
     }
-    
-    public Integer getCantidad() { 
-        return cantidad; 
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
-    
-    public void setCantidad(Integer cantidad) { 
-        this.cantidad = cantidad; 
+
+    public Usuario getFkIdUsuario() {
+        return fkIdUsuario;
     }
-    
-    public Usuario getUsuario() { 
-        return usuario; 
+
+    public void setFkIdUsuario(Usuario fkIdUsuario) {
+        this.fkIdUsuario = fkIdUsuario;
     }
-    
-    public void setUsuario(Usuario usuario) { 
-        this.usuario = usuario; 
+    public Pago getPago() {
+        return pago;
     }
-    
-    // Método toString para representación en String
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
+    }
+
     @Override
     public String toString() {
-        return "Reserva [idReserva=" + idReserva + ", cantidad=" + cantidad + ", usuario=" + usuario + "]";
+        return "Reserva{idReserva=" + idReserva + ", cantidad=" + cantidad + ", fkIdUsuario=" + fkIdUsuario + "}";
     }
 }
-
-//package com.mexotic.mexotic.reserva.model;
-//
-//import jakarta.persistence.*;
-//
-//@Entity
-//@Table(name = "Reserva")
-//public class Reserva {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer idReserva;
-//
-//    private Integer cantidad;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "fk_idPago", nullable = false)
-//    private Pago pago;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "fk_idUsuario", nullable = false)
-//    private Usuario usuario;
-//
-//    // Getters & Setters
-//    public Integer getIdReserva() { return idReserva; }
-//    public void setIdReserva(Integer idReserva) { this.idReserva = idReserva; }
-//    public Integer getCantidad() { return cantidad; }
-//    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
-//    public Pago getPago() { return pago; }
-//    public void setPago(Pago pago) { this.pago = pago; }
-//    public Usuario getUsuario() { return usuario; }
-//    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
-//}
