@@ -1,38 +1,38 @@
-package com.mexotic.mexotic.service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import com.mexotic.mexotic.model.UsuarioHasTour;
-import com.mexotic.mexotic.repository.UsuarioHasTourRepository;
-
-@Service
-public class UsuarioHasTourService {
-    private final UsuarioHasTourRepository usuarioshastourRepository;
-
-    public UsuarioHasTourService(UsuarioHasTourRepository usuarioshastourRepository) {
-        this.usuarioshastourRepository = usuarioshastourRepository;
-    }
-
-    // Obtener todos los registros
-    public List<UsuarioHasTour> getAll() {
-        return usuarioshastourRepository.findAll();
-    }
-
-    public Optional<UsuarioHasTour> getById(Long id) {
-        return usuarioshastourRepository.findById(id);
-    }
-
-    public UsuarioHasTour saveUsuarioHasTour(UsuarioHasTour usuarioHasTour) {
-        return usuarioshastourRepository.save(usuarioHasTour);
-    }
-
-    public void deleteUsuarioHasTour(Long id) {
-    	usuarioshastourRepository.deleteById(id);
-    }
-}
+//package com.mexotic.mexotic.service;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.springframework.stereotype.Service;
+//import com.mexotic.mexotic.model.UsuarioHasTour;
+//import com.mexotic.mexotic.repository.UsuarioHasTourRepository;
+//
+//@Service
+//public class UsuarioHasTourService {
+//    private final UsuarioHasTourRepository usuarioshastourRepository;
+//
+//    public UsuarioHasTourService(UsuarioHasTourRepository usuarioshastourRepository) {
+//        this.usuarioshastourRepository = usuarioshastourRepository;
+//    }
+//
+//    // Obtener todos los registros
+//    public List<UsuarioHasTour> getAll() {
+//        return usuarioshastourRepository.findAll();
+//    }
+//
+//    public Optional<UsuarioHasTour> getById(Long id) {
+//        return usuarioshastourRepository.findById(id);
+//    }
+//
+//    public UsuarioHasTour saveUsuarioHasTour(UsuarioHasTour usuarioHasTour) {
+//        return usuarioshastourRepository.save(usuarioHasTour);
+//    }
+//
+//    public void deleteUsuarioHasTour(Long id) {
+//    	usuarioshastourRepository.deleteById(id);
+//    }
+//}
 
 //package com.mexotic.mexotic.service;
 //

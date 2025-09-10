@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mexotic.mexotic.model.Experiencia;
+import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.service.ExperienciaService;
 
 
 @RestController
-@RequestMapping(path= "/mexotictours/experiencia/") // http://localhost:8080/mexotictours/experiencia/
+@RequestMapping(path= "/mexotic/experiencia/") // http://localhost:8080/mexotictours/experiencia/
 public class ExperienciaController {
 	private final ExperienciaService service;
 	@Autowired
@@ -54,8 +55,9 @@ public class ExperienciaController {
 	@PutMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
 	public Experiencia updateExperiencia(@PathVariable ("expId") Long idExperiencia,
 			@RequestParam(required=false) String comentario,
-			@RequestParam(required=false) Integer calificacion){
-		return service.updateExperience(idExperiencia, comentario, calificacion);
+			@RequestParam(required=false) Integer calificacion,
+			@RequestParam(required=false) Usuario userid){
+		return service.updateExperience(idExperiencia, comentario, calificacion, userid);
 	}//updateExperiencia
 	
 }//class ExperienciaController

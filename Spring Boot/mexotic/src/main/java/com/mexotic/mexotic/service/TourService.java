@@ -51,11 +51,11 @@ public class TourService {
 	public Tour addTour(Tour tour) {
 		Optional<Tour> t = repository.findByNombre(tour.getNombre());
 		if(t.isEmpty()) {
-			repository.save(tour);
+			return repository.save(tour);
 		} else {
-			tour = null;
+			System.out.println("El tour ["+ tour.getNombre() + "] ya se encuentra registrado");
+			return null;
 		} // if
-		return tour;
 	} // addTour
 
     @Transactional

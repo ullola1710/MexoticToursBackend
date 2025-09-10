@@ -1,34 +1,65 @@
 package com.mexotic.mexotic.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.mexotic.mexotic.model.Reserva;
 import com.mexotic.mexotic.model.ReservaHasTour;
+import com.mexotic.mexotic.model.Tour;
 import com.mexotic.mexotic.repository.ReservaHasTourRepository;
+import com.mexotic.mexotic.repository.ReservaRepository;
+import com.mexotic.mexotic.repository.TourRepository;
 
 @Service
 public class ReservaHasTourService {
+	
+	@Autowired
 	private final ReservaHasTourRepository reservahastourRepository;
-
+	
+	@Autowired
+	private TourRepository tourRepository;
+	@Autowired
+	private ReservaRepository reservaRepository;
+	
     public ReservaHasTourService(ReservaHasTourRepository reservahastourRepository) {
         this.reservahastourRepository = reservahastourRepository;
     }
+    
+    public ReservaHasTour crearRelacion(Long reservaId, Long tourId, int cantidad) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        Tour tour = tourRepository.findById(tourId)
+                .orElseThrow(() -> new RuntimeException("Tour no encontrado"));
 
+        ReservaHasTour relacion = new ReservaHasTour();
+        relacion.setReserva(reserva);
+        relacion.setTour(tour);
+        relacion.setCantidad(cantidad);
+
+        return reservahastourRepository.save(relacion);
+    }//Relacion idReserva y idTour con la cantidad 
+
+    @Transactional(readOnly = true)
     public List<ReservaHasTour> getAll() {
         return reservahastourRepository.findAll();
     }
-
+    
+    @Transactional(readOnly = true)
     public Optional<ReservaHasTour> getById(Long id) {
         return reservahastourRepository.findById(id);
     }
-
+    
+    @Transactional
     public ReservaHasTour saveReservaHasTour(ReservaHasTour reservaHasTour) {
         return reservahastourRepository.save(reservaHasTour);
     }
-
+    
+    @Transactional
     public void deleteReservaHasTour(Long id) {
     	reservahastourRepository.deleteById(id);
     }

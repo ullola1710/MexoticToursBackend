@@ -1,5 +1,11 @@
 package com.mexotic.mexotic.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,7 +13,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -55,9 +66,15 @@ public class Tour {
 	@Enumerated(EnumType.STRING)
 	@Column(name="categoria", nullable=false)
     private Categoria categoria;
-
-    // Para id Auto increment
-    private static long total = 0;
+	
+	@ManyToMany(mappedBy = "tours")
+	private List<Usuario> usuarios;
+	
+	@OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    private List<ReservaHasTour> reservas;
+	
+	@OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private InformacionTour informacionTour;
 
     // Constructores
     public Tour(String nombre, Estado estado, String ciudad, String imgPortada, String img, String descripcion,
@@ -176,15 +193,24 @@ public class Tour {
         this.categoria = categoria;
     } // setCategoria
 
-    public static long getTotal() {
-        return total;
-    } // getTotal
+    
+    public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
 
-    public static void setTotal(long total) {
-        Tour.total = total;
-    } // setTotal
+	public List<ReservaHasTour> getReservas() {
+		return reservas;
+	}
 
-    @Override
+	public InformacionTour getInformacionTour() {
+		return informacionTour;
+	}
+
+	public void setInformacionTour(InformacionTour informacionTour) {
+		this.informacionTour = informacionTour;
+	}
+
+	@Override
     public String toString() {
         return "Tour [idTour=" + idTour + ", nombre=" + nombre + ", estado=" + estado + ", ciudad=" + ciudad
                 + ", imgPortada=" + imgPortada + ", img=" + img + ", descripcion=" + descripcion + ", duracion="
