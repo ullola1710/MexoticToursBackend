@@ -32,12 +32,12 @@ public class PagoController {
 	}//Listgetpago
 	
 
-	@GetMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
+	@GetMapping  (path ="{pagoId}")  //http://localhost:8080/mexotic/pago/1
 	public Pago getPagos(@PathVariable ("pagoId") Long idPago) {
 		return pagoService.getPago(idPago);
 	}//GetPagos
 	
-	@DeleteMapping  (path ="{pagoId}")  //http://localhost:8080/api/pago/1
+	@DeleteMapping  (path ="{pagoId}")  //http://localhost:8080/mexotic/pago/1
 	public Pago deletePago(@PathVariable ("pagoId") Long idPago) {
 
 		return pagoService.deletePago(idPago);
