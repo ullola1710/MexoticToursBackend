@@ -118,12 +118,20 @@ function loadTour(tour) {
     });
     includesList.appendChild(ul);
 
-    const infoHTML = `
-        <p><i class="bi bi-alarm" style="margin-right: 0.5rem;"></i>Salida: ${tour.informacionTour?.salida || "-"}<br>Regreso aproximado: ${tour.informacionTour?.regresoAprox || "-"}</p>
-        <p><i class="bi bi-calendar-event" style="margin-right: 0.5rem;"></i>${tour.informacionTour?.frecuencia || "-"}</p>
-        <p><i class="bi bi-people" style="margin-right: 0.5rem;"></i>${tour.informacionTour?.grupos || "-"}</p>
-    `;
-    document.getElementById("tour-info").innerHTML = infoHTML;
+	fetch(`http://localhost:8080/mexotic/tours/detalle-de-tour/${tour.idTour}`)
+	        .then(response => response.json())
+	        .then(infoTour => {
+	            const infoHTML = `
+	                <p><i class="bi bi-alarm" style="margin-right: 0.5rem;"></i>Salida: ${infoTour.salida || "-"}<br>Regreso aproximado: ${infoTour.regresoAprox || "-"}</p>
+	                <p><i class="bi bi-calendar-event" style="margin-right: 0.5rem;"></i>${infoTour.frecuencia || "-"}</p>
+	                <p><i class="bi bi-people" style="margin-right: 0.5rem;"></i>${infoTour.grupos || "-"}</p>
+	            `;
+	            document.getElementById("tour-info").innerHTML = infoHTML;
+	        })
+	        .catch(err => {
+	            console.error("Error al cargar la información del tour", err);
+	            document.getElementById("tour-info").innerHTML = "<p>Error al cargar la información del tour.</p>";
+	        }); // fetch
 
     // Para carrito
     const btnReserva = document.getElementById('btn-reserva');
