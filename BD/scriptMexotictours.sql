@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `mexotictours`.`Usuario` (
   `apellido` VARCHAR(45) NOT NULL,
   `email` VARCHAR(60) NOT NULL,
   `telefono` CHAR(10) NOT NULL,
-  `contrasena` VARCHAR(50) NOT NULL,
+  `contrasena` VARCHAR(255) NOT NULL,
   `admin` TINYINT NOT NULL,
   `imgUsuario` VARCHAR(150) NOT NULL,
   PRIMARY KEY (`idUsuario`),
