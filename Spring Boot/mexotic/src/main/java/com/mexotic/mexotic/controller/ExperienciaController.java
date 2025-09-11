@@ -2,6 +2,7 @@ package com.mexotic.mexotic.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,48 +17,46 @@ import com.mexotic.mexotic.model.Experiencia;
 import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.service.ExperienciaService;
 
-
 @RestController
-@RequestMapping(path= "/mexotic/experiencia/") // http://localhost:8080/mexotictours/experiencia/
+@RequestMapping(path = "/mexotic/experiencia/") // http://localhost:8080/mexotictours/experiencia/
 public class ExperienciaController {
 	private final ExperienciaService service;
+
 	@Autowired
 	public ExperienciaController(ExperienciaService service) {
-		this.service=service;
+		this.service = service;
 	}
-	
-	//GET
-	@GetMapping
-	public List<Experiencia> getExperiencias(){
-		return service.getExperiences();
-	}//getExperiencias
-	
-	@GetMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
+
+	// GET
+	public Page<Experiencia> listar(@RequestParam(required = false) Long tourId,
+			org.springframework.data.domain.Pageable pageable) {
+		return (tourId != null) ? service.listarPorTour(tourId, pageable) : service.listar(pageable);
+	}// getExperiencias
+
+	@GetMapping(path = "{expId}") // http://localhost:8080/mexotictours/experiencia/1
 	public Experiencia getExperiencia(@PathVariable("expId") Long idExperiencia) {
 		return service.getExperience(idExperiencia);
-	}//getExperiencia
-	
-	
-	//DELETE
-	@DeleteMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
+	}// getExperiencia
+
+	// DELETE
+	@DeleteMapping(path = "{expId}") // http://localhost:8080/mexotictours/experiencia/1
 	public Experiencia deleteExperiencia(@PathVariable("expId") Long idExperiencia) {
 		return service.deleteExperience(idExperiencia);
-	}//deleteExperiencias
-	
-	//POST
+	}// deleteExperiencias
+
+	// POST
 	@PostMapping
 	public Experiencia addExperiencia(@RequestBody Experiencia experiencia) {
 		return service.addExperience(experiencia);
-	}//addExperiencia
+	}// addExperiencia
 
-	
-	//PUT
-	@PutMapping(path="{expId}") // http://localhost:8080/mexotictours/experiencia/1
-	public Experiencia updateExperiencia(@PathVariable ("expId") Long idExperiencia,
-			@RequestParam(required=false) String comentario,
-			@RequestParam(required=false) Integer calificacion,
-			@RequestParam(required=false) Usuario userid){
+	// PUT
+	@PutMapping(path = "{expId}") // http://localhost:8080/mexotictours/experiencia/1
+	public Experiencia updateExperiencia(@PathVariable("expId") Long idExperiencia,
+			@RequestParam(required = false) String comentario, 
+			@RequestParam(required = false) Integer calificacion,
+			@RequestParam(required = false) Usuario userid) {
 		return service.updateExperience(idExperiencia, comentario, calificacion, userid);
-	}//updateExperiencia
-	
-}//class ExperienciaController
+	}// updateExperiencia
+
+}// class ExperienciaController

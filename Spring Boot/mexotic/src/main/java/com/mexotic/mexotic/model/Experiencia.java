@@ -1,11 +1,11 @@
 package com.mexotic.mexotic.model;
 
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,13 +29,15 @@ public class Experiencia {
 	@Column(nullable = false)
 	private Date fecha;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "fk_idTour", referencedColumnName = "idTour")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_idTour")
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "experiencias" }) // evita bucle
 	private Tour tour;
-	
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
-    private Usuario usuario;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_idUsuario")
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "reservas", "experiencias", "contrasena" })
+	private Usuario usuario;
 
 	@PrePersist
 	protected void onCreate() {
@@ -101,6 +103,5 @@ public class Experiencia {
 		return "Experiencia [id=" + idExperiencia + ", comentario=" + comentario + ", calificacion=" + calificacion
 				+ ", fecha=" + fecha + "]";
 	}// toString
-
 
 }// class Experiencia

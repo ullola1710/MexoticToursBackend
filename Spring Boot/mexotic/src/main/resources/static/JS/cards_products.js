@@ -151,7 +151,7 @@ function loadProducts() {
         if (stored) {
             resolve(JSON.parse(stored));
         } else {
-            fetch("/mexotic/tours/")
+            fetch("http://localhost:8080/mexotic/tours/")
                 .then(res => res.json())
                 .then(resolve)
                 .catch(reject);

@@ -3,6 +3,10 @@ package com.mexotic.mexotic.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +23,23 @@ public class ExperienciaService {
 		this.repository = repository;
 	}//constructor
 	
+	// Para mejorar el rendimiento
 	@Transactional(readOnly = true)
-	public List<Experiencia> getExperiences() {
-		return repository.findAll();
-	}//getExperiences
+    public Page<Experiencia> listar(Pageable pageable) {
+        return repository.findAll(pageable); // devuelve todas las experiencias paginadas
+    } // listar
+
+    @Transactional(readOnly = true)
+    public Page<Experiencia> listarPorTour(Long idTour, Pageable pageable) {
+        return repository.findByTour_IdTour(idTour, pageable); // filtra por idTour
+    } // listarPorTour
 	
-	@Transactional(readOnly = true)
-	public Experiencia getExperience(Long idExperiencia) {
-		return repository.findById(idExperiencia).orElseThrow(
-				()->new IllegalArgumentException("La experiencia con el id [" + idExperiencia
-						+ "] no existe")
-				);
-	}//getExperience
+    @Transactional(readOnly = true)
+    public Experiencia getExperience(Long idExperiencia) {
+        return repository.findById(idExperiencia).orElseThrow(
+            () -> new IllegalArgumentException("La experiencia con id [" + idExperiencia + "] no existe")
+        );
+    } // getExperience
 	
 	@Transactional
 	public Experiencia deleteExperience(Long idExperiencia) {
