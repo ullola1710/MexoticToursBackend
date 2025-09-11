@@ -1,6 +1,7 @@
 package com.mexotic.mexotic.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.CascadeType;
@@ -28,8 +29,9 @@ public class Reserva {
     private Integer cantidad;
 
     
-    @ManyToOne
+    @ManyToOne 
     @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
+    @JsonBackReference 
     private Usuario fkIdUsuario;
    
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)

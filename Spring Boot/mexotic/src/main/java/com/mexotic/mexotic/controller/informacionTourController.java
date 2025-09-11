@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,7 +18,7 @@ import com.mexotic.mexotic.service.informacionTourService;
 
 
 @RestController
-@RequestMapping(path="/mexotic/tours/{tourId}/DetalleDeTour/")
+@RequestMapping(path="/mexotic/tours/detalle-de-tour/")
 public class informacionTourController {
 	
 	@Autowired
@@ -27,12 +28,12 @@ public class informacionTourController {
 		this.service=service;
 	}//contructor
 	
-	@RequestMapping
+	@GetMapping
 	public List<InformacionTour>getInformacionTour(){
 		return service.getInformacionTours();
 	}
 	
-	@RequestMapping (path="{idInformacionTour}")
+	@GetMapping (path="{idInformacionTour}")
 	public InformacionTour getInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
 		return service.getInfoTour(idInformacionTour);
 	}//busqueda por id

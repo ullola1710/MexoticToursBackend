@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 @Table(name = "Reserva_has_Tour")
 public class ReservaHasTour {
