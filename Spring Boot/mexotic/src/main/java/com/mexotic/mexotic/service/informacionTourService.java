@@ -30,10 +30,10 @@ public class informacionTourService {
 	
 	//Get
 	@Transactional(readOnly = true)
-	public InformacionTour getInfoTour(Long idInformacionTour) {
-		return infoTourRepository.findById(idInformacionTour).orElseThrow(
-				()-> new IllegalArgumentException("El Id ["+idInformacionTour+"] no existe en Información Tours"));
-			}//metodo findsById para obtener una infoTour por id
+	public InformacionTour getInfoTourByTourId(Long tourId) {
+	    return infoTourRepository.findByTour_IdTour(tourId).orElseThrow(
+	    		() -> new IllegalArgumentException("No existe información para el tour con ID: " + tourId));
+	} //metodo findsById para obtener una infoTour por id
 	
 	@Transactional
 	public InformacionTour addInformacionTour(InformacionTour infoTour) {

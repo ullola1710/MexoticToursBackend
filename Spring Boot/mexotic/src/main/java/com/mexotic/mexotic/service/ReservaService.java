@@ -1,12 +1,15 @@
 package com.mexotic.mexotic.service;
 
 import com.mexotic.mexotic.model.Reserva;
+import com.mexotic.mexotic.model.ReservaHasTour;
+import com.mexotic.mexotic.model.Tour;
 import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.mexotic.mexotic.repository.ReservaHasTourRepository; 
 
 import java.util.List;
 
@@ -14,10 +17,12 @@ import java.util.List;
 public class ReservaService {
 
     private final ReservaRepository reservaRepository;
+    private final ReservaHasTourRepository reservaHasTourRepository;
 
     @Autowired
-    public ReservaService(ReservaRepository reservaRepository) {
+    public ReservaService(ReservaRepository reservaRepository, ReservaHasTourRepository reservaHasTourRepository) {
         this.reservaRepository = reservaRepository;
+        this.reservaHasTourRepository = reservaHasTourRepository;
     }
 
     public List<Reserva> findAll() {
@@ -35,8 +40,26 @@ public class ReservaService {
         return reservaRepository.findByFkIdUsuario(usuario);
     }
 
-    public Reserva create(Reserva reserva) {
-        return reservaRepository.save(reserva);
+    public Reserva create(Reserva reserva, List<Tour> tours, List<Integer> cantidades) {
+        Reserva savedReserva = reservaRepository.save(reserva);
+        int totalCantidad = 0;
+        for (int i = 0; i < tours.size(); i++) {
+            Tour tour = tours.get(i);
+            int cantidadTour = cantidades.get(i); 
+            // Relación con la tabla pivote
+            ReservaHasTour reservaHasTour = new ReservaHasTour();
+            reservaHasTour.setReserva(savedReserva); 
+            reservaHasTour.setTour(tour); 
+            reservaHasTour.setCantidad(cantidadTour);
+
+            totalCantidad += cantidadTour;  
+
+            reservaHasTourRepository.save(reservaHasTour); 
+        }
+
+        savedReserva.setCantidad(totalCantidad);
+
+        return reservaRepository.save(savedReserva);
     }
 
 

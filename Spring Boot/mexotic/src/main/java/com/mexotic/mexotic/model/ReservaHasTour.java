@@ -1,6 +1,5 @@
 package com.mexotic.mexotic.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,41 +10,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 //@NoArgsConstructor
 @Entity
 @Table(name = "Reserva_has_Tour")
 public class ReservaHasTour {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private int cantidad;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "fk_idReserva", nullable = false)
-    private Reserva reserva;
-	
-	@ManyToOne
-    @JoinColumn(name = "fk_idTour", nullable = false)
-    private Tour tour;
+	private Reserva reserva;
 
-	
+	@ManyToOne
+	@JoinColumn(name = "fk_idTour", nullable = false)
+	private Tour tour;
+
 	public ReservaHasTour(Reserva reserva, Tour tour) {
 		this.reserva = reserva;
-        this.tour = tour;
+		this.tour = tour;
 	}
-	
+
 	public ReservaHasTour(int cantidad) {
 		super();
 		this.cantidad = cantidad;
 	}
-	
-	public ReservaHasTour() {}
+
+	public ReservaHasTour() {
+	}
 
 	public Long getId() {
 		return id;
@@ -59,11 +57,9 @@ public class ReservaHasTour {
 		return cantidad;
 	}
 
-
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
 
 	public Reserva getReserva() {
 		return reserva;
@@ -74,18 +70,17 @@ public class ReservaHasTour {
 	}
 
 	public Tour getTour() {
-        return tour;
-    }
+		return tour;
+	}
 
-    public void setTour(Tour tour) {
-        this.tour = tour;
-    }
+	public void setTour(Tour tour) {
+		this.tour = tour;
+	}
 
 	@Override
 	public String toString() {
 		return "ReservaHasTours [id=" + id + ", reserva=" + reserva + ", tour=" + tour + "]";
 	}
-
 
 }
 

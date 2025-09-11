@@ -5,123 +5,158 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Función para agregar al carrito
 function addToCart(product) {
-  const existingItem = cart.find(item => item.id === product.id);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      img: product.img,
-    });
-  }
-  saveCart();
-  updateCartBadge();
-  updateCheckoutButtonVisibility();
+	const existingItem = cart.find(item => item.id === product.id);
+	if (existingItem) {
+		existingItem.quantity += 1;
+	} else {
+		cart.push({
+			id: product.id,
+			name: product.name,
+			price: product.price,
+			quantity: 1,
+			img: product.img,
+		});
+	}
+	saveCart();
+	updateCartBadge();
+	updateCheckoutButtonVisibility();
 }
 
 // Eliminar producto del carrito
 function removeFromCart(productId) {
-  cart = cart.filter(item => item.id !== productId);
-  saveCart();
-  updateCartBadge();
-  // Volver a rendirizar
-  if (document.getElementById('cartDrawer').classList.contains('show')) {
-    renderCartItems();
-  }
-  // Para pagos
-  if (document.getElementById('cart-summary')) {
-    loadCartSummary();
-  }
+	cart = cart.filter(item => item.id !== productId);
+	saveCart();
+	updateCartBadge();
+	// Volver a rendirizar
+	if (document.getElementById('cartDrawer').classList.contains('show')) {
+		renderCartItems();
+	}
+	// Para pagos
+	if (document.getElementById('cart-summary')) {
+		loadCartSummary();
+	}
 } // removeFromCart
 
 // Actualizar carrito
 function updateQuantity(productId, change) {
-  const item = cart.find(item => item.id === productId);
-  if (item) {
-    item.quantity += change;
-    if (item.quantity <= 0) {
-      removeFromCart(productId);
-    } else {
-      saveCart();
-      if (document.getElementById('cartDrawer')?.classList.contains('show')) {
-        renderCartItems();
-      }
-      // Para pagos
-      if (document.getElementById('cart-summary')) {
-        loadCartSummary();
-      }
-    }
-  }
+	const item = cart.find(item => item.id === productId);
+	if (item) {
+		item.quantity += change;
+		if (item.quantity <= 0) {
+			removeFromCart(productId);
+		} else {
+			saveCart();
+			if (document.getElementById('cartDrawer')?.classList.contains('show')) {
+				renderCartItems();
+			}
+			// Para pagos
+			if (document.getElementById('cart-summary')) {
+				loadCartSummary();
+			}
+		}
+	}
 }
 
 // Guardar carrito en el localStorage
 function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
+	localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 // Actualizar badge del carrito
 function updateCartBadge() {
-  const badge = document.getElementById('cartBadge');
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-  if (badge) {
-    badge.textContent = totalItems > 0 ? totalItems : '';
-    badge.style.display = totalItems > 0 ? 'block' : 'none';
-  }
+	const badge = document.getElementById('cartBadge');
+	const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+	if (badge) {
+		badge.textContent = totalItems > 0 ? totalItems : '';
+		badge.style.display = totalItems > 0 ? 'block' : 'none';
+	}
 }
 
 // Si se tienen producto en cart se muestre, sino no
 function updateCheckoutButtonVisibility() {
-  const checkoutButton = document.getElementById('checkoutButton');
-  const cartTotal = document.getElementById('cartTotal');
-  if (cart.length > 0) {
-    // Cart con productos
-    if (cartTotal) cartTotal.style.display = 'flex';  
-    if (checkoutButton) checkoutButton.style.display = 'block'; 
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-    if (document.getElementById('totalAmount')) {
-      document.getElementById('totalAmount').textContent = totalAmount.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-  } else {
-    // Ocultar con cart vacío
-    if (cartTotal) cartTotal.style.display = 'none';
-    if (checkoutButton) checkoutButton.style.display = 'none';
-  }
+	const checkoutButton = document.getElementById('checkoutButton');
+	const cartTotal = document.getElementById('cartTotal');
+	if (cart.length > 0) {
+		// Cart con productos
+		if (cartTotal) cartTotal.style.display = 'flex';
+		if (checkoutButton) checkoutButton.style.display = 'block';
+		const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+		if (document.getElementById('totalAmount')) {
+			document.getElementById('totalAmount').textContent = totalAmount.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+		}
+	} else {
+		// Ocultar con cart vacío
+		if (cartTotal) cartTotal.style.display = 'none';
+		if (checkoutButton) checkoutButton.style.display = 'none';
+	}
 }
+
+function createReserva() {
+	const token = localStorage.getItem('authToken');
+	const decodedToken = jwt.decode(token);
+	const usuarioId = decodedToken.id;
+
+	// Objeto de reserva
+	const reserva = {
+		cantidad: cart.reduce((total, item) => total + item.quantity, 0), // TOTAL en cart
+		fkIdUsuario: { idUsuario: usuarioId }, // Pasamos el ID real del usuario
+		tours: cart.map(item => ({
+			idTour: item.id,
+			cantidad: item.quantity,
+		})),
+	};
+
+	fetch("http://localhost:8080/mexotic/reservas/create-reserva", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(reserva),
+	}) // fetch
+		.then(response => response.json())
+		.then(data => {
+			console.log("Reserva creada:", data);
+			window.location.href = "/pagos.html";  // Cambia esta ruta si es necesario
+		})
+		.catch(error => {
+			console.error("Error al crear la reserva:", error);
+		}); // catch
+}
+// createReserva
+
+
 
 // Ir a Pago si hay algo que pagar
 function redirectToPayment() {
-  window.location.href = "./pagos.html";
+	window.location.href = "./pagos.html";
 }
 
 
 // Renderizar
 function renderCartItems() {
-  const container = document.getElementById('cartItemsContainer');
-  const totalElement = document.getElementById('cartTotal');
-  const checkoutButton = document.getElementById('checkoutButton');
-  if (!container) return;
-  
-  if (cart.length === 0) {
-    container.innerHTML = `
+	const container = document.getElementById('cartItemsContainer');
+	const totalElement = document.getElementById('cartTotal');
+	const checkoutButton = document.getElementById('checkoutButton');
+	if (!container) return;
+
+	if (cart.length === 0) {
+		container.innerHTML = `
       <div class="empty-cart-message text-center">
         <i class="bi bi-cart-x" style="font-size: 3rem;"></i>
         <p>Tu carrito está vacío</p>
       </div>`;
-    if (totalElement){ 
-      totalElement.style.display = 'none';
-      totalElement.querySelector('#totalAmount').textContent = '0.00';
-    }
-    if (checkoutButton) checkoutButton.style.display = 'none';
-  } else {
-    let html = '';
-    let total = 0;
-    cart.forEach(item => {
-      const itemTotal = item.price * item.quantity;
-      total += itemTotal;
-      html += `
+		if (totalElement) {
+			totalElement.style.display = 'none';
+			totalElement.querySelector('#totalAmount').textContent = '0.00';
+		}
+		if (checkoutButton) checkoutButton.style.display = 'none';
+	} else {
+		let html = '';
+		let total = 0;
+		cart.forEach(item => {
+			const itemTotal = item.price * item.quantity;
+			total += itemTotal;
+			html += `
         <div class="cart-item mb-4">
           <div class="d-flex justify-content-between align-items-center">
             <div style="position: relative; display: inline-block;">
@@ -146,59 +181,59 @@ function renderCartItems() {
             </div>
           </div>
         </div>`;
-    });
-    container.innerHTML = html;
-    if (totalElement) {
-      totalElement.style.display = 'block';
-      totalElement.querySelector('#totalAmount').textContent = total.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-    }
-    if (checkoutButton) checkoutButton.style.display = 'block';
-  }
+		});
+		container.innerHTML = html;
+		if (totalElement) {
+			totalElement.style.display = 'block';
+			totalElement.querySelector('#totalAmount').textContent = total.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+		}
+		if (checkoutButton) checkoutButton.style.display = 'block';
+	}
 }
 
 function loadCartSummary() {
-  const cartSummary = document.getElementById('cart-summary');
-  const totalElement = document.getElementById('totalAmount');
-  
-  if (!cartSummary) return;
-  
-  // Verificar si el carrito está vacío
-  if (cart.length === 0) {
-    cartSummary.innerHTML = "<p>No hay productos en tu carrito.</p>";
-    if (totalElement) totalElement.textContent = "0.00";
-  } else {
-    let total = 0;
-    let html = '';
-    cart.forEach(item => {
-      const itemTotal = item.price * item.quantity;
-      total += itemTotal;
-      html += `
+	const cartSummary = document.getElementById('cart-summary');
+	const totalElement = document.getElementById('totalAmount');
+
+	if (!cartSummary) return;
+
+	// Verificar si el carrito está vacío
+	if (cart.length === 0) {
+		cartSummary.innerHTML = "<p>No hay productos en tu carrito.</p>";
+		if (totalElement) totalElement.textContent = "0.00";
+	} else {
+		let total = 0;
+		let html = '';
+		cart.forEach(item => {
+			const itemTotal = item.price * item.quantity;
+			total += itemTotal;
+			html += `
         <div class="d-flex justify-content-between mb-3">
           <span>${item.name} x${item.quantity}</span>
           <span>$${itemTotal.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </div>
       `;
-    });
+		});
 
-    cartSummary.innerHTML = html;
-    if (totalElement) totalElement.textContent = total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+		cartSummary.innerHTML = html;
+		if (totalElement) totalElement.textContent = total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	}
 } // loadCartSummary
 
 
 // Inicializar carrito
 document.addEventListener('DOMContentLoaded', function() {
-  updateCartBadge();
-  updateCheckoutButtonVisibility();
-  
-  // Solo ejecutar loadCartSummary si estamos en la página de pagos
-  if (document.getElementById('cart-summary')) {
-    loadCartSummary();
-  }
-  
-  // Solo ejecutar renderCartItems si estamos en la página con el carrito desplegable
-  if (document.getElementById('cartItemsContainer')) {
-    renderCartItems();
-  }
+	updateCartBadge();
+	updateCheckoutButtonVisibility();
+
+	// Solo ejecutar loadCartSummary si estamos en la página de pagos
+	if (document.getElementById('cart-summary')) {
+		loadCartSummary();
+	}
+
+	// Solo ejecutar renderCartItems si estamos en la página con el carrito desplegable
+	if (document.getElementById('cartItemsContainer')) {
+		renderCartItems();
+	}
 });
 

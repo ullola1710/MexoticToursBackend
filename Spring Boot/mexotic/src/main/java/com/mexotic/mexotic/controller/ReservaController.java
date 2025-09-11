@@ -1,8 +1,8 @@
 package com.mexotic.mexotic.controller;
 
+import com.mexotic.mexotic.dto.ReservaRequest;
 import com.mexotic.mexotic.model.Reserva;
-import com.mexotic.mexotic.model.Usuario;
-import com.mexotic.mexotic.service.PagoService;
+//import com.mexotic.mexotic.service.PagoService;
 import com.mexotic.mexotic.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mexotic/reservas/")
-@CrossOrigin(origins = "*") // Permite CORS para pruebas desde frontend o Postman
 public class ReservaController {
 
 	private final ReservaService reservaService;
-    private final PagoService pagoService;
+  
 
     @Autowired
-    public ReservaController(ReservaService reservaService, PagoService pagoService) {
+    public ReservaController(ReservaService reservaService) {
         this.reservaService = reservaService;
-        this.pagoService = pagoService;
     }
 
     // GET todas las reservas
@@ -36,14 +34,19 @@ public class ReservaController {
     public Reserva getById(@PathVariable Long idReserva) {
         return reservaService.findByIdOrThrow(idReserva);
     }
+    
+    @GetMapping("/usuario/{fkIdUsuario}")
+    public List<Reserva> getByUsuario(@PathVariable Long fkIdUsuario) {
+        return reservaService.findByUsuario(fkIdUsuario);
+    }
   
-
 
     // POST crear nueva reserva
     @PostMapping
-    public ResponseEntity<Reserva> create(@RequestBody Reserva reserva) {
-        Reserva created = reservaService.create(reserva);
-        return ResponseEntity.created(URI.create("/api/reservas/" + created.getIdReserva())).body(created);
+    public ResponseEntity<Reserva> createReserva(@RequestBody ReservaRequest request) {
+        Reserva createdReserva = reservaService.create(request.getReserva(), request.getTours(), request.getCantidades());
+        return ResponseEntity.created(URI.create("/mexotic/reservas/" + createdReserva.getIdReserva()))
+                .body(createdReserva);
     }
 
     // PUT actualizar reserva
@@ -59,9 +62,4 @@ public class ReservaController {
         return ResponseEntity.noContent().build();
     }
 
-    // Extra: GET reservas por usuario
-    @GetMapping("/usuario/{fkIdUsuario}")
-    public List<Reserva> getByUsuario(@PathVariable Long fkIdUsuario) {
-        return reservaService.findByUsuario(fkIdUsuario);
-    }
 }

@@ -11,4 +11,6 @@ import com.mexotic.mexotic.model.InformacionTour;
 @Repository
 public interface informacionTourRepository extends JpaRepository<InformacionTour, Long>{
 	Optional<InformacionTour>findByTour(Tour idTour);
+	Optional<InformacionTour>findByTour_IdTour(Long tourId);
+
 }//Interface Informacion Tour Repository

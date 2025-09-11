@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-    // Método extra para filtrar por usuario (opcional)
+   
     List<Reserva> findByFkIdUsuario(Usuario fkIdUsuario);
 }

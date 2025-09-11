@@ -31,11 +31,11 @@ public class informacionTourController {
 	@GetMapping
 	public List<InformacionTour>getInformacionTour(){
 		return service.getInformacionTours();
-	}
+	} // get
 	
-	@GetMapping (path="{idInformacionTour}")
-	public InformacionTour getInformacionTour(@PathVariable("idInformacionTour")Long idInformacionTour) {
-		return service.getInfoTour(idInformacionTour);
+	@GetMapping (path="/tour/{tourId}")
+	public InformacionTour getInformacionTourByTourId(@PathVariable("tourId")Long tourId) {
+		return service.getInfoTourByTourId(tourId);
 	}//busqueda por id
 	
 	@DeleteMapping (path="{idInformacionTour}")
