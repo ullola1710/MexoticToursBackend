@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 //POJO -Plain Old Java Object
 
 @Entity
@@ -46,6 +48,7 @@ public class Usuario {
 //	List<Reserva> reservas = new ArrayList<Reserva>();
 	
 	@OneToMany(mappedBy = "fkIdUsuario", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Reserva> reservas = new ArrayList<>();
 
 	
