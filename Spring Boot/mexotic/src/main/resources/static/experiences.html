@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiencias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./CSS/style.css" />
+    <link rel="stylesheet" href="./CSS/experiences.css" />
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <main>
+        <div class="overlay-experiencia text-center">
+            <div class="color-overlay"></div>
+            <div class="container container-main">
+                <h1 class="title">Testimonios de experiencias inolvidables</h1>
+
+                <!-- Contenedor principal del carrusel -->
+                <div id="carouselExampleIndicators" class="carousel slide carousel-experiencias" data-bs-ride="carousel">
+                    <div class="carousel-indicators"></div>
+                    <div class="carousel-inner">
+                    </div>
+
+                    <!-- Botones de navegación a los lados -->
+                    <button class="carousel-control-prev carousel-experiencias-btn" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <i class="bi bi-chevron-left"></i>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next carousel-experiencias-btn" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <i class="bi bi-chevron-right"></i>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="./JS/cart.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("GNnB5jB5JcNSpPcEb"); // Tu User ID público
+        })();
+    </script>
+    <script src="./JS/footer.js"></script>
+    <script type="module" src="./JS/experiences.js"></script>
+</body>
+</html>
