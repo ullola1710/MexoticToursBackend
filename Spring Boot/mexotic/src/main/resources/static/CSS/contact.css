@@ -1,0 +1,80 @@
+/* import sweetalert2/src/sweetalert2.scss */
+
+/* Estilos card */
+.card {
+    height: 40vh;
+    text-align: center;
+}
+
+.card-title {
+    font-family: 'Dancing Script', 'sans-cursive';
+    font-size: clamp(1.3rem, 4.5vw, 5vm);
+    font-weight: bold;
+}
+.card-text {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.card-img {
+    height: 40vh;
+    opacity: 60%;
+    object-fit: cover;
+    object-position: 50% 65%;
+    border-radius: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        height: 30vh;
+    }
+
+    /* .card-title {
+        font-size: 2rem;
+    }
+
+    .card-text {
+        font-size: 2.5rem;
+    } */
+
+    .card-img {
+        height: 30vh;
+        object-fit: cover;
+        object-position: 50% 65%;
+    }
+
+
+}
+
+/* Estilos formulario */
+
+/* Boton */
+#boton-enviar {
+    display: block;
+    margin: auto;
+    background-color: #5A64FF;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#boton-enviar:hover {
+    background-color: #5A64FF;
+    color: blanchedalmond;
+}
+
+/* Cambio de letra del checkbox */
+/* .form-check {
+    font-size: 0.7rem;
+} */
+
+/* .form-check {
+    font-size: 0.7rem;
+} */
+.form-check-label,
+    #privacyLink {
+      font-size: 0.7rem;
+      color: black;
+    }
