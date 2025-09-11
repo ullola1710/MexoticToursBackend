@@ -75,6 +75,7 @@
 //    }
 //}
 
+
 //package com.mexotic.mexotic.model;
 //
 //import javax.persistence.Column;
@@ -144,5 +145,3 @@
 ////    
 ////    
 ////}
-
-

@@ -14,8 +14,6 @@ import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.repository.TourRepository;
 import com.mexotic.mexotic.repository.UsuariosRepository;
 
-
-
 @Service
 public class UsuarioService {
 	private final UsuariosRepository usuarioRepository;
