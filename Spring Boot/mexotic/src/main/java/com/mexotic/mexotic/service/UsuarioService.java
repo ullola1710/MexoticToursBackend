@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ import com.mexotic.mexotic.repository.UsuariosRepository;
 public class UsuarioService {
 	private final UsuariosRepository usuarioRepository;
 	private final TourRepository tourRepository;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Autowired
 	public UsuarioService(UsuariosRepository usuarioRepository, TourRepository tourRepository) {
@@ -51,42 +55,34 @@ public class UsuarioService {
 	public Usuario addUsuario(Usuario usuario) {
 		Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
 		if (user.isEmpty()) {
-			 return usuarioRepository.save(usuario);
+			usuario.setContrasena(encoder.encode(usuario.getContrasena()));
+			usuarioRepository.save(usuario);
 			}else {
-				System.out.println("El usuario ["+ usuario.getEmail()+ "] ya se encuentra registrado");
-				return null;
+				usuario=null;
+				//System.out.println("El usuario ["+ usuario.getEmail()+ "] ya se encuentra registrado");
 			}//else
+		return usuario;
 		}//addUsuario
 
-	@Transactional
-	public Usuario updateUsuario(Long idUsuario, String telefono,String imgUsuario) {
-			Usuario user = null;
-			if(usuarioRepository.existsById(idUsuario)) {
-				user = usuarioRepository.findById(idUsuario).get();
-				if(telefono!=null) user.setTelefono(telefono);
-				if(imgUsuario!=null) user.setImgUsuario(imgUsuario);
-				usuarioRepository.save(user);
-				}//if
-			return user;
-		}//updateUsuario
+//	@Transactional
+//	public Usuario updateUsuario(Long idUsuario, String telefono,String imgUsuario) {
+//			Usuario user = null;
+//			if(usuarioRepository.existsById(idUsuario)) {
+//				user = usuarioRepository.findById(idUsuario).get();
+//				if(telefono!=null) user.setTelefono(telefono);
+//				if(imgUsuario!=null) user.setImgUsuario(imgUsuario);
+//				usuarioRepository.save(user);
+//				}//if
+//			return user;
+//		}//updateUsuario
 
 	public Usuario updateUser(Long idUsuario, ChangedataUser changedataUser) {
-		if(!usuarioRepository.existsById(idUsuario)) {
-			return null;
+		Usuario user = null;
+		if(usuarioRepository.existsById(idUsuario)) {
+		user = usuarioRepository.findById(idUsuario).get();
+		if (encoder.matches(changedataUser.getContrasena(), user.getContrasena())) {
+			user.setContrasena(encoder.encode(changedataUser.getNcontrasena()));	
 		}
-		Usuario user = usuarioRepository.findById(idUsuario).get();
-		
-		if(changedataUser.getNcontrasena() != null && !changedataUser.getNcontrasena().isEmpty()) {
-			if(changedataUser.getContrasena() == null || changedataUser.getContrasena().isEmpty()) {
-				throw new RuntimeException("Debe proporcionar la contraseña actual para cambiarla");
-			}//if contraseña actual
-			if(!user.getContrasena().equals(changedataUser.getContrasena())) {
-				throw new RuntimeException("La contraseña acual es incorrecta");
-			}//no coinciden las contraseñas
-			user.setContrasena(changedataUser.getNcontrasena());
-		}//actualiza la contraseña
-		
-		
 		if(changedataUser.getTelefono() != null && !changedataUser.getTelefono().isEmpty()) {
 			user.setTelefono(changedataUser.getTelefono());
 		}//actualizacion de telefono
@@ -94,9 +90,15 @@ public class UsuarioService {
 		if(changedataUser.getImgUsuario() != null && !changedataUser.getImgUsuario().isEmpty()) {
 			user.setImgUsuario(changedataUser.getImgUsuario());
 		}//actualizacion de imgUsuario
+			return usuarioRepository.save(user);
+		} else {
+			user=null;
+		}//if exists
 		
-		return usuarioRepository.save(user);
-	} //updateUser
+		return user;
+		
+		} //updateUser
+			
 	
 	
 	public Usuario asignarTour(Long idUsuario, Long idTour){
@@ -107,5 +109,17 @@ public class UsuarioService {
         usuario.getTours().add(tour);
         return usuarioRepository.save(usuario);
     }//asigna Tour al usuario
+
+	public boolean validateUser(Usuario usuario) {
+		Optional<Usuario> user=
+				usuarioRepository.findByEmail(usuario.getEmail());
+		if(user.isPresent()) {
+			Usuario tmpUser = user.get();
+			if(encoder.matches(usuario.getContrasena(), tmpUser.getContrasena())) {
+				return true;
+			}//if matches
+		}//isPresent
+		return false;
+	}
 }//class UsuarioService
 
