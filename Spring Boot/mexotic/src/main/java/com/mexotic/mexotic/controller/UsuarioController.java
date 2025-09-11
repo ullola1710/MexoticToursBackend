@@ -17,7 +17,7 @@ import com.mexotic.mexotic.model.Usuario;
 import com.mexotic.mexotic.service.UsuarioService;
 
 @RestController
-@RequestMapping(path = "/mexotic/usuarios/") //http:localhost:8080/mexotic/usuarios
+@RequestMapping(path = "/mexotic/usuarios/") //http:localhost:8080/mexotic/usuarios/
 public class UsuarioController {
 	private final UsuarioService usuarioService;
 	
@@ -32,13 +32,13 @@ public class UsuarioController {
 		return usuarioService.getUsuarios();
 	}
 	
-	@GetMapping (path = "{userId}") //http:localhost:8080/api/usuarios/1
+	@GetMapping (path = "{userId}") //http:localhost:8080/mexotic/usuarios/1
 	public Usuario getUsuario (@PathVariable("userId")Long idUsuario) {
 		return usuarioService.getUsuario(idUsuario);
 	}
 	
 	//DELETE
-	@DeleteMapping (path = "{userId}") //http:localhost:8080/api/usuarios/1
+	@DeleteMapping (path = "{userId}") //http:localhost:8080/mexotic/usuarios/1
 	public Usuario deleteUsuario (@PathVariable("userId")Long idUsuario) {
 		return usuarioService.deleteUsuario(idUsuario);
 	}
@@ -50,7 +50,7 @@ public class UsuarioController {
 	}//addUsuario
 	
 	//PUT 
-	@PutMapping(path = "{userId}") //http:localhost:8080/api/usuarios/1
+	@PutMapping(path = "{userId}") //http:localhost:8080/mexotic/usuarios/1
 	public Usuario updateUsuario(@PathVariable("userId") Long idUsuario,
 			@RequestBody ChangedataUser ChangedataUser) {
 		return usuarioService.updateUser(idUsuario,ChangedataUser);	
