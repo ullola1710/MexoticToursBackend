@@ -3,6 +3,8 @@
 
 const detalleUrl = (tour) => `tours.html?id=${tour.id}`;
 let allTours = [];
+let currentPage = 0;
+const toursPerPage = 12;
 
 function getParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -84,7 +86,7 @@ function renderTours() {
     }
 
     toursToRender.forEach(tour => addItem(tour));
-}
+} // renderTours
 
 function loadTour(tour) {
     const title = document.getElementById('tour-title');
@@ -145,39 +147,49 @@ function loadTour(tour) {
 
 
 // Promesa para cargar productos
-function loadProducts() {
+function loadProducts(page = 0) {
     return new Promise((resolve, reject) => {
-        const stored = localStorage.getItem("products");
-        if (stored) {
-            resolve(JSON.parse(stored));
-        } else {
-            fetch("http://localhost:8080/mexotic/tours/")
-                .then(res => res.json())
-                .then(resolve)
-                .catch(reject);
-        }
-    });
-}
+        fetch(`http://localhost:8080/mexotic/tours?page=${page}&size=${toursPerPage}`) // Para paginación
+            .then(res => res.json())
+            .then(data => {
+                allTours = data.content || data;
+                resolve(allTours);
+            })
+            .catch(reject);
+    }); // Promise
+} // loadProducts
+
+
+// Botones
+function goToNextPage() {
+    currentPage++;  // Aumentamos la página
+    loadProducts(currentPage) // Cargar los tours de la siguiente página
+        .then(() => {
+            renderTours(); // Mostrar los tours de la nueva página
+        })
+        .catch(err => console.error("Error al cargar la siguiente página", err));
+} // goToNextPage
+
+function goToPreviousPage() {
+    if (currentPage > 0) {
+        currentPage--; // Decrementamos la página
+        loadProducts(currentPage)  // Cargar los tours de la página anterior
+            .then(() => {
+                renderTours(); // Mostrar los tours de la nueva página
+            })
+            .catch(err => console.error("Error al cargar la página anterior", err));
+    }
+} // goToPreviousPage
+
 
 // Cargar productos y gestionar eventos al cargar el DOM
 document.addEventListener("DOMContentLoaded", () => {
-    loadProducts()
+    loadProducts(currentPage)
         .then(tours => {
-            allTours = tours;
-            const idParam = getParam("id");
-
-            // Si hay un ID en la URL, estamos en la página de detalle
-            if (idParam) {
-                const tour = tours.find(t => t.id == idParam);
-                if (tour) {
-                    loadTour(tour);
-                } else {
-                    document.body.innerHTML = "<h2>Tour no encontrado</h2>";
-                }
-            }
-            // Si no hay ID, estamos en la página de listado
-            else {
-                renderTours();
+            renderTours();
+			
+			document.getElementById('next-page').addEventListener('click', goToNextPage);
+			document.getElementById('previous-page').addEventListener('click', goToPreviousPage);
 
                 // Event Listeners para filtros de lugar
                 document.querySelectorAll('.placeFilter').forEach(button => {
@@ -203,7 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         renderTours();
                     });
                 });
-            }
         })
         .catch(err => {
             console.error("Error al cargar producto ", err);

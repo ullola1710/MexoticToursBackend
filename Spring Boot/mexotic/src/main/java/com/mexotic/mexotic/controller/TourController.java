@@ -3,6 +3,9 @@ package com.mexotic.mexotic.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +34,10 @@ public class TourController {
 
     // GET
     @GetMapping
-    public List<Tour> getTours() {
-        return service.getTours();
+    public Page<Tour> getTours(@RequestParam(defaultValue = "0") int page, 
+                               @RequestParam(defaultValue = "12") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return service.getTours(pageable);
     } // getTours
 
     @GetMapping(path = "{tourId}") // http://localhost:8080/mexotic/tours/1

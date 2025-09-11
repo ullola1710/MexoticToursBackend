@@ -23,7 +23,7 @@ public class MexoticApplication {
 			registrationBean.addUrlPatterns("/mexotic/usuarios/*");
 			registrationBean.addUrlPatterns("/mexotic/tours/*");
 			registrationBean.addUrlPatterns("/mexotic/experiencia/*");
-			registrationBean.addUrlPatterns("/mexotic/tours/{tourId}/DetalleDeTour/*");
+			registrationBean.addUrlPatterns("/mexotic/tours/{tourId}/detalle-tour/*");
 			return registrationBean;
 		}//jwtFilter
 

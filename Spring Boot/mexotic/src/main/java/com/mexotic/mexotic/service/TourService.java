@@ -1,8 +1,5 @@
 package com.mexotic.mexotic.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 import com.mexotic.mexotic.model.Categoria;
@@ -11,6 +8,8 @@ import com.mexotic.mexotic.model.Tour;
 import com.mexotic.mexotic.repository.TourRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +24,9 @@ public class TourService {
     } // Constructor
 
     @Transactional(readOnly = true)
-	public List<Tour> getTours() {
-		return repository.findAll();
-	} // getTours
+    public Page<Tour> getTours(Pageable pageable) {
+        return repository.findAll(pageable); // Paginación
+    } // getTours
 
     @Transactional(readOnly = true)
 	public Tour getTour(Long idTour) {
