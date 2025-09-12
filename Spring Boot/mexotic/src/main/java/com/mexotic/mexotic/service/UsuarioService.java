@@ -37,6 +37,13 @@ public class UsuarioService {
 	public Usuario getUsuario(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElseThrow(()-> new IllegalArgumentException("El usuario con el id [" + idUsuario+ "] no existe"));
 	}//getUsuario
+	
+	@Transactional(readOnly = true)
+	public Usuario getUsuarioByEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElseThrow(
+            () -> new IllegalStateException("El usuario con el email " + email + " no existe.")
+        );
+    }
 		
 	@Transactional
 	public Usuario deleteUsuario(Long idUsuario) {

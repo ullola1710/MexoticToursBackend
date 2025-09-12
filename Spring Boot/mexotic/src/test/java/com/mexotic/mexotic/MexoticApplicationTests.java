@@ -16,6 +16,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.mexotic.mexotic.model.Categoria;
+import com.mexotic.mexotic.model.Estado;
 import com.mexotic.mexotic.model.Tour;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +31,7 @@ import static org.hamcrest.Matchers.containsString;
 class MexoticApplicationTests {
 
     // Opcional: si tu backend tiene autenticación JWT
-    private final String token = "Bearer: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUB5YWhvby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NzYyODEyNSwiZXhwIjoxNzU3NjM4OTI1fQ.0n4hJm0G-obq02GoqkChJU4YmUZ5LDM3Kn6VLQJ82E4"; 
+    private final String token = "Bearer: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWRldWxsb2xhQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzU3NzE4Nzc1LCJleHAiOjE3NTc3Mjk1NzV9.sOxrk23q4SwoZfpv-tpO2KBiiwOTGVX0UdAtgwb7o-k"; 
 
     @Autowired
     private MockMvc mockMvc;
@@ -87,8 +89,8 @@ class MexoticApplicationTests {
         tour.setDuracion("3 horas");
         tour.setPrecioExclusivo(500.25);
         tour.setIncluye("Propinas");
-        tour.setCategoria(com.mexotic.mexotic.model.Categoria.Cultura); 
-        tour.setEstado(com.mexotic.mexotic.model.Estado.Queretaro); 
+        tour.setCategoria(Categoria.Cultura); 
+        tour.setEstado(Estado.Queretaro); 
 
         this.mockMvc.perform(post("/mexotic/tours/")
                 .contentType(MediaType.APPLICATION_JSON)

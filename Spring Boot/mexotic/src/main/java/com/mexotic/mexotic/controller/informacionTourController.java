@@ -33,7 +33,7 @@ public class informacionTourController {
 		return service.getInformacionTours();
 	} // get
 	
-	@GetMapping (path="/tour/{tourId}")
+	@GetMapping (path="{tourId}")
 	public InformacionTour getInformacionTourByTourId(@PathVariable("tourId")Long tourId) {
 		return service.getInfoTourByTourId(tourId);
 	}//busqueda por id

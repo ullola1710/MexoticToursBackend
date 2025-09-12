@@ -29,9 +29,9 @@
         <!-- Sección de estados -->
         <section class="filtro-tours d-none d-lg-block">
             <div class="filtro-container">
-                <button class="filtro-btn placeFilter" data-place="CDMX,Estado de México">EDOMEX/CDMX</button>
-                <button class="filtro-btn placeFilter" data-place="Querétaro">Querétaro</button>
-                <button class="filtro-btn placeFilter" data-place="Jalisco">Jalisco</button>
+                <button class="filtro-btn placeFilter" data-place="cdmx,estado de méxico">EDOMEX/CDMX</button>
+                <button class="filtro-btn placeFilter" data-place="queretaro">Querétaro</button>
+                <button class="filtro-btn placeFilter" data-place="jalisco">Jalisco</button>
             </div>
         </section>
 
@@ -48,21 +48,21 @@
                 <ul class="navbar-nav w-90">
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center placeFilter" id="cdmx"
-                            data-place="CDMX,Estado de México">CDMX/EDOMEX</a>
+                            data-place="cdmx,estado de méxico">CDMX/EDOMEX</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center placeFilter" id="queretaro"
-                            data-place="Querétaro">Querétaro</a>
+                            data-place="queretaro">Querétaro</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center placeFilter" id="jalisco"
-                            data-place="Jalisco">Jalisco</a>
+                            data-place="jalisco">Jalisco</a>
                     </li>
                 </ul>
             </div>
@@ -80,14 +80,14 @@
 
                 <label class="category-option">
                     <input type="checkbox" name="categoria" value="cultura" class="categoryFilter"
-                        data-category="Cultura">
+                        data-category="cultura">
                     <i class="bi bi-bank"></i>
                     <span>Cultura</span>
                 </label>
                 <p class="d-none d-md-block fs-2 m-0">|</p>
 
                 <label class="category-option">
-                    <input type="checkbox" name="categoria" value="arte" class="categoryFilter" data-category="Arte">
+                    <input type="checkbox" name="categoria" value="arte" class="categoryFilter" data-category="arte">
                     <i class="bi bi-palette"></i>
                     <span>Arte</span>
                 </label>
@@ -95,7 +95,7 @@
 
                 <label class="category-option">
                     <input type="checkbox" name="categoria" value="gastronomia" class="categoryFilter"
-                        data-category="Gastronomía">
+                        data-category="gastronomia">
                     <i class="bi bi-egg-fried"></i>
                     <span>Gastronomía</span>
                 </label>
@@ -103,7 +103,7 @@
 
                 <label class="category-option">
                     <input type="checkbox" name="categoria" value="fiesta" class="categoryFilter"
-                        data-category="Fiesta">
+                        data-category="fiesta">
                     <i class="bi bi-music-note-beamed"></i>
                     <span>Fiesta</span>
                 </label>
@@ -130,7 +130,7 @@
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center category-option" style="font-size: 1rem;"><input
                                 type="checkbox" name="categoria" value="arte" class="categoryFilter"
-                                data-category="Cultura" style="margin-left: 8rem;">Cultura</a>
+                                data-category="cultura" style="margin-left: 8rem;">Cultura</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -138,7 +138,7 @@
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center category-option" style="font-size: 1rem;"><input
                                 type="checkbox" name="categoria" value="arte" class="categoryFilter"
-                                data-category="Arte" style="margin-left: 8rem;">Arte</a>
+                                data-category="arte" style="margin-left: 8rem;">Arte</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -146,7 +146,7 @@
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center category-option" style="font-size: 1rem;"><input
                                 type="checkbox" name="categoria" value="arte" class="categoryFilter"
-                                data-category="Gastronomía" style="margin-left: 8rem;">Gastronomía</a>
+                                data-category="gastronomia" style="margin-left: 8rem;">Gastronomía</a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -154,7 +154,7 @@
                     <li class="nav-item w-90">
                         <a class="nav-link text-dark text-center category-option" style="font-size: 1rem;"><input
                                 type="checkbox" name="categoria" value="arte" class="categoryFilter"
-                                data-category="Fiesta" style="margin-left: 8rem;">Fiesta</a>
+                                data-category="fiesta" style="margin-left: 8rem;">Fiesta</a>
                     </li>
                 </ul>
             </div>
@@ -183,7 +183,7 @@
         crossorigin="anonymous"></script>
     <script src="./JS/cart.js"></script>
     <script src="./JS/navbar.js"></script>
-    <script src="./JS/cards_products.js"></script>
+    <script type="module" src="./JS/cards_products.js"></script>
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>

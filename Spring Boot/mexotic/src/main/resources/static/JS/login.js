@@ -1,4 +1,4 @@
-// Validaciones - Modulo
+// Validaciones - Modul
 import { validarEmail, validarPassword, limpiarErrores } from "./validaciones.js";
 
 // Variables
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // return email.split('@')[0]; 
     function obtenerUsuario(email) {
         const users = JSON.parse(localStorage.getItem("usuarios") || "[]");
-        const user = users.find(user => user.correo === email);
+        const user = users.find(user => user.email === email);
         return user ? user.nombre : email;
     } // obtenerUsuario
 
@@ -183,12 +183,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		        showError("Por favor, corrige los errores en el formulario.");
 		        return;
 		    }
-			
-			// 🔄 Aquí se hace la petición al servidor
-			    fetch("/mexotic/login/", {
+
+			    fetch("http://localhost:8080/mexotic/login/", {
 			        method: "POST",
 			        headers: { "Content-Type": "application/json" },
-			        body: JSON.stringify({ correo: userEmail, password: userPassword })
+			        body: JSON.stringify({ email: userEmail, contrasena: userPassword })
 			    })
 			    .then(response => {
 			        if (!response.ok) {
@@ -200,15 +199,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			        // Guardar sesión (pero ahora con datos del backend)
 			        localStorage.setItem("sesionIniciada", JSON.stringify({
 			            isLoggedIn: true,
-			            correo: data.email,
+			            email: data.email,
 			            nombre: data.nombre,
-			            token: data.token // 🔐 JWT o session token
+			            token: data.token 
 			        }));
 
 					Swal.fire({
 					        icon: "success",
 					        title: "¡Bienvenido!",
-					        text: `Hola ${data.nombre}, sesión iniciada correctamente.`,
+					        text: `¡Hola! Sesión iniciada correctamente.`,
 					        confirmButtonColor: "#8D94FF"
 					    });
 
@@ -236,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 window.location.href = "index.html";
             }, 2000);
-        }) 			.catch(error => {
+        })  .catch(error => {
 			        showError("Correo o contraseña incorrectos. Por favor, intente de nuevo.");
 			        email.value = '';
 			        password.value = '';
@@ -249,15 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.removeItem("sesionIniciada");
         window.location.href = "index.html";
     }
-
-    // Event listener para cerrar sesión
-    if (logoutLink) {
-        logoutLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            logoutUser();
-        });
-    }
-
+	
     // Mostrar nombre de usuario si la sesión está activa
     function showUserNameOnPage() {
         const sesionData = JSON.parse(localStorage.getItem("sesionIniciada"));

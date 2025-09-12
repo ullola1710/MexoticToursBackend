@@ -10,10 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 //@NoArgsConstructor
 @Entity
 @Table(name = "Reserva_has_Tour")
@@ -28,12 +31,12 @@ public class ReservaHasTour {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_idReserva", nullable = false)
-	@JsonBackReference
+//	@JsonBackReference
 	private Reserva reserva;
 
 	@ManyToOne
 	@JoinColumn(name = "fk_idTour", nullable = false)
-	@JsonBackReference
+//	@JsonBackReference
 	private Tour tour;
 
 	public ReservaHasTour(Reserva reserva, Tour tour) {

@@ -1,23 +1,17 @@
 // Variables
 // import { normalizadorTour } from "./normalizador.js";
-const API_EXP = "/mexotic/experiencia/"; 
+const API_EXP = "http://localhost:8080/mexotic/experiencia/"; 
 const PLACEHOLDER_IMG = "./assets/bellasartes.jpg";
 
-async function fetchTours() {
+async function fetchExperiencias() {
 	const res = await fetch(API_EXP, {
 		headers: { "Accept": "application/json" },
 	});
 	if (!res.ok) {
 		const msg = await safeText(res);
-		throw new Error(`Error ${res.status} al obtener tours: ${msg || res.statusText}`);
+		throw new Error(`Error ${res.status} al obtener experiencias: ${msg || res.statusText}`);
 	}
-	const data = await res.json();
-
-	// lista directa, pageable, o wrapper
-	if (Array.isArray(data)) return data;
-	if (Array.isArray(data?.content)) return data.content;
-	if (Array.isArray(data?.tours)) return data.tours;
-	throw new Error("La respuesta del backend no es una lista de tours reconocible.");
+	return await res.json(); // ya es lista de experiencias DTO
 }
 
 async function safeText(res) {
@@ -45,13 +39,14 @@ function normalizeTour(raw = {}) {
 
 function normalizeExperiencia(exp = {}) {
 	return {
-		comentario: exp.comentario ?? exp.comment ?? "",
-		calificacion: Number(exp.calificacion ?? exp.rating ?? 0),
-		fecha: exp.fecha ?? exp.date ?? "",
-		usuario: exp.usuario ?? exp.user ?? "Anónimo",
-		imgExperiencia: exp.imgExperiencia ?? exp.image ?? "",
+		comentario: exp.comentario ?? "",
+		calificacion: Number(exp.calificacion ?? 0),
+		fecha: exp.fecha ?? "",
+		usuario: exp.usuario ?? "Anónimo",
+		imagen: exp.imgExperiencia ?? PLACEHOLDER_IMG,
+		tourName: exp.tourName ?? "Tour"
 	};
-} // // normalizador
+} // normalizador
 
 //----------------------------
 
@@ -141,24 +136,39 @@ async function initExperiences() {
 	indicator.innerHTML = "";
 
 	try {
-		const toursRaw = await fetchTours(); 
-		const tours = toursRaw.map(normalizeTour);
-		const experiencias = tours.flatMap(t => {
-			const backup = t.img || t.imgPortada || "";
-			return t.experiencias.map(e => {
-				const ne = normalizeExperiencia(e);
-				return {
-					comentario: ne.comentario,
-					calificacion: ne.calificacion,
-					fecha: ne.fecha,
-					usuario: ne.usuario,
-					imagen: ne.imgExperiencia || backup || PLACEHOLDER_IMG,
-					tourName: t.nombre || t.name || "Tour"
-				};
-			});
-		});
+		const experienciasRaw = await fetchExperiencias();
+		const experiencias = experienciasRaw.map(normalizeExperiencia);
 
 		experiencias.sort((a, b) => parseDateSmart(b.fecha) - parseDateSmart(a.fecha));
+		
+		if (experiencias.length === 0) {
+		    inner.innerHTML = emptySlideHTML("No hay experiencias disponibles");
+		    indicator.innerHTML = "";
+		    return;
+		}
+
+		inner.innerHTML = "";   // limpiar la slide de "Cargando…"
+		indicator.innerHTML = "";
+
+		const slides = contenido(experiencias, 2); // 2 por slide
+		slides.forEach((slideExperiencias, index) => {
+		    const active = index === 0 ? "active" : "";
+		    const slideDiv = document.createElement("div");
+		    slideDiv.className = `carousel-item ${active}`;
+		    
+		    slideDiv.innerHTML = `<div class="row">${slideExperiencias.map(cardHTML).join("")}</div>`;
+			
+		    inner.appendChild(slideDiv);
+		    
+		    const button = document.createElement("button");
+		    button.type = "button";
+		    button.setAttribute("data-bs-target", "#carouselExampleIndicators");
+		    button.setAttribute("data-bs-slide-to", index);
+		    if (active) button.classList.add("active");
+		    button.setAttribute("aria-label", `Slide ${index + 1}`);
+		    indicator.appendChild(button);
+		});
+		
 	} catch (e) {
 		console.error(e);
 		inner.innerHTML = emptySlideHTML("Error al cargar experiencias");

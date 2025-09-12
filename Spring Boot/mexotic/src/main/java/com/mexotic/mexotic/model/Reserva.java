@@ -2,8 +2,10 @@ package com.mexotic.mexotic.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "idReserva")
 @Entity
 @Table(name = "Reserva")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,14 +37,14 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
-    @JsonBackReference("usuario-reservas") 
+//    @JsonBackReference("usuario-reservas") 
     private Usuario fkIdUsuario;
    
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
     private Pago pago;
     
     @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<ReservaHasTour> reservaHasTours;
 
     public Reserva(Integer cantidad, Usuario fkIdUsuario) {

@@ -16,10 +16,14 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "idExperiencia")
 @Entity
 @Table(name = "Experiencia")
 public class Experiencia {
@@ -28,20 +32,23 @@ public class Experiencia {
 	@Column(name = "idExperiencia", unique = true, nullable = false)
 	private Long idExperiencia;
 	@Column(nullable = false)
+	private String imgExperiencia;
+	@Column(nullable = false)
 	private String comentario;
 	@Column(nullable = false)
 	private Integer calificacion;
+//	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(nullable = false)
 	private Date fecha;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_idTour", referencedColumnName = "idTour", nullable = false)
-	@JsonBackReference("tour-experiencias")  
+//	@JsonBackReference("tour-experiencias")  
 	private Tour fkIdTour;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario", nullable = false)
-	@JsonBackReference("usuario-experiencias")
+//	@JsonBackReference("usuario-experiencias")
 	private Usuario fkIdUsuario;
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,14 +68,23 @@ public class Experiencia {
 		}
 	}
 
-	public Experiencia(String comentario, Integer calificacion, Date fecha, Tour fkIdTour, Usuario fkIdUsuario) {
+	public Experiencia(String comentario, Integer calificacion, Date fecha, Tour fkIdTour, Usuario fkIdUsuario, String imgExperiencia) {
 		super();
 		this.comentario = comentario;
 		this.calificacion = calificacion;
 		this.fecha = fecha;
 		this.fkIdTour = fkIdTour;
 		this.fkIdUsuario = fkIdUsuario;
+		this.imgExperiencia = imgExperiencia;
 	}// constructor
+
+	public String getImgExperiencia() {
+		return imgExperiencia;
+	}
+
+	public void setImgExperiencia(String imgExperiencia) {
+		this.imgExperiencia = imgExperiencia;
+	}
 
 	public Experiencia() {
 	}// constructor

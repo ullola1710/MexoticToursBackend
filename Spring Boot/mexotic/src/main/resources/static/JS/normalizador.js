@@ -1,5 +1,4 @@
-// export function normalizadorTour(raw = {}){
-function normalizadorTour(raw = {}){
+ export function normalizadorTour(raw = {}){
     const id = raw.id ?? raw.idTour ?? null;
     const name = raw.nombre ?? raw.name ?? '';
     const image = raw.img ?? raw.image ?? '';
@@ -55,5 +54,62 @@ function normalizadorTour(raw = {}){
     includes,
     info: { salida, regresoAprox, frecuencia, grupos },
     _raw: raw
+
+
   }; 
 } // normalizadorTour 
+
+
+
+// normalizador.js
+// PROBLEMA 1: Mapear propiedades del backend a frontend
+// PROBLEMA 2: Normalizador completo y correcto
+
+// normalizador.js
+// PROBLEMA 1: Mapear propiedades del backend a frontend
+// PROBLEMA 2: Normalizador completo y correcto
+/*
+export function normalizadorTour(tour) {
+    console.log("Tour original del backend:", tour); // Para debugging
+    
+    return {
+        // IDs y propiedades básicas
+        idTour: tour.idTour,
+        
+        // MAPEO DE NOMBRES INCONSISTENTES:
+        // Backend -> Frontend
+        name: tour.nombre,           // 'nombre' -> 'name'
+        state: tour.estado,          // 'estado' -> 'state' 
+        city: tour.ciudad,           // 'ciudad' -> 'city'
+        image: tour.img,             // 'img' -> 'image'
+        
+        // Propiedades que coinciden
+        imgPortada: tour.imgPortada,
+        description: tour.descripcion,
+        duration: tour.duracion,
+        precio: tour.precio,
+        precioExclusivo: tour.precioExclusivo,
+        incluye: tour.incluye,
+        
+        // PROBLEMA PRINCIPAL: CATEGORÍAS
+        // Backend: 'categoria' (string enum)
+        // Frontend espera: 'categories' (array)
+        categories: tour.categoria ? [tour.categoria] : ['Sin categoría'],
+        categoria: tour.categoria, // Mantener también la original por compatibilidad
+        
+        // Relaciones y objetos anidados
+        informacionTour: tour.informacionTour || {
+            salida: "No especificado",
+            regresoAprox: "No especificado", 
+            frecuencia: "Consultar disponibilidad",
+            grupos: "Grupos pequeños"
+        },
+        
+        // Colecciones
+        experiencias: tour.experiencias || [],
+        usuarios: tour.usuarios || [],
+        reservas: tour.reservas || []
+    };
+}
+
+*/

@@ -19,9 +19,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "idTour")
 @Entity
 @Table(name = "Tour")
 public class Tour {
@@ -34,8 +37,8 @@ public class Tour {
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
-	@Column(name = "estado", nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Column(name = "estado", nullable = false)
 	private Estado estado;
 
 	@Column(name = "ciudad", nullable = false)
@@ -69,15 +72,15 @@ public class Tour {
 	private Categoria categoria;
 
 	@ManyToMany(mappedBy = "tours")
-	@JsonBackReference("usuario-tours")
+//	@JsonBackReference("usuario-tours")
 	private List<Usuario> usuarios;
 
 	@OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
-	@JsonBackReference
+//	@JsonBackReference
 	private List<ReservaHasTour> reservas;
 	
 	@OneToMany(mappedBy = "fkIdTour", cascade = CascadeType.ALL)
-	@JsonManagedReference("tour-experiencias")
+//	@JsonManagedReference("tour-experiencias")
 	private List<Experiencia> experiencias = new ArrayList<>();
 
 	@OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -103,7 +106,7 @@ public class Tour {
 
 	public Tour() {
 //        Tour.total++;
-//        this.idTour = Tour.total;
+//        this.idTour = Tour.total;q	1|
 	} // Constructor vacío
 
 	// Getters and setters

@@ -89,7 +89,7 @@ VALUES (
         1800.0,
         1700.0,
         '["Transporte redondo desde nuestro punto de partida que sera el Museo Regional de Querétaro","Tour guiado en Finca Sala Vivé","En tu visita estará guiada por el viñedo a bordo de un tranvía","Recorrido por la cava que se encuentra a 25 metros de profundidad con la explicación de la elaboracion de los vinos espumosos y tranquilos","Al finalizar se realizará una cata de tres vinos en un salón con puerta cerrada acompañados de tapas","Después visitaremos el Viñedo Azteca","Incluirá recorrido por la bodega","Explicación de como se elaboran los vinos artesanales","Copa grabada","Tres degustaciones con cata guiada de nuestros vinos tintos premiados en Baja Califonrnia y Bruselas","Maridaje con quesos, carnes frías, y frutas","Seguro de viajero"]',
-        'Gastronomia'),
+        'Gastronomía'),
         --
         (
         'Mercado San Juan de Dios',
@@ -102,7 +102,7 @@ VALUES (
         650.0,
         520.0,
         '["Transporte redondo desde punto de encuentro (Reforma/Centro Histórico)","Guía gastronómico certificado","Degustación en 5 paradas (antojitos, comida corrida, postres, bebidas típicas)","Entrada y explicación cultural en mercado tradicional","Agua embotellada y kit de bienvenida","Seguro de viajero"]',
-        'Gastronomia'),
+        'Gastronomía'),
         --
         (
         'Café y Música en Vivo',
@@ -115,7 +115,7 @@ VALUES (
         1600.0,
         1300.0,
         '["Entrada a exposición inmersiva","Degustación guiada en cafetería Musak de especialidad","Cena ligera en restaurante con música en vivo","Transporte todo el día","Guía cultural","Seguro de viajero"]',
-        'Gastronomia'),
+        'Gastronomía'),
         --
         (
         'Viaje a Peña de Bernal',
@@ -239,13 +239,12 @@ SELECT * FROM Usuario_has_Tour;
 
 SELECT * FROM Experiencia;
 -- Experiencias
-INSERT INTO Experiencia (idExperiencia, comentario, calificacion, fecha, fk_idTour, fk_idUsuario)
+INSERT INTO Experiencia (idExperiencia, comentario, calificacion, fecha, fk_idTour, fk_idUsuario, imgExperiencia)
 VALUES
-(null,'¡Una noche mágica llena de misterios! El recorrido por las calles de Querétaro con las leyendas del Marqués y la Celda de Satanás fue escalofriante y fascinante. El guía lo hizo tan vivo que parecía estar en el pasado. ¡Recomendado para amantes de la historia!', 5, '2024-07-12', 2, 9),
-(null,'Increíble aventura en las tierras agaveras. Explorar las antiguas destilerías y probar el tequila auténtico fue inolvidable. El paisaje declarado Patrimonio de la UNESCO es de ensueño, y el tour incluyó catas que nos transportaron a otro mundo. ¡No te lo pierdas!', 5, '2024-08-05', 3, 10),
-(null,'Para los amantes del vino, este tour es perfecto. Visitamos viñedos increíbles, degustamos vinos exquisitos y aprendimos sobre la producción local. La combinación de paisajes y sabores fue espectacular, ideal para una escapada romántica. ¡Volveremos!', 5, '2024-09-10', 5, 11),
-(null,'Una joya cultural en el corazón de México. La colección desde el siglo XVI hasta el XX es impresionante, con obras maestras que te dejan sin aliento. El edificio histórico añade magia al recorrido. ¡Esencial para cualquier visitante a CDMX!', 5, '2024-10-18', 10, 12),
-(null,'Una experiencia única para amantes de la cerveza. Probar diferentes estilos y aprender sobre su elaboración en un ambiente relajado fue increíble. El guía fue muy amable y el tour incluyó momentos perfectos para compartir con amigos. ¡Altamente recomendado!', 5, '2024-11-22', 4, 13);
+(null,'¡Una noche mágica llena de misterios! El recorrido por las calles de Querétaro con las leyendas del Marqués y la Celda de Satanás fue escalofriante y fascinante. El guía lo hizo tan vivo que parecía estar en el pasado. ¡Recomendado para amantes de la historia!', 5, '2024-07-12', 2, 9, '/assets/experiencias/exp2cut.JPG'),
+(null,'Increíble aventura en las tierras agaveras. Explorar las antiguas destilerías y probar el tequila auténtico fue inolvidable. El paisaje declarado Patrimonio de la UNESCO es de ensueño, y el tour incluyó catas que nos transportaron a otro mundo. ¡No te lo pierdas!', 5, '2024-08-05', 3, 10, '/assets/experiencias/exp1.jpg'),
+(null,'Para los amantes del vino, este tour es perfecto. Visitamos viñedos increíbles, degustamos vinos exquisitos y aprendimos sobre la producción local. La combinación de paisajes y sabores fue espectacular, ideal para una escapada romántica. ¡Volveremos!', 5, '2024-09-10', 5, 11, '/assets/experiencias/exp4.jpg'),
+(null,'Una joya cultural en el corazón de México. La colección desde el siglo XVI hasta el XX es impresionante, con obras maestras que te dejan sin aliento. El edificio histórico añade magia al recorrido. ¡Esencial para cualquier visitante a CDMX!', 5, '2024-10-18', 10, 12, '/assets/experiencias/experiencia3.jpg'),
 SELECT * FROM Experiencia;
 
 

@@ -179,22 +179,22 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (validarFormularioCompleto()) {
-        const usuario = {
-          nombre: validationNombre.value.trim(),
-          apellido: validationApellido.value.trim(),
-          telefono: validationTelefono.value.trim(),
-          correo: email.value.trim(),
-          password: password.value.trim(),
-          confirmPassword: confirmPwd.value.trim(),
-          terminos: privacyCheck.checked
-        };
+		const usuario = {
+		  nombre: validationNombre.value.trim(),
+		  apellido: validationApellido.value.trim(),
+		  telefono: validationTelefono.value.trim(),
+		  email: email.value.trim(),          
+		  contrasena: password.value.trim(),  
+		  admin: false,
+		  imgUsuario: "default.png"
+		};
 
         // Enviar al backend
-        fetch("/mexotic/usuarios/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(usuario)
-        })
+		fetch("http://localhost:8080/mexotic/usuarios/", {
+		  method: "POST",
+		  headers: { "Content-Type": "application/json" },
+		  body: JSON.stringify(usuario)
+		})
           .then(response => {
             if (!response.ok) {
               if (response.status === 409) {

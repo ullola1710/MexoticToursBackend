@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mexotic.mexotic.dto.ChangedataUser;
@@ -36,6 +37,11 @@ public class UsuarioController {
 	public Usuario getUsuario (@PathVariable("userId")Long idUsuario) {
 		return usuarioService.getUsuario(idUsuario);
 	}
+	
+	@GetMapping(path = "buscar")
+    public Usuario getUsuarioByEmail(@RequestParam String email) {
+        return usuarioService.getUsuarioByEmail(email);
+    }
 	
 	//DELETE
 	@DeleteMapping (path = "{userId}") //http:localhost:8080/mexotic/usuarios/1

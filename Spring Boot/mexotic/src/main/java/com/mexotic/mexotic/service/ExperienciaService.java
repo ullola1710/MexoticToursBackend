@@ -26,7 +26,7 @@ public class ExperienciaService {
 	// Para mejorar el rendimiento
 	@Transactional(readOnly = true)
     public Page<Experiencia> listar(Pageable pageable) {
-        return repository.findAll(pageable); // devuelve todas las experiencias paginadas
+        return repository.findAll(pageable);
     } // listar
 
     @Transactional(readOnly = true)
@@ -76,6 +76,11 @@ public class ExperienciaService {
 				}//if
 			return exp;
 	}//updateExperience
+
+	@Transactional(readOnly = true)
+	public List<Experiencia> listarTodos() {
+		return repository.findAll();
+	}
 
 	
 }//class ExperienciaService

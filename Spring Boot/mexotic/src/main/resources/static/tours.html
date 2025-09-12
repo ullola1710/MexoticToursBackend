@@ -24,7 +24,7 @@
           class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-center order-1 order-md-2 mb-3 mb-md-0">
           <h1 id="tour-title" class="display-4 fw-bold text-white mb-2" style="margin: 4rem; font-size: 3.5rem;"></h1>
           <h4 id="tour-price" class="text-white mb-3 m-0" style="font-size: 2.2rem;"></h4>
-          <button id="btn-reserva" class]="mx-auto">
+          <button id="btn-reserva" class="mx-auto">
             <i class="bi bi-calendar-plus me-2"></i> RESERVA
           </button>
         </div>
@@ -47,7 +47,7 @@
         <div class="col-lg-5">
           <div class="glass pt-2 p-4 h-100">
             <h5 class="mb-3">INFORMACIÓN DEL TOUR</h5>
-            <div id="tour-info" class="smaill"></div>
+            <div id="tour-info" class="small"></div>
           </div>
         </div>
 
@@ -63,9 +63,9 @@
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-  <script src="./JS/cart.js"></script>
-  <script src="./JS/navbar.js"></script>
-  <script src="./JS/cards_products.js"></script>
+  <script src="./JS/cart.js" defer></script>
+  <script src="./JS/navbar.js" defer></script>
+  <script type="module" src="./JS/cards_products.js" defer></script>
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
@@ -73,7 +73,7 @@
       emailjs.init("GNnB5jB5JcNSpPcEb"); // Tu User ID público
     })();
   </script>
-  <script src="./JS/footer.js"></script>
+  <script src="./JS/footer.js" defer></script>
 
 </body>
 

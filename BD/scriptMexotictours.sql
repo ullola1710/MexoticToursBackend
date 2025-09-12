@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `mexotictours`.`Experiencia` (
   `fecha` DATE NOT NULL,
   `fk_idTour` INT NOT NULL,
   `fk_idUsuario` INT NOT NULL,
+  `imgExperiencia` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`idExperiencia`),
   INDEX `fk_Experiencia_Tours1_idx` (`fk_idTour` ASC) VISIBLE,
   INDEX `fk_Experiencia_Usuario1_idx` (`fk_idUsuario` ASC) VISIBLE,

@@ -17,11 +17,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 //POJO -Plain Old Java Object
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "idUsuario")
 @Entity
 @Table(name = "Usuario")
 public class Usuario {
@@ -44,14 +46,12 @@ public class Usuario {
 	@Column(nullable=false)
 	private String imgUsuario;
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	@JsonManagedReference("usuario-reservas") 
-//	@JsonIgnore
+	@OneToMany(mappedBy = "fkIdUsuario", cascade = CascadeType.ALL)
+//	@JsonManagedReference("usuario-reservas") 
     private List<Reserva> reservas = new ArrayList<>();
 
 	@OneToMany(mappedBy = "fkIdUsuario", cascade = CascadeType.ALL)
-	@JsonManagedReference("usuario-experiencias")
-//	@JsonIgnore
+//	@JsonManagedReference("usuario-experiencias")
     private List<Experiencia> experiencias = new ArrayList<>();
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -60,7 +60,7 @@ public class Usuario {
 	  joinColumns = @JoinColumn(name = "fk_idUsuario"),
 	  inverseJoinColumns = @JoinColumn(name = "fk_idTour")
 	)
-	@JsonManagedReference("usuario-tours")
+//	@JsonManagedReference("usuario-tours")
 	private Set<Tour> tours = new HashSet<>();
 
 	public Usuario(String nombre, String apellido, String email, String telefono, String contrasena, boolean admin,
