@@ -28,9 +28,9 @@ public class ExperienciaController {
 	}
 
 	// GET
-	public Page<Experiencia> listar(@RequestParam(required = false) Long tourId,
+	public Page<Experiencia> listar(@RequestParam(required = false) Long idTour,
 			org.springframework.data.domain.Pageable pageable) {
-		return (tourId != null) ? service.listarPorTour(tourId, pageable) : service.listar(pageable);
+		return (idTour != null) ? service.listarPorTour(idTour, pageable) : service.listar(pageable);
 	}// getExperiencias
 
 	@GetMapping(path = "{expId}") // http://localhost:8080/mexotictours/experiencia/1
@@ -55,8 +55,8 @@ public class ExperienciaController {
 	public Experiencia updateExperiencia(@PathVariable("expId") Long idExperiencia,
 			@RequestParam(required = false) String comentario, 
 			@RequestParam(required = false) Integer calificacion,
-			@RequestParam(required = false) Usuario userid) {
-		return service.updateExperience(idExperiencia, comentario, calificacion, userid);
+			@RequestParam(required = false) Usuario usuario) {
+		return service.updateExperience(idExperiencia, comentario, calificacion, usuario);
 	}// updateExperiencia
 
 }// class ExperienciaController

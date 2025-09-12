@@ -8,11 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,11 +29,29 @@ import static org.hamcrest.Matchers.containsString;
 class MexoticApplicationTests {
 
     // Opcional: si tu backend tiene autenticación JWT
-    private final String token = "Bearer: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUB5YWhvby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NzU4NDI5MywiZXhwIjoxNzU3NTk1MDkyfQ.Jn6-RYxlpfUYRtbXo3ZdPN6ddrFQI9ved5NxD9yQqJ8"; 
+    private final String token = "Bearer: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUB5YWhvby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NzYyODEyNSwiZXhwIjoxNzU3NjM4OTI1fQ.0n4hJm0G-obq02GoqkChJU4YmUZ5LDM3Kn6VLQJ82E4"; 
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
+    @DisplayName("Se prueba GET de tours")
+    void pruebaGETALL() throws Exception {
+        this.mockMvc.perform(get("/mexotic/tours/"))
+            .andDo(print())
+            .andExpect(status().isOk());
+    }
+    
+    @Test
+    @DisplayName("Se prueba GET del tour con ID 1")
+	void pruebaGET() throws Exception {
+		this.mockMvc.perform(get("/mexotic/tours/1"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().string(
+					containsString("CDMX")));
+	}
+    
     @Test
     @Disabled("Probado una vez, deshabilitado para ocasiones subsecuentes")
     @DisplayName("Se prueba DELETE del tour con ID 1")
@@ -46,9 +64,9 @@ class MexoticApplicationTests {
 
     @Test
     @Disabled("Probado una vez, deshabilitado para ocasiones subsecuentes")
-    @DisplayName("Se prueba PUT para actualizar tour con ID 1")
+    @DisplayName("Se prueba PUT para actualizar tour con ID 2")
     void pruebaPUT() throws Exception {
-        this.mockMvc.perform(put("/mexotic/tours/1?nombre=Tour&precio=299.99")
+        this.mockMvc.perform(put("/mexotic/tours/2?nombre=Tour&precio=299.99")
                 .header("Authorization", token))
             .andDo(print())
             .andExpect(status().isOk())

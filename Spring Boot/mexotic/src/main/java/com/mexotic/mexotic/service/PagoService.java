@@ -12,6 +12,7 @@ import com.mexotic.mexotic.repository.PagoRepository;
 
 @Service
 public class PagoService {
+	
     private final PagoRepository pagoRepository;
 
     @Autowired

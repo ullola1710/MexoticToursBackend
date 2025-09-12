@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -26,10 +28,12 @@ public class ReservaHasTour {
 
 	@ManyToOne
 	@JoinColumn(name = "fk_idReserva", nullable = false)
+	@JsonBackReference
 	private Reserva reserva;
 
 	@ManyToOne
 	@JoinColumn(name = "fk_idTour", nullable = false)
+	@JsonBackReference
 	private Tour tour;
 
 	public ReservaHasTour(Reserva reserva, Tour tour) {

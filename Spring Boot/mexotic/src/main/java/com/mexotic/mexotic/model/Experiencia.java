@@ -15,8 +15,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@Table(name = "experiencia")
+@Table(name = "Experiencia")
 public class Experiencia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +33,26 @@ public class Experiencia {
 	private Integer calificacion;
 	@Column(nullable = false)
 	private Date fecha;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_idTour", referencedColumnName = "idTour", nullable = false)
+	@JsonBackReference("tour-experiencias")  
+	private Tour fkIdTour;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_idTour")
-	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "experiencias" }) // evita bucle
-	private Tour tour;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_idUsuario")
-	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "reservas", "experiencias", "contrasena" })
-	private Usuario usuario;
+	@JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario", nullable = false)
+	@JsonBackReference("usuario-experiencias")
+	private Usuario fkIdUsuario;
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "R_idTour", referencedColumnName = "idTour")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // ← Mantén esta anotación
+//    private Tour tour;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "IdJusario", referencedColumnName = "idUsuario", nullable = false)
+//    @JsonIgnore // ← Cambia a @JsonIgnore
+//    private Usuario usuario;
 
 	@PrePersist
 	protected void onCreate() {
@@ -46,13 +61,13 @@ public class Experiencia {
 		}
 	}
 
-	public Experiencia(String comentario, Integer calificacion, Date fecha, Tour tour, Usuario usuario) {
+	public Experiencia(String comentario, Integer calificacion, Date fecha, Tour fkIdTour, Usuario fkIdUsuario) {
 		super();
 		this.comentario = comentario;
 		this.calificacion = calificacion;
 		this.fecha = fecha;
-		this.tour = tour;
-		this.usuario = usuario;
+		this.fkIdTour = fkIdTour;
+		this.fkIdUsuario = fkIdUsuario;
 	}// constructor
 
 	public Experiencia() {
@@ -87,15 +102,19 @@ public class Experiencia {
 	}// getFecha
 
 	public Tour getTour() {
-		return tour;
+		return fkIdTour;
 	}// getTour FK
+	
+	public void setTour(Tour fkIdTour) {
+		this.fkIdTour = fkIdTour;
+	}
 
 	public Usuario getUsuario() {
-		return usuario;
+		return fkIdUsuario;
 	}// getusuario FK
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuario(Usuario fkIdUsuario) {
+		this.fkIdUsuario = fkIdUsuario;
 	}
 
 	@Override

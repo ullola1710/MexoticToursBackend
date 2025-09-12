@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 //POJO -Plain Old Java Object
@@ -43,31 +44,24 @@ public class Usuario {
 	@Column(nullable=false)
 	private String imgUsuario;
 	
-//	@OneToMany(cascade=CascadeType.ALL)
-//	@JoinColumn(name="idReserva", referencedColumnName = "idUsuario") 
-//	List<Reserva> reservas = new ArrayList<Reserva>();
-	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@JsonManagedReference("usuario-reservas") 
+//	@JsonIgnore
+    private List<Reserva> reservas = new ArrayList<>();
+
 	@OneToMany(mappedBy = "fkIdUsuario", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Reserva> reservas = new ArrayList<>();
-
-	
-//	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//	@JoinColumn(name="idExperiencia", referencedColumnName = "idUsuario") 
-//	List<Experiencia> experiencias = new ArrayList<Experiencia>();
-	
-	@OneToMany(mappedBy = "usuario", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private List<Experiencia> experiencias = new ArrayList<>();
-
-	
-//	@OneToMany(cascade=CascadeType.ALL)
-//	@JoinColumn(name="fk_idUsuario", referencedColumnName = "idUsuario") 
-//	List<UsuarioHasTour> usuarioHasTour  = new ArrayList<UsuarioHasTour>();
+	@JsonManagedReference("usuario-experiencias")
+//	@JsonIgnore
+    private List<Experiencia> experiencias = new ArrayList<>();
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "Usuario_has_Tour",joinColumns = 
-	@JoinColumn(name = "fk_idUsuario"),inverseJoinColumns = @JoinColumn(name = "fk_idTour"))
-	private Set<Tour> tours = new HashSet<Tour>();
+	@JoinTable(
+	  name = "Usuario_has_Tour",
+	  joinColumns = @JoinColumn(name = "fk_idUsuario"),
+	  inverseJoinColumns = @JoinColumn(name = "fk_idTour")
+	)
+	@JsonManagedReference("usuario-tours")
+	private Set<Tour> tours = new HashSet<>();
 
 	public Usuario(String nombre, String apellido, String email, String telefono, String contrasena, boolean admin,
 			String imgUsuario) {
@@ -79,7 +73,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.admin = admin;
 		this.imgUsuario = imgUsuario;
-		this.experiencias= new ArrayList<>();
+//		this.experiencias= new ArrayList<>();
 	}///constructor
 	
 	public void addExperiencia(Experiencia experiencia) {

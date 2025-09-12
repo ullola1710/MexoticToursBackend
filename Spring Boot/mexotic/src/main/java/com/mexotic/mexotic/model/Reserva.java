@@ -3,6 +3,7 @@ package com.mexotic.mexotic.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 
@@ -31,15 +32,16 @@ public class Reserva {
     @Column(nullable = false)
     private Integer cantidad;
 
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "fk_idUsuario", referencedColumnName = "idUsuario")
-    @JsonBackReference 
+    @JsonBackReference("usuario-reservas") 
     private Usuario fkIdUsuario;
    
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
     private Pago pago;
     
     @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<ReservaHasTour> reservaHasTours;
 
     public Reserva(Integer cantidad, Usuario fkIdUsuario) {
@@ -89,4 +91,4 @@ public class Reserva {
     public String toString() {
         return "Reserva{idReserva=" + idReserva + ", cantidad=" + cantidad + ", fkIdUsuario=" + fkIdUsuario + "}";
     }
-}
+} // class Reserva

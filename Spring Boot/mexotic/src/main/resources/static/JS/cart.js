@@ -91,6 +91,7 @@ function updateCheckoutButtonVisibility() {
 	}
 }
 
+/*
 function createReserva() {
 	const token = localStorage.getItem('authToken');
 	const decodedToken = jwt.decode(token);
@@ -122,7 +123,42 @@ function createReserva() {
 			console.error("Error al crear la reserva:", error);
 		}); // catch
 }
-// createReserva
+// createReserva*/
+
+function createReserva() {
+	const usuarioId = parseInt(localStorage.getItem('userId'));
+
+	if (isNaN(usuarioId)) {
+		console.error("User ID not found or invalid");
+		return;
+	}
+
+	// Objeto de reserva
+	const reserva = {
+		cantidad: cart.reduce((total, item) => total + item.quantity, 0), // TOTAL en cart
+		fkIdUsuario: { idUsuario: usuarioId }, // Pasamos el ID real del usuario
+		tours: cart.map(item => ({
+			idTour: item.id,
+			cantidad: item.quantity,
+		})),
+	};
+
+	fetch("http://localhost:8080/mexotic/reservas/create-reserva", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(reserva),
+	}) // fetch
+		.then(response => response.json())
+		.then(data => {
+			console.log("Reserva creada:", data);
+			window.location.href = "/pagos.html";  // Cambia esta ruta si es necesario
+		})
+		.catch(error => {
+			console.error("Error al crear la reserva:", error);
+		}); // catch
+}
 
 
 

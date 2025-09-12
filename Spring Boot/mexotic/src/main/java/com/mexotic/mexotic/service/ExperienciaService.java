@@ -65,13 +65,13 @@ public class ExperienciaService {
 	
 	@Transactional
 	public Experiencia updateExperience(Long idExperiencia, String comentario,
-			Integer calificacion, Usuario userid) {
+			Integer calificacion, Usuario idUsuario) {
 		Experiencia exp = null;
 			if (repository.existsById(idExperiencia)) {
 				exp = repository.findById(idExperiencia).get();
 				if(comentario!=null) exp.setComentario(comentario);
 				if(calificacion!=null)exp.setCalificacion(calificacion);
-				if(userid!=null)exp.setUsuario(userid);
+				if(idUsuario!=null)exp.setUsuario(idUsuario);
 				repository.save(exp);
 				}//if
 			return exp;

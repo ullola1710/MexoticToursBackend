@@ -1,5 +1,6 @@
 package com.mexotic.mexotic.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,183 +18,188 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@Table(name="Tour")
+@Table(name = "Tour")
 public class Tour {
-    
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idTour", unique=true, nullable=false)
-    private Long idTour;
-	
-	@Column(name="nombre", nullable=false)
-    private String nombre;
-	
-	@Column(name="estado", nullable=false)
+	@Column(name = "idTour", unique = true, nullable = false)
+	private Long idTour;
+
+	@Column(name = "nombre", nullable = false)
+	private String nombre;
+
+	@Column(name = "estado", nullable = false)
 	@Enumerated(EnumType.STRING)
-    private Estado estado;
-	
-	@Column(name="ciudad", nullable=false)
-    private String ciudad;
-	
-	@Column(name="imgPortada", nullable=false)
-    private String imgPortada;
-	
-	@Column(name="img", nullable=false)
-    private String img;
-	
-	@Column(name="descripcion", nullable=false)
-    private String descripcion;
-	
-	@Column(name="duracion", nullable=false)
-    private String duracion;
-	
-	@Column(name="precio", nullable=false)
-    private Double precio;
-	
-	@Column(name="precioExclusivo", nullable=false)
-    private Double precioExclusivo;
-	
+	private Estado estado;
+
+	@Column(name = "ciudad", nullable = false)
+	private String ciudad;
+
+	@Column(name = "imgPortada", nullable = false)
+	private String imgPortada;
+
+	@Column(name = "img", nullable = false)
+	private String img;
+
+	@Column(name = "descripcion", nullable = false)
+	private String descripcion;
+
+	@Column(name = "duracion", nullable = false)
+	private String duracion;
+
+	@Column(name = "precio", nullable = false)
+	private Double precio;
+
+	@Column(name = "precioExclusivo", nullable = false)
+	private Double precioExclusivo;
+
 	// Texto largo
 	@Lob
-	@Column(name="incluye", nullable=false)
+	@Column(name = "incluye", nullable = false)
 	private String incluye;
-	
+
 	@Enumerated(EnumType.STRING)
-	@Column(name="categoria", nullable=false)
-    private Categoria categoria;
-	
+	@Column(name = "categoria", nullable = false)
+	private Categoria categoria;
+
 	@ManyToMany(mappedBy = "tours")
+	@JsonBackReference("usuario-tours")
 	private List<Usuario> usuarios;
-	
+
 	@OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
-    private List<ReservaHasTour> reservas;
+	@JsonBackReference
+	private List<ReservaHasTour> reservas;
 	
-	@OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
-	  private List<Experiencia> experiencias;
-	
+	@OneToMany(mappedBy = "fkIdTour", cascade = CascadeType.ALL)
+	@JsonManagedReference("tour-experiencias")
+	private List<Experiencia> experiencias = new ArrayList<>();
+
 	@OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
-    private InformacionTour informacionTour;
+	private InformacionTour informacionTour;
 
-    // Constructores
-    public Tour(String nombre, Estado estado, String ciudad, String imgPortada, String img, String descripcion,
-            String duracion, Double precio, Double precioExclusivo, String incluye, Categoria categoria) {
-        this.nombre = nombre;
-        this.estado = estado;
-        this.ciudad = ciudad;
-        this.imgPortada = imgPortada;
-        this.img = img;
-        this.descripcion = descripcion;
-        this.duracion = duracion;
-        this.precio = precio;
-        this.precioExclusivo = precioExclusivo;
-        this.incluye = incluye;
-        this.categoria = categoria;
+	// Constructores
+	public Tour(String nombre, Estado estado, String ciudad, String imgPortada, String img, String descripcion,
+			String duracion, Double precio, Double precioExclusivo, String incluye, Categoria categoria) {
+		this.nombre = nombre;
+		this.estado = estado;
+		this.ciudad = ciudad;
+		this.imgPortada = imgPortada;
+		this.img = img;
+		this.descripcion = descripcion;
+		this.duracion = duracion;
+		this.precio = precio;
+		this.precioExclusivo = precioExclusivo;
+		this.incluye = incluye;
+		this.categoria = categoria;
 //        Tour.total++;
 //        this.idTour = Tour.total;
-    } // Constructor
-    
-    public Tour() {
+	} // Constructor
+
+	public Tour() {
 //        Tour.total++;
 //        this.idTour = Tour.total;
-    } // Constructor vacío
+	} // Constructor vacío
 
+	// Getters and setters
+	public Long getIdTour() {
+		return idTour;
+	} // getIdTour
 
-    // Getters and setters
-    public Long getIdTour() {
-        return idTour;
-    } // getIdTour
+	public String getNombre() {
+		return nombre;
+	} // getNombre
 
-    public String getNombre() {
-        return nombre;
-    } // getNombre
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	} // setNombre
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    } // setNombre
+	public Estado getEstado() {
+		return estado;
+	} // getEstado
 
-    public Estado getEstado() {
-        return estado;
-    } // getEstado
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	} // setEstado
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    } // setEstado
+	public String getCiudad() {
+		return ciudad;
+	} // getCiudad
 
-    public String getCiudad() {
-        return ciudad;
-    } // getCiudad
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	} // setCiudad
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    } // setCiudad
+	public String getImgPortada() {
+		return imgPortada;
+	} // getImgPortada
 
-    public String getImgPortada() {
-        return imgPortada;
-    } // getImgPortada
+	public void setImgPortada(String imgPortada) {
+		this.imgPortada = imgPortada;
+	} // setImgPortada
 
-    public void setImgPortada(String imgPortada) {
-        this.imgPortada = imgPortada;
-    } // setImgPortada
+	public String getImg() {
+		return img;
+	} // getImg
 
-    public String getImg() {
-        return img;
-    } // getImg
+	public void setImg(String img) {
+		this.img = img;
+	} // setImg
 
-    public void setImg(String img) {
-        this.img = img;
-    } // setImg
+	public String getDescripcion() {
+		return descripcion;
+	} // getDescripcion
 
-    public String getDescripcion() {
-        return descripcion;
-    } // getDescripcion
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	} // setDescripcion
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    } // setDescripcion
+	public String getDuracion() {
+		return duracion;
+	} // getDuracion
 
-    public String getDuracion() {
-        return duracion;
-    } // getDuracion
+	public void setDuracion(String duracion) {
+		this.duracion = duracion;
+	} // setDuracion
 
-    public void setDuracion(String duracion) {
-        this.duracion = duracion;
-    } // setDuracion
+	public Double getPrecio() {
+		return precio;
+	} // getPrecio
 
-    public Double getPrecio() {
-        return precio;
-    } // getPrecio
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	} // setPrecio
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    } // setPrecio
+	public Double getPrecioExclusivo() {
+		return precioExclusivo;
+	} // getPrecioExclusivo
 
-    public Double getPrecioExclusivo() {
-        return precioExclusivo;
-    } // getPrecioExclusivo
+	public void setPrecioExclusivo(Double precioExclusivo) {
+		this.precioExclusivo = precioExclusivo;
+	} // setPrecioExclusivo
 
-    public void setPrecioExclusivo(Double precioExclusivo) {
-        this.precioExclusivo = precioExclusivo;
-    } // setPrecioExclusivo
+	public String getIncluye() {
+		return incluye;
+	} // getIncluye
 
-    public String getIncluye() {
-        return incluye;
-    } // getIncluye
+	public void setIncluye(String incluye) {
+		this.incluye = incluye;
+	} // setIncluye
 
-    public void setIncluye(String incluye) {
-        this.incluye = incluye;
-    } // setIncluye
+	public Categoria getCategoria() {
+		return categoria;
+	} // getCategoria
 
-    public Categoria getCategoria() {
-        return categoria;
-    } // getCategoria
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	} // setCategoria
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    } // setCategoria
-
-    
-    public List<Usuario> getUsuarios() {
+	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
@@ -210,12 +216,11 @@ public class Tour {
 	}
 
 	@Override
-    public String toString() {
-        return "Tour [idTour=" + idTour + ", nombre=" + nombre + ", estado=" + estado + ", ciudad=" + ciudad
-                + ", imgPortada=" + imgPortada + ", img=" + img + ", descripcion=" + descripcion + ", duracion="
-                + duracion + ", precio=" + precio + ", precioExclusivo=" + precioExclusivo + ", incluye=" + incluye
-                + ", categoria=" + categoria + "]";
-    } // toString
+	public String toString() {
+		return "Tour [idTour=" + idTour + ", nombre=" + nombre + ", estado=" + estado + ", ciudad=" + ciudad
+				+ ", imgPortada=" + imgPortada + ", img=" + img + ", descripcion=" + descripcion + ", duracion="
+				+ duracion + ", precio=" + precio + ", precioExclusivo=" + precioExclusivo + ", incluye=" + incluye
+				+ ", categoria=" + categoria + "]";
+	} // toString
 
 } // class Tour
-

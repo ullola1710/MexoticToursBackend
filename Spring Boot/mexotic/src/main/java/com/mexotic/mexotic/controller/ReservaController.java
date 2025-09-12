@@ -42,7 +42,7 @@ public class ReservaController {
   
 
     // POST crear nueva reserva
-    @PostMapping
+    @PostMapping("/create-reserva")
     public ResponseEntity<Reserva> createReserva(@RequestBody ReservaRequest request) {
         Reserva createdReserva = reservaService.create(request.getReserva(), request.getTours(), request.getCantidades());
         return ResponseEntity.created(URI.create("/mexotic/reservas/" + createdReserva.getIdReserva()))
@@ -51,7 +51,8 @@ public class ReservaController {
 
     // PUT actualizar reserva
     @PutMapping("/{id}")
-    public Reserva update(@PathVariable Long idReserva, @RequestBody Reserva reserva) {
+    public Reserva update(@PathVariable Long idReserva, 
+    		@RequestBody Reserva reserva) {
         return reservaService.update(idReserva, reserva);
     }
 
