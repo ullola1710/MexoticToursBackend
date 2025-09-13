@@ -99,7 +99,7 @@ function renderTours() {
 } // renderTours
 
 function loadTourById(id) {
-    fetch(`http://localhost:8080/mexotic/tours/${id}`)
+    fetch(`/mexotic/tours/${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Tour no encontrado');
@@ -176,7 +176,7 @@ function displayTourDetail(tour) {
 // Promesa para cargar productos
 function loadProducts(page = 0) {
 	return new Promise((resolve, reject) => {
-		fetch(`http://localhost:8080/mexotic/tours/`)
+		fetch(`/mexotic/tours/`)
 			// fetch(`http://localhost:8080/mexotic/tours?page=${page}&size=${toursPerPage}`) // Para paginación
 			.then(res => res.json())
 			.then(data => {

@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		        return;
 		    }
 
-			    fetch("http://localhost:8080/mexotic/login/", {
+			    fetch("/mexotic/login/", {
 			        method: "POST",
 			        headers: { "Content-Type": "application/json" },
 			        body: JSON.stringify({ email: userEmail, contrasena: userPassword })

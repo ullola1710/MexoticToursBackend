@@ -1,6 +1,6 @@
 // Variables
 // import { normalizadorTour } from "./normalizador.js";
-const API_EXP = "http://localhost:8080/mexotic/experiencia/"; 
+const API_EXP = "/mexotic/experiencia/"; 
 const PLACEHOLDER_IMG = "./assets/bellasartes.jpg";
 
 async function fetchExperiencias() {

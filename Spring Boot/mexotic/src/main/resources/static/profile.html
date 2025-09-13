@@ -354,7 +354,7 @@ body {
 		
 		        if (sesionData.isLoggedIn) {
 		            try {
-		                const response = await fetch(`http://localhost:8080/mexotic/usuarios/buscar?email=${encodeURIComponent(sesionData.email)}`, {
+		                const response = await fetch('/mexotic/usuarios/buscar?email=`${encodeURIComponent(sesionData.email)}`', {
 		                    headers: {
 		                        "Authorization": `Bearer ${sesionData.token}`
 		                    }

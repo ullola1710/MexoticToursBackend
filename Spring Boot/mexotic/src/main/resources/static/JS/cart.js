@@ -143,7 +143,7 @@ function createReserva() {
 		})),
 	};
 
-	fetch("http://localhost:8080/mexotic/reservas/create-reserva", {
+	fetch("/mexotic/reservas/create-reserva", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

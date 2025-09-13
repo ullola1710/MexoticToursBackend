@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		};
 
         // Enviar al backend
-		fetch("http://localhost:8080/mexotic/usuarios/", {
+		fetch("/mexotic/usuarios/", {
 		  method: "POST",
 		  headers: { "Content-Type": "application/json" },
 		  body: JSON.stringify(usuario)
